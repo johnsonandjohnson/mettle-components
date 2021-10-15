@@ -12,7 +12,7 @@
     "unit": "./node_modules/.bin/karma start test/unit/karma.config.js",
     "release": "./node_modules/.bin/standard-version",
     "storybook": "start-storybook -p 6006 --docs -s public --no-manager-cache",
-    "build-storybook": "build-storybook --docs -s public",
+    "build-storybook": "build-storybook --docs -s public -o docs",
     "prepare": "husky install"
   },
   "standard-version": {
