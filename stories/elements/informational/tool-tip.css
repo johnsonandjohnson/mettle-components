@@ -1,0 +1,5 @@
+mettle-tool-tip.styled::part(tip),
+mettle-tool-tip.styled::part(arrow) {
+  background-color: #eee;
+  color: #212121;
+}

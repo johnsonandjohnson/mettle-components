@@ -1,0 +1,11 @@
+import '../../../index.js'
+import './mettle-accordion.test.js'
+import './mettle-drop-down.test.js'
+import './mettle-loader.test.js'
+import './mettle-notification.test.js'
+import './mettle-paginate.test.js'
+import './mettle-password-reveal.test.js'
+import './mettle-skeleton.test.js'
+import './mettle-tabs.test.js'
+import './mettle-tool-tip.test.js'
+
