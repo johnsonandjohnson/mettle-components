@@ -2,7 +2,7 @@
 
 # Mettle Custom Elements
 
-![CodeQL](https://github.com/johnsonandjohnson/mettle-components/workflows/CodeQL/badge.svg)
+[![CodeQL](https://github.com/johnsonandjohnson/mettle-components/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/johnsonandjohnson/mettle-components/actions/workflows/codeql-analysis.yml)
 ![npm](https://img.shields.io/npm/v/@johnsonandjohnson/mettle-components?color=203%09206%09220%09&label=NPM%20Package&logo=npm)
 
 A Suite of custom elements to be used on a front-end JavaScript application.
