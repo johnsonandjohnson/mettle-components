@@ -10,6 +10,9 @@ module.exports = function (config) {
     browsers: ['ChromeHeadless'],
     colors: true,
     concurrency: Infinity,
+    coverageReporter: {
+      reporters: [{type: 'lcov'}]
+    },
     coverageIstanbulReporter: {
       combineBrowserReports: true,
       dir : 'test/unit/coverage/',
@@ -31,6 +34,7 @@ module.exports = function (config) {
     plugins: [
       require('karma-chai'),
       require('karma-chrome-launcher'),
+      require('karma-coverage'),
       require('karma-coverage-istanbul-reporter'),
       require('karma-mocha'),
       require('karma-sinon'),
@@ -39,9 +43,10 @@ module.exports = function (config) {
     ],
     port: 9876,
     preprocessors: {
+      '../../index.js': ['coverage'],
       'elements/index.test.js': ['webpack'],
     },
-    reporters: ['progress', 'coverage-istanbul'],
+    reporters: ['progress', 'coverage', 'coverage-istanbul'],
     singleRun: true,
     webpack: {
       mode: 'development',

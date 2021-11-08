@@ -2,7 +2,7 @@ import { Constants } from './constants.js'
 
 function generateTitle() {
   const nouns = ["bird", "clock", "boy", "plastic", "duck", "teacher", "lady", "professor", "hamster", "dog"]
-  const adjectives = ["beautiful", "lazy", "professional", "lovely", "cheerful", "rough", "soft", "hot", "vibrating", "slimy"]
+  const adjectives = ["beautiful", "lazy", "professional", "lovely", "cheerful", "rough", "soft", "slimy"]
   const rand1 = Math.floor(Math.random() * 10)
   const rand2 = Math.floor(Math.random() * 10)
   return `The ${adjectives[rand1]} ${nouns[rand2]}`
@@ -10,8 +10,8 @@ function generateTitle() {
 
 function generateParagraph() {
   const nouns = ["bird", "clock", "boy", "plastic", "duck", "teacher", "lady", "professor", "hamster", "dog"]
-  const verbs = ["kicked", "ran", "flew", "dodged", "sliced", "rolled", "died", "breathed", "slept", "killed"]
-  const adjectives = ["beautiful", "lazy", "professional", "lovely", "cheerful", "rough", "soft", "hot", "vibrating", "slimy"]
+  const verbs = ["kicked", "ran", "flew", "dodged", "sliced", "rolled", "breathed", "slept"]
+  const adjectives = ["beautiful", "lazy", "professional", "lovely", "cheerful", "rough", "soft", "slimy"]
   const adverbs = ["slowly", "elegantly", "precisely", "quickly", "sadly", "humbly", "proudly", "shockingly", "calmly", "passionately"]
   const preposition = ["down", "into", "up", "on", "upon", "below", "above", "through", "across", "towards"]
   const rand1 = Math.floor(Math.random() * 10)
