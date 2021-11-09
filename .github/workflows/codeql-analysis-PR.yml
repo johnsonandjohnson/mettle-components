@@ -14,8 +14,6 @@ name: CodeQL PR
 on:
   pull_request:
     branches-ignore: [ $default-branch ]
-  push:
-    branches-ignore: [ $default-branch ]
   workflow_dispatch:
 
 jobs:
