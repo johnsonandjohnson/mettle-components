@@ -3,8 +3,9 @@
 # Mettle Custom Elements
 
 [![CodeQL](https://github.com/johnsonandjohnson/mettle-components/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/johnsonandjohnson/mettle-components/actions/workflows/codeql-analysis.yml)
-![npm](https://img.shields.io/npm/v/@johnsonandjohnson/mettle-components?color=203%09206%09220%09&label=NPM%20Package&logo=npm)
+![npm](https://img.shields.io/npm/v/@johnsonandjohnson/mettle-components?color=41%20170%2070&label=NPM%20Package&logo=npm)
 [![Unit Test](https://github.com/johnsonandjohnson/mettle-components/actions/workflows/unit-test.yml/badge.svg)](https://github.com/johnsonandjohnson/mettle-components/actions/workflows/unit-test.yml)
+[![codecov](https://codecov.io/gh/johnsonandjohnson/mettle-components/branch/main/graph/badge.svg?token=UTNVOBVM4G)](https://codecov.io/gh/johnsonandjohnson/mettle-components)
 
 A Suite of custom elements to be used on a front-end JavaScript application.
 
@@ -12,7 +13,7 @@ These are built under the [Web Components](https://developer.mozilla.org/en-US/d
 
 > [Mettle Components Documentation](https://johnsonandjohnson.github.io/mettle-components/?path=/docs/welcome-introduction--page)
 
-## Goals
+### Goals
 
 - [x] Use native JS for little to no dependency
 - [x] Cross browser support
@@ -50,6 +51,20 @@ import '@johnsonandjohnson/mettle-components'
   </body>
 </html>
 ```
+## Changelog
+
+[Review our latest changes and updates](CHANGELOG.md)
+
+## Contributing
+
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
+
+
+Contributions are welcomed!  
+
+- Please read our [Contribution guidelines]() to learn more about the process.
+- Please read and follow our [Code of Conduct](code_of_conduct.md).
 
 #### Related packages
 
