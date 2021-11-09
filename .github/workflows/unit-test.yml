@@ -4,7 +4,7 @@
 name: "Unit Test"
 
 on:
-  workflow_dispatch
+  workflow_dispatch:
   push:
     branches: [ $default-branch ]
   pull_request:
