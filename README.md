@@ -4,6 +4,7 @@
 
 [![CodeQL](https://github.com/johnsonandjohnson/mettle-components/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/johnsonandjohnson/mettle-components/actions/workflows/codeql-analysis.yml)
 ![npm](https://img.shields.io/npm/v/@johnsonandjohnson/mettle-components?color=203%09206%09220%09&label=NPM%20Package&logo=npm)
+[![Unit Test](https://github.com/johnsonandjohnson/mettle-components/actions/workflows/unit-test.yml/badge.svg)](https://github.com/johnsonandjohnson/mettle-components/actions/workflows/unit-test.yml)
 
 A Suite of custom elements to be used on a front-end JavaScript application.
 
