@@ -16,6 +16,7 @@ on:
     branches-ignore: [ $default-branch ]
   push:
     branches-ignore: [ $default-branch ]
+  workflow_dispatch:
 
 jobs:
   analyze:

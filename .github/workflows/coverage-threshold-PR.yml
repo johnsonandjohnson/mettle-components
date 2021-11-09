@@ -31,7 +31,9 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run build --if-present
-    - run: npm test
+
+    - name: Run linter and tests
+      run: npm test
 
     - name: Coverage check
       uses: devmasx/coverage-check-action@v1.2.0
