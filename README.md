@@ -2,9 +2,9 @@
 
 # Mettle Custom Elements
 
-[![CodeQL](https://github.com/johnsonandjohnson/mettle-components/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/johnsonandjohnson/mettle-components/actions/workflows/codeql-analysis.yml)
+[![CodeQL](https://github.com/johnsonandjohnson/mettle-components/actions/workflows/codeql-analysis.yml/badge.svg?branch=main&event=push)](https://github.com/johnsonandjohnson/mettle-components/actions/workflows/codeql-analysis.yml)
 ![npm](https://img.shields.io/npm/v/@johnsonandjohnson/mettle-components?color=41%20170%2070&label=NPM%20Package&logo=npm)
-[![Unit Test](https://github.com/johnsonandjohnson/mettle-components/actions/workflows/unit-test.yml/badge.svg)](https://github.com/johnsonandjohnson/mettle-components/actions/workflows/unit-test.yml)
+[![Unit Test](https://github.com/johnsonandjohnson/mettle-components/actions/workflows/unit-test.yml/badge.svg?branch=main&event=push)](https://github.com/johnsonandjohnson/mettle-components/actions/workflows/unit-test.yml)
 [![codecov](https://codecov.io/gh/johnsonandjohnson/mettle-components/branch/main/graph/badge.svg?token=UTNVOBVM4G)](https://codecov.io/gh/johnsonandjohnson/mettle-components)
 
 A Suite of custom elements to be used on a front-end JavaScript application.
