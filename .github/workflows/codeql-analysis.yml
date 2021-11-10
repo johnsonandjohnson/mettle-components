@@ -13,9 +13,11 @@ name: "CodeQL"
 
 on:
   pull_request:
-    branches: [ $default-branch ]
+    branches:
+      - main
   push:
-    branches: [ $default-branch ]
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
