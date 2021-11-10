@@ -6,6 +6,8 @@ name: Coverage Check PR
 on:
   pull_request:
     branches-ignore: [ $default-branch ]
+  push:
+    branches-ignore: [ $default-branch ]
   workflow_dispatch:
 
 jobs:
@@ -36,5 +38,5 @@ jobs:
       with:
         type: lcov
         result_path: ./test/unit/coverage/lcov.info
-        min_coverage: 85
+        min_coverage: 80
         token: ${{ github.token }}
