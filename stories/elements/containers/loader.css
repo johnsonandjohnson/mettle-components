@@ -1,0 +1,25 @@
+mettle-loader.test {
+  --hue-color: 250;
+}
+
+mettle-loader.test::part(content) {
+  min-height: 100px;
+}
+
+.svg-loader {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.svg-loader svg {
+  display:inline-block;
+  height: 100px;
+  fill: #222;
+  width: 100px;
+}
+
+mettle-skeleton {
+  margin: 0.5rem;
+}

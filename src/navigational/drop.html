@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>JSON json-syntax</title>
+
+  <style>
+#d {
+  cursor: pointer;
+  width: 300px;
+  border: 1px solid black;
+  z-index: 999;
+}
+
+
+
+mettle-drop-down {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+mettle-drop-down[data-open] {
+  opacity: 1;
+}
+
+
+  </style>
+</head>
+
+<body>
+  <h1>hi</h1>
+
+
+  <div id="d"> *** </div>
+  <mettle-drop-down
+ data-for="d"
+ data-user-action="click"
+ data-position="right"
+ data-distance-x="15"
+ data-distance-y="15"
+ data-parent=""
+ >
+   <ul>
+     <li>menu item 1</li>
+     <li>menu item 2</li>
+     <li id="d2">menu item 3</li>
+   </ul>
+ </mettle-drop-down>
+
+ <mettle-drop-down
+ data-for="d2"
+ data-user-action="click"
+ data-position="right"
+ data-distance-x="15"
+ data-distance-y="15"
+ data-parent="d"
+ >
+   <ul>
+     <li>menu item 1</li>
+     <li>menu item 2</li>
+     <li>menu item 3</li>
+   </ul>
+ </mettle-drop-down>
+
+  <script type="module" src="mettle-drop-down.js"></script>
+
+
+
+</body>
+
+</html>

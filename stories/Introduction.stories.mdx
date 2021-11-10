@@ -1,0 +1,225 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import Box from './assets/box.svg';
+import Compass from './assets/compass.svg';
+import Control from './assets/one-finger-swipe-right.svg';
+import Note from './assets/note-list.svg';
+
+import Code from './assets/code-brackets.svg';
+import Colors from './assets/colors.svg';
+import Whistle from './assets/whistle.svg';
+import Move from './assets/move.svg';
+import Key from './assets/key.svg';
+
+import LogoName from './assets/Mettle_BrandName_Logo.svg';
+import Logo from './assets/Mettle_Logo.svg';
+import Github from './assets/github.svg';
+
+import './styles.css'
+
+<Meta title="Welcome/Introduction" />
+
+
+# <img src={LogoName} alt="Mettle" height="100" />
+
+<div>
+<h1>User Interface Elements</h1>
+</div>
+
+**mettle** is built under the custom elements spec which makes this a
+suite of reusable Web Components that can be inserted into any web application.
+
+These custom elements can be dropped into any front end application with all modern browsers.
+This is an open-source project so all elements can be used without attribution. View the project on <a href="https://github.com/johnsonandjohnson/mettle-components/"><img src={Github} alt="Github" height="15" /> Github.com</a>.
+
+
+<div className="subheading">Categorgies</div>
+
+<div className="link-list">
+
+  <div className="link-item">
+    <img src={Box} alt="Box" />
+    <span>
+      <strong>Containers</strong>
+      Elements that foucs organizing content.
+      <p><code>accordion, content loader, virtual list</code></p>
+    </span>
+  </div>
+
+  <div className="link-item">
+    <img src={Control} alt="Control" />
+    <span>
+      <strong>Controls</strong>
+      Elements that foucs on user input and interaction.
+      <p><code>input fields, dropdown lists, toggles</code></p>
+    </span>
+  </div>
+
+  <div className="link-item">
+    <img src={Compass} alt="Compass" class="svg-color" />
+    <span>
+      <strong>Navigational</strong>
+      Elements that foucs on moving the user from one section to another.
+      <p><code>slider, search field, pagination, tags</code></p>
+    </span>
+  </div>
+
+  <div className="link-item">
+    <img src={Note} alt="Note" />
+    <span>
+      <strong>Informational</strong>
+      Elements that capture and display content with a single foucs.
+      <p><code>tooltips, icons, modals</code></p>
+    </span>
+  </div>
+
+</div>
+
+<br />
+<br />
+
+# Understand Custom Elements
+
+
+<div className="link-item link-header">
+  <img src={Colors} alt="Colors" />
+  <span>
+    <strong>CSS Parts</strong>
+    CSS Parts are used to style Custom Elements that are hidden within the shadow dom.
+    In order to style an encapsluated element, it must be given the attribute <code>part</code> within the custom elememt.
+  </span>
+</div>
+
+
+```css
+/* Pagination */
+mettle-paginate-controller::part(controller) {
+  align-items: center;
+  background-color: var(--surface);
+  color: var(--on-surface);
+  display: flex;
+}
+
+mettle-paginate-controller::part(previous) {
+  border-radius: 2px 0 0 2px;
+  border-right: 1px solid var(--border-color);
+  margin-left: 1rem;
+}
+
+mettle-paginate-controller::part(next) {
+  border-left: 0 solid transparent;
+  border-radius: 0 2px 2px 0;
+  margin-right: 0;
+}
+```
+
+
+
+
+<div className="link-item link-header">
+  <img src={Code} alt="Code" />
+  <span>
+    <strong>Slots</strong>
+    Slots are important to insert content into the custom element.
+    Some slots might require a name so the custom element will know where to postion it.
+  </span>
+</div>
+
+**Html between the custom element is the slot**
+```html
+<mettle-tool-tip>
+    <!--- this is considered a default slot --->
+    <p>Slot HTML/Text</p>
+</mettle-tool-tip>
+```
+
+**Named Slot attribute**
+```html
+<mettle-tabs>
+  <button slot="navigation">Tab1</button>
+  <button slot="navigation">Tab2</button>
+  <button slot="navigation">Tab3</button>
+  <section>Tab 1</section>
+  <section>Tab 2</section>
+  <section>Tab 3</section>
+</mettle-tabs>
+```
+
+
+
+<div className="link-item link-header">
+  <img src={Key} alt="Key" />
+  <span>
+    <strong>Data-* Attributes</strong>
+    Custom elements have a built-in observable for attributes that are useful for updating properties.
+    While there are no limitations on what we name the variables, for consistancy we only use <code>data-*</code> attributes
+    for all our custom elements.
+  </span>
+</div>
+
+```html
+<span id="id-km69w8v07410649999510497">Hover or tap me for tip</span>
+<mettle-tool-tip
+  data-hover="true"
+  data-position="left"
+  data-for="id-km69w8v07410649999510497">
+    <p>Slot HTML/Text</p>
+</mettle-tool-tip>
+```
+
+
+
+<div className="link-item link-header">
+  <img src={Whistle} alt="Whistle" />
+  <span>
+    <strong>Custom Events</strong>
+    Custom elements work like native elements when dispatching an Event Object.
+    We will emitt Custom events where it makes sense to allow for an enchanced user experince.
+    Developers can use the <code>addEventListener</code> function with custom elements to handle these events.
+    </span>
+</div>
+
+```js
+const modalElement = document.querySelector('mettle-modal')
+
+modalElement.addEventListener('modal-close', () => {
+  // Modal was closed by user
+})
+```
+
+
+<div className="link-item link-header">
+  <img src={Move} alt="Move" />
+  <span>
+    <strong>Methods</strong>
+    Custom elements work like native elements accessing properties and methods.
+    Some custom elements will have methods using the <b>Facade Pattern</b> or functions that
+    can be used by the developer.
+  </span>
+</div>
+
+```js
+const modalElement = document.querySelector('mettle-modal')
+
+modalElement.open()
+modalElement.close()
+```
+
+<div className="tip-wrapper">
+  <span className="tip">Tip</span> Some custom elements will use methods over data-* attributes to populate data.
+</div>
+
+```html
+<mettle-virtual-list></mettle-virtual-list>
+
+<script>
+const virtualListElement = document.querySelector('mettle-virtual-list')
+const listItems = ['one', 'two', 'three', 'four', 'five']
+
+virtualListElement.render({
+  displayAmt: 4,
+  listItems,
+  tag: 'list-row'
+})
+</script>
+```
+
