@@ -58,13 +58,13 @@ import '@johnsonandjohnson/mettle-components'
 ## Contributing
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 
 
 Contributions are welcomed!  
 
-- Please read our [Contribution guidelines]() to learn more about the process.
-- Please read and follow our [Code of Conduct](code_of_conduct.md).
+- Please read our [Contribution guidelines](CONTRIBUTING.md) to learn more about the process.
+- Please read and follow our [Code of Conduct](CODE_OF_CONDUCT.md).
 
 #### Related packages
 

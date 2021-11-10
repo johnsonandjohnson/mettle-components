@@ -4,7 +4,7 @@
 name: Coverage Check PR
 
 on:
-  pull_request:
+  push:
     branches-ignore: [ $default-branch ]
   workflow_dispatch:
 
@@ -30,13 +30,13 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
 
-    - name: Run linter and tests
+    - name: Run Test
       run: npm test
 
-    - name: Coverage check
+    - name: Coverage Check
       uses: devmasx/coverage-check-action@v1.2.0
       with:
         type: lcov
         result_path: ./test/unit/coverage/lcov.info
-        min_coverage: 80
+        min_coverage: 85
         token: ${{ github.token }}
