@@ -14,8 +14,6 @@ name: "CodeQL"
 on:
   push:
     branches: [ $default-branch ]
-  schedule:
-    - cron: '44 4 * * 3'
   workflow_dispatch:
 
 jobs:
@@ -67,4 +65,4 @@ jobs:
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
       with:
-        config-file: ./.github/codeql/codeql-config.yml
+        config-file: .github/codeql/codeql-config.yml
