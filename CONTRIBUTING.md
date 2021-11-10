@@ -60,7 +60,7 @@ $ npm run build-storybook
 
 ## Semantic Versioning
 
-We use https://semver.org/ for 
+We use https://semver.org/ for versioning mettle.
 
 ## Commit message format
 
