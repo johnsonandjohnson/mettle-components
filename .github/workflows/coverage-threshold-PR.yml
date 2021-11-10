@@ -30,7 +30,7 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
 
-    - name: Run Test
+    - name: Run linter and tests
       run: npm test
 
     - name: Coverage Check
