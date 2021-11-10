@@ -1,4 +1,4 @@
-<img src="./mettle-logo.png" alt="Mettle Logo" width="120"/>
+<img src="./mettle-logo.svg" alt="Mettle Logo" width="120"/>
 
 # Mettle Custom Elements
 
