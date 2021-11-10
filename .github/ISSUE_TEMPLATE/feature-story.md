@@ -9,7 +9,9 @@ assignees: ''
 
 ### Description
 <!-- Please express your request in the following format -->
-AS A [who are you? eg Developer, Content Editor, etc.], I WANT [what is the feature you want?], SO THAT I CAN/MAY [what will you be able to do once the feature is implemented?]
+AS A [who are you? eg Developer, Content Editor, etc.]
+I WANT [what is the feature you want?]
+SO THAT I CAN/MAY [what will you be able to do once the feature is implemented?]
 
 ### Acceptance Criteria
 <!-- Please describe your request in the following format for testing purposes -->

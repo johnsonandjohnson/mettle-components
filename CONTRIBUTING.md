@@ -8,26 +8,101 @@ Please read and follow our [Code of Conduct](code_of_conduct.md).
 
 ## Submitting an issue
 
+Every feature or bug fix should have an associated GitHub issue. This should be created prior to beginning development and, ideally, should be tagged as "accepted" before any actual work is begun.
+
 ### Feature Story
+
+A feature story should be written in the behavior-driven development (BDD) process.
+
+> [To learn now about behavior-driven development (BDD)](https://en.wikipedia.org/wiki/Behavior-driven_development)
 
 ### Bug Fixes
 
+For bugs, the issue should clearly specify the Steps to reproduce with the Actual behavior. Please be clear about the expected behavior and provide details like device, browser, screenshots or video of the issue.
 
 ## Code style guide
+
+This project uses `eslint:recommended` to review your code style.  No errors should be displayed in the terminal.
+
+To check run:
+```sh
+$ npm run lint
+```
 
 
 ## Code Unit testing guidelines
 
+Mocha is used for writing unit test.  Please ensure all code has proper unit test before submission.  
+
+To check run:
+```sh
+$ npm run test
+```
+
+## Code Documentation
+
+We use [Storybook](https://storybook.js.org/) for documentation.
+
+When adding a new feature please review the documentation to ensure the new feature is properly documented as a story. 
+
+Bugfix's should review the stories related to ensure everything is correct and up to date.
+
+While in development run:
+```sh
+$ npm run storybook
+```
+
+To generate the docs for a Pull Request (PR):
+```sh
+$ npm run build-storybook
+```
+
 
 ## Semantic Versioning
 
-We use https://semver.org/ 
+We use https://semver.org/ for 
 
 ## Commit message format
 
-We use https://www.conventionalcommits.org/en/v1.0.0/
+We use https://www.conventionalcommits.org/en/v1.0.0/ for commit messages.  
 
+## Pull Request (PR)
+
+Once a pull request receives the required approvals, it will be merged to the main branch.
+
+All pull requests must be merged using Squash and merge strategy.
+
+When using Squash and merge strategy, a new squash commit that contains all the changes from the pull request is created by the GitHub. This commit is going to get merged into the main branch.
+
+**IMPORTANT**
+The PR title should follow the conventional commit format with the github issue number.  This is important because it will be added to the changelog if it is a `feat:` or `fix:` comment. Below are some examples.
+
+```
+fix: Fix text color in the search bar (#4)
+docs: Improve installation documentation (#15)
+style: Fix indentation and typos in the files  (#16)
+refactor: Use another logo  (#23)
+test: Add tests for a feature  (#42)
+chore: Add new action Github job (#69)
+feat: Updated Mettle-tool-tip component with auto placement (#696) 
+```
 
 ## Addressing feedback
 
+Please review all feedback on a PR.  This is required for a merge.
+
 ## Developer Installation
+
+Now that you have reviewed the contribution guide you are ready to contribute.
+
+- Be sure to fork the repository.
+- Clone your forked repository.
+- run `$ npm install` from the root directory.
+- run `$ npm run prepare` to ensure husky is installed.
+  - This is to enforce conventional commits.
+
+Now that the setup is done
+- Create your branch from main.
+- Develop!
+
+Happy Contributing!
