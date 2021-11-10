@@ -63,7 +63,7 @@ import '@johnsonandjohnson/mettle-components'
 
 Contributions are welcomed!  
 
-- Please read our [Contribution guidelines]() to learn more about the process.
+- Please read our [Contribution guidelines](CONTRIBUTING.md) to learn more about the process.
 - Please read and follow our [Code of Conduct](code_of_conduct.md).
 
 #### Related packages
