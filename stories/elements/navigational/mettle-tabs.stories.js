@@ -142,7 +142,7 @@ Style.parameters = {
 }
 
 
-const TemplateStyle2 = () => {
+const TemplateStyle2 = (args) => {
   return `
   ${Template(args)}
 
@@ -204,7 +204,7 @@ const TemplateStyle2 = () => {
   `.trim()
 }
 
-const TemplateStyle3 = () => {
+const TemplateStyle3 = (args) => {
   return `
   ${Template(args)}
 
@@ -244,7 +244,7 @@ TabAnimationStyle.parameters = {
       story: 'Tabs with animation',
     },
     source: {
-      code: TemplateStyle3(SideTabsStyle.args)
+      code: TemplateStyle3(TabAnimationStyle.args)
     },
   },
 }
