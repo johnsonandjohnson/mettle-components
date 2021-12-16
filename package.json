@@ -10,36 +10,8 @@
     "pretest": "npm run lint",
     "test": "npm run unit",
     "unit": "./node_modules/.bin/karma start test/unit/karma.config.js",
-    "release": "./node_modules/.bin/standard-version",
-    "storybook": "start-storybook -p 6006 --docs -s public --no-manager-cache",
-    "build-storybook": "build-storybook --docs -s public -o docs",
-    "prepare": "husky install"
-  },
-  "standard-version": {
-    "commitUrlFormat": "https://github.com/johnsonandjohnson/mettle-components/commit/{{hash}}",
-    "compareUrlFormat": "https://github.com/johnsonandjohnson/mettle-components/compare/{{previousTag}}...{{currentTag}}",
-    "issueUrlFormat": "https://github.com/johnsonandjohnson/mettle-components/issues/{{id}}",
-    "userUrlFormat": "https://github.com/{{user}}"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "./node_modules/.bin/commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ],
-    "rules": {
-      "subject-case": [
-        2,
-        "never",
-        [
-          "start-case",
-          "pascal-case"
-        ]
-      ]
-    }
+    "storybook": "start-storybook -p 6006 --docs --no-manager-cache",
+    "build-storybook": "build-storybook --docs -o docs"
   },
   "keywords": [
     "custom elements",
@@ -63,40 +35,28 @@
   },
   "homepage": "https://github.com/johnsonandjohnson/mettle-components#readme",
   "devDependencies": {
-    "@babel/core": "^7.16.0",
-    "@commitlint/cli": "^14.1.0",
-    "@commitlint/config-conventional": "^14.1.0",
-    "@storybook/addon-actions": "^6.3.12",
-    "@storybook/addon-essentials": "^6.3.12",
-    "@storybook/addon-links": "^6.3.12",
-    "@storybook/addons": "^6.3.12",
-    "@storybook/builder-webpack5": "^6.3.12",
-    "@storybook/html": "^6.3.12",
-    "@storybook/manager-webpack5": "^6.3.12",
-    "@storybook/theming": "^6.3.12",
+    "@babel/core": "^7.16.5",
+    "@storybook/addon-actions": "^6.4.9",
+    "@storybook/addon-essentials": "^6.4.9",
+    "@storybook/addon-links": "^6.4.9",
+    "@storybook/addons": "^6.4.9",
+    "@storybook/builder-webpack5": "^6.4.9",
+    "@storybook/html": "^6.4.9",
+    "@storybook/manager-webpack5": "^6.4.9",
+    "@storybook/theming": "^6.4.9",
     "@whitespace/storybook-addon-html": "^5.0.0",
     "babel-loader": "^8.2.3",
-    "chai": "^4.3.4",
-    "core-js": "^3.19.1",
-    "eslint": "^8.2.0",
-    "husky": "^7.0.4",
-    "istanbul-instrumenter-loader": "^3.0.1",
-    "karma": "^6.3.8",
-    "karma-chai": "^0.1.0",
+    "core-js": "^3.20.0",
+    "eslint": "^8.4.1",
+    "jasmine-core": "^3.10.1",
+    "karma": "^6.3.9",
     "karma-chrome-launcher": "^3.1.0",
-    "karma-coverage": "^2.0.3",
-    "karma-coverage-istanbul-reporter": "^3.0.3",
-    "karma-mocha": "^2.0.1",
-    "karma-sinon": "^1.0.5",
-    "karma-sinon-chai": "^2.0.2",
+    "karma-coverage": "^2.1.0",
+    "karma-jasmine": "^4.0.1",
     "karma-webpack": "^5.0.0",
-    "markdown-it": "^12.2.0",
-    "mocha": "^9.1.3",
-    "sinon": "^11.1.2",
-    "sinon-chai": "^3.7.0",
-    "standard-version": "^9.3.2",
+    "markdown-it": "^12.3.0",
+    "nyc": "^15.1.0",
     "webpack": "^5.62.1",
     "webpack-cli": "^4.9.1"
-  },
-  "dependencies": {}
+  }
 }

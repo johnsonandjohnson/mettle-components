@@ -5,7 +5,6 @@ describe(ELEM_TAG_NAME, () => {
 
   let $el
   const elemTag = ELEM_TAG_NAME
-  const expect = chai.expect
 
   beforeEach(() => {
     globalThis.document.body.insertAdjacentHTML('afterbegin', '<p id="test">Testing</p>')
@@ -26,13 +25,13 @@ describe(ELEM_TAG_NAME, () => {
 
   describe('interface', () => {
 
-    it('should be defined', async () => {
-      expect($el).to.not.be.undefined
-      expect(globalThis.customElements.get(elemTag)).to.not.be.undefined
+    it('should be defined', () => {
+      expect($el).toBeDefined()
+      expect(globalThis.customElements.get(ELEM_TAG_NAME)).toBeDefined()
     })
 
-    it('should be an Element node ', async () => {
-      expect($el.nodeType).to.equal(Node.ELEMENT_NODE)
+    it('should be an Element node', () => {
+      expect($el.nodeType).toEqual(Node.ELEMENT_NODE)
     })
 
   })
@@ -44,7 +43,7 @@ describe(ELEM_TAG_NAME, () => {
         const event = new UIEvent('mouseover')
         target.dispatchEvent(event)
         const isActive = $el.$tip.classList.contains('active')
-        expect(isActive).to.be.true
+        expect(isActive).toBeTrue()
       })
 
       it('should remove tip when element event is mouseout', async () => {
@@ -54,7 +53,7 @@ describe(ELEM_TAG_NAME, () => {
         event = new UIEvent('mouseout')
         target.dispatchEvent(event)
         const isActive = $el.isShowing()
-        expect(isActive).to.be.false
+        expect(isActive).toBeFalse()
       })
 
       it('should be able to change position', async () => {
@@ -63,7 +62,7 @@ describe(ELEM_TAG_NAME, () => {
         const firstPosition = componentStyle.getPropertyValue('left')
         component.dataset.position = 'left'
         const secondPosition = componentStyle.getPropertyValue('left')
-        expect(firstPosition).to.not.equal(secondPosition)
+        expect(firstPosition).not.toEqual(secondPosition)
       })
 
       it('should be able to change position bottom', async () => {
@@ -72,14 +71,14 @@ describe(ELEM_TAG_NAME, () => {
         const firstPosition = componentStyle.getPropertyValue('bottom')
         component.dataset.position = 'bottom'
         const secondPosition = componentStyle.getPropertyValue('bottom')
-        expect(firstPosition).to.not.equal(secondPosition)
+        expect(firstPosition).not.toEqual(secondPosition)
       })
 
       it('should remove tool-tip element when target is removed', async () => {
         const target = globalThis.document.getElementById('test')
         target.remove()
         await wait(500)
-        expect($el.isConnected).to.be.false
+        expect($el.isConnected).toBeFalse()
       })
 
       it('should remove target event when data-for is changed', async () => {
@@ -93,11 +92,11 @@ describe(ELEM_TAG_NAME, () => {
 
         target.dispatchEvent(event)
         let isActive = $el.$tip.classList.contains('active')
-        expect(isActive).to.be.false
+        expect(isActive).toBeFalse()
 
         newTarget.dispatchEvent(event)
         isActive = $el.$tip.classList.contains('active')
-        expect(isActive).to.be.true
+        expect(isActive).toBeTrue()
 
         newTarget.remove()
       })

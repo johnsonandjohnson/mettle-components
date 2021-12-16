@@ -1,7 +1,5 @@
 // Karma configuration file, see link for more information
-// https://karma-runner.github.io/1.0/config/configuration-file.html
-
-const { resolve } = require('path')
+// https://karma-runner.github.io/6.3/config/configuration-file.html
 
 module.exports = function (config) {
   config.set({
@@ -11,14 +9,13 @@ module.exports = function (config) {
     colors: true,
     concurrency: Infinity,
     coverageReporter: {
-      reporters: [{type: 'lcov'}]
-    },
-    coverageIstanbulReporter: {
-      combineBrowserReports: true,
-      dir : 'test/unit/coverage/',
-      fixWebpackSourcePaths: true,
-      reports: ['html', 'lcovonly', 'text-summary'],
-      skipFilesWithNoCoverage: false
+      dir: './coverage',
+      subdir: '.',
+      includeAllSources: true,
+      reporters: [
+          { type: 'lcov' },
+          { type: 'text-summary' }
+      ]
     },
     customLaunchers: {
       ChromeCustom: {
@@ -27,46 +24,27 @@ module.exports = function (config) {
       }
     },
     files: [
-      { included: true, pattern: 'elements/index.test.js', type: 'module' },
+      { included: true, pattern: '../../src/**/*.js', type: 'module', watched: false },
+      { included: true, pattern: 'elements/index.test.js', type: 'module', watched: false },
     ],
-    frameworks: ['chai', 'mocha', 'sinon', 'sinon-chai', 'webpack'],
+    frameworks: ['jasmine', 'webpack'],
     logLevel: config.LOG_INFO,
     plugins: [
-      require('karma-chai'),
       require('karma-chrome-launcher'),
       require('karma-coverage'),
-      require('karma-coverage-istanbul-reporter'),
-      require('karma-mocha'),
-      require('karma-sinon'),
-      require('karma-sinon-chai'),
-      require('karma-webpack')
+      require('karma-jasmine'),
+      require('karma-webpack'),
     ],
     port: 9876,
     preprocessors: {
-      '../../index.js': ['coverage'],
+      '../../src/**/*.js': ['coverage'],
       'elements/index.test.js': ['webpack'],
     },
-    reporters: ['progress', 'coverage', 'coverage-istanbul'],
+    reporters: ['coverage', 'dots'],
     singleRun: true,
     webpack: {
-      mode: 'development',
-      module: {
-        rules: [
-          {
-            enforce: 'post',
-            exclude: /(node_modules|index\.js|\.test\.js)$/,
-            include: resolve('src/'),
-            test: /\.js$/,
-            use: {
-              loader: 'istanbul-instrumenter-loader',
-              options: { esModules: true }
-            },
-          }
-        ]
-      },
-      resolve: {
-        extensions: ['.js']
-      },
+      mode: 'production',
+      target: "web",
     },
     webpackMiddleware: {
       noInfo: true

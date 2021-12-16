@@ -98,8 +98,6 @@ Now that you have reviewed the contribution guide you are ready to contribute.
 - Be sure to fork the repository.
 - Clone your forked repository.
 - run `$ npm install` from the root directory.
-- run `$ npm run prepare` to ensure husky is installed.
-  - This is to enforce conventional commits.
 
 Now that the setup is done
 - Create your branch from main.

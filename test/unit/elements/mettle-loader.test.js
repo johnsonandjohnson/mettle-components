@@ -4,7 +4,6 @@ describe(ELEM_TAG_NAME, () => {
 
   let $el
   const elemTag = ELEM_TAG_NAME
-  const expect = chai.expect
 
   beforeEach(() => {
     $el = globalThis.document.createElement(elemTag)
@@ -18,13 +17,13 @@ describe(ELEM_TAG_NAME, () => {
 
   describe('interface', () => {
 
-    it('should be defined', async () => {
-      expect($el).to.not.be.undefined
-      expect(globalThis.customElements.get(elemTag)).to.not.be.undefined
+    it('should be defined', () => {
+      expect($el).toBeDefined()
+      expect(globalThis.customElements.get(ELEM_TAG_NAME)).toBeDefined()
     })
 
-    it('should be an Element node ', async () => {
-      expect($el.nodeType).to.equal(Node.ELEMENT_NODE)
+    it('should be an Element node', () => {
+      expect($el.nodeType).toEqual(Node.ELEMENT_NODE)
     })
 
   })
@@ -34,20 +33,20 @@ describe(ELEM_TAG_NAME, () => {
     it('should be loading when set to true', () => {
       $el.loading()
       const isLoading = $el.getAttribute('data-loading')
-      expect(isLoading).to.equal('true')
+      expect(isLoading).toEqual('true')
     })
 
     it('should not be loading when set to false', () => {
       $el.done()
       const isLoading = $el.getAttribute('data-loading')
-      expect(isLoading).to.equal('false')
+      expect(isLoading).toEqual('false')
     })
 
     it('should add the size to the loader', () => {
       const SIZE = 'small'
       $el.setAttribute('data-size', SIZE)
       const hasSize = $el.$content.classList.contains(SIZE)
-      expect(hasSize).to.be.true
+      expect(hasSize).toBeTrue()
     })
 
   })

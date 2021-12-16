@@ -4,7 +4,6 @@ describe(ELEM_TAG_NAME, () => {
 
   let $el
   const elemTag = ELEM_TAG_NAME
-  const expect = chai.expect
 
   function generateSlot() {
     return `<area shape="rect" coords="10,250,600,40" />
@@ -24,13 +23,13 @@ describe(ELEM_TAG_NAME, () => {
 
   describe('interface', () => {
 
-    it('should be defined', async () => {
-      expect($el).to.not.be.undefined
-      expect(globalThis.customElements.get(elemTag)).to.not.be.undefined
+    it('should be defined', () => {
+      expect($el).toBeDefined()
+      expect(globalThis.customElements.get(ELEM_TAG_NAME)).toBeDefined()
     })
 
-    it('should be an Element node ', async () => {
-      expect($el.nodeType).to.equal(Node.ELEMENT_NODE)
+    it('should be an Element node', () => {
+      expect($el.nodeType).toEqual(Node.ELEMENT_NODE)
     })
 
   })
@@ -40,7 +39,7 @@ describe(ELEM_TAG_NAME, () => {
     it('should able to set a shimmer', () => {
       $el.setAttribute('data-shimmer', 'true')
       const hasShimmer = $el.$container.classList.contains('shimmer')
-      expect(hasShimmer).to.be.true
+      expect(hasShimmer).toBeTrue()
     })
 
   })
