@@ -96,7 +96,7 @@ export default {
 const Template = ({Class = '', hover, id = `id-${uuid()}`, position, slot = '<p>Slot HTML/Text</p>' }) => {
   return `<span id="${id}">Hover or tap me for tip</span>
   <mettle-tool-tip
-    class="${Class}""
+    class="${Class}"
     data-hover="${hover}"
     data-position="${position}"
     data-for="${id}">${slot}</mettle-tool-tip>`.trim()
