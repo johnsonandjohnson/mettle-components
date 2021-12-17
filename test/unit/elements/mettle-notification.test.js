@@ -5,27 +5,26 @@ describe(ELEM_TAG_NAME, () => {
 
   let $el
   const elemTag = ELEM_TAG_NAME
-  const expect = chai.expect
 
-  before(() => {
+  beforeAll(() => {
     $el = globalThis.document.createElement(elemTag)
     globalThis.document.body.appendChild($el)
   })
 
-  after(() => {
+  afterAll(() => {
     $el.remove()
     $el = null
   })
 
   describe('interface', () => {
 
-    it('should be defined', async () => {
-      expect($el).to.not.be.undefined
-      expect(globalThis.customElements.get(elemTag)).to.not.be.undefined
+    it('should be defined', () => {
+      expect($el).toBeDefined()
+      expect(globalThis.customElements.get(ELEM_TAG_NAME)).toBeDefined()
     })
 
-    it('should be an Element node', async () => {
-      expect($el.nodeType).to.equal(Node.ELEMENT_NODE)
+    it('should be an Element node', () => {
+      expect($el.nodeType).toEqual(Node.ELEMENT_NODE)
     })
 
   })
@@ -39,7 +38,7 @@ describe(ELEM_TAG_NAME, () => {
         title: 'Test'
       })
       const $notification = $el.shadowRoot.getElementById(id)
-      expect($notification.isConnected).to.be.true
+      expect($notification.isConnected).toBeTrue()
     })
 
     it('should close the notification', async () => {
@@ -53,8 +52,8 @@ describe(ELEM_TAG_NAME, () => {
       $el.closeNotification(id)
       $notification.dispatchEvent(new Event('transitionend'))
       await wait(100)
-      expect($notification.isConnected).to.be.false
-    }).timeout(3000)
+      expect($notification.isConnected).toBeFalse()
+    }, 3000)
 
 
     it('should stop the timer when mouse over', async () => {
@@ -68,10 +67,10 @@ describe(ELEM_TAG_NAME, () => {
       const $circle = $notification.querySelector('.circle')
       $notification.dispatchEvent(new Event('mouseover'))
       let hasTimer = $circle.classList.contains('circle')
-      expect(hasTimer).to.be.false
+      expect(hasTimer).toBeFalse()
       $notification.dispatchEvent(new Event('mouseout'))
       hasTimer = $circle.classList.contains('circle')
-      expect(hasTimer).to.be.true
+      expect(hasTimer).toBeTrue()
     })
 
   })

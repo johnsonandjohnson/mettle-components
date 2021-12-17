@@ -5,7 +5,6 @@ describe(ELEM_TAG_NAME, () => {
   let $el
   let textBox
   const elemTag = ELEM_TAG_NAME
-  const expect = chai.expect
 
   beforeEach(() => {
     $el = document.createElement(elemTag)
@@ -19,13 +18,13 @@ describe(ELEM_TAG_NAME, () => {
 
   describe('interface', () => {
 
-    it('should be defined', async () => {
-      expect($el).to.not.be.undefined
-      expect(globalThis.customElements.get(elemTag)).to.not.be.undefined
+    it('should be defined', () => {
+      expect($el).toBeDefined()
+      expect(globalThis.customElements.get(ELEM_TAG_NAME)).toBeDefined()
     })
 
-    it('should be an Element node ', async () => {
-      expect($el.nodeType).to.equal(Node.ELEMENT_NODE)
+    it('should be an Element node', () => {
+      expect($el.nodeType).toEqual(Node.ELEMENT_NODE)
     })
 
   })
@@ -47,14 +46,14 @@ describe(ELEM_TAG_NAME, () => {
       $el.setAttribute('data-for', 'testTextField')
       $el.$checkbox.checked = false
       $el.$checkbox.click()
-      expect(textBox.type).to.deep.equal('text')
+      expect(textBox.type).toEqual('text')
     })
 
     it('should hide text when it is unchecked ', async () => {
       $el.setAttribute('data-for', 'testTextField')
       $el.$checkbox.checked = true
       $el.$checkbox.click()
-      expect(textBox.type).to.deep.equal('password')
+      expect(textBox.type).toEqual('password')
     })
   })
 })

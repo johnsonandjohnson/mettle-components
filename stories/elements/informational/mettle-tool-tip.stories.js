@@ -193,6 +193,7 @@ const TemplateScript = (args) => {
 export const Script = TemplateScript.bind({})
 Script.args = {
   ...args,
+  position: 'bottom',
 }
 Script.parameters = {
   docs: {
@@ -204,4 +205,5 @@ Script.parameters = {
       code: TemplateScript(Script.args)
     },
   },
+  layout: 'padded',
 }

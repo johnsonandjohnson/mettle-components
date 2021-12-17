@@ -7,7 +7,6 @@ describe(ELEM_TAG_NAME, () => {
   let $parent
   const parentId = `parent-${uuid()}`
   const ElemClass = globalThis.customElements.get(ELEM_TAG_NAME)
-  const expect = chai.expect
 
   beforeEach(async () => {
     $parent = globalThis.document.createElement('span')
@@ -30,32 +29,32 @@ describe(ELEM_TAG_NAME, () => {
   describe('interface', () => {
 
     it('should be defined', () => {
-      expect($el).to.not.be.undefined
-      expect(globalThis.customElements.get(ELEM_TAG_NAME)).to.not.be.undefined
+      expect($el).toBeDefined()
+      expect(globalThis.customElements.get(ELEM_TAG_NAME)).toBeDefined()
     })
 
     it('should be an Element node', () => {
-      expect($el.nodeType).to.equal(Node.ELEMENT_NODE)
+      expect($el.nodeType).toEqual(Node.ELEMENT_NODE)
     })
   })
 
   describe('component', () => {
 
     it('should be hidden by default', () => {
-      expect($el.getAttribute('hidden')).to.be.ok
+      expect($el.getAttribute('hidden')).toBeTruthy()
     })
 
     it('should be able to show and hide the drop down', () => {
       $parent.click()
-      expect($el.getAttribute('hidden')).to.be.null
+      expect($el.getAttribute('hidden')).toBeNull()
       $parent.click()
-      expect($el.getAttribute('hidden')).to.be.ok
+      expect($el.getAttribute('hidden')).toBeTruthy()
     })
 
     it('should remove from the dom when linked element is removed', async () => {
       $parent.remove()
       await wait(500)
-      expect($el.isConnected).to.be.false
+      expect($el.isConnected).toBeFalse()
     })
 
     it('should allow for mouse actions', async () => {
@@ -64,10 +63,10 @@ describe(ELEM_TAG_NAME, () => {
 
       let event = new UIEvent('mouseover')
       $parent.dispatchEvent(event)
-      expect($el.getAttribute('hidden')).to.be.null
+      expect($el.getAttribute('hidden')).toBeNull()
       event = new UIEvent('mouseout')
       $parent.dispatchEvent(event)
-      expect($el.getAttribute('hidden')).to.be.ok
+      expect($el.getAttribute('hidden')).toBeTruthy()
     })
 
     it('should allow for aux click actions', async () => {
@@ -75,18 +74,18 @@ describe(ELEM_TAG_NAME, () => {
 
       const event = new UIEvent('auxclick')
       $parent.dispatchEvent(event)
-      expect($el.getAttribute('hidden')).to.be.null
+      expect($el.getAttribute('hidden')).toBeNull()
       $parent.dispatchEvent(event)
-      expect($el.getAttribute('hidden')).to.be.ok
+      expect($el.getAttribute('hidden')).toBeTruthy()
     })
 
 
     it('should return an object of event type values', () => {
-      expect($el.EVENT_TYPES).to.be.an('object')
+      expect($el.EVENT_TYPES).toEqual(jasmine.any(Object))
     })
 
     it('should return an object of action type values', () => {
-      expect($el.ACTION_TYPES).to.be.an('object')
+      expect($el.ACTION_TYPES).toEqual(jasmine.any(Object))
     })
 
   })

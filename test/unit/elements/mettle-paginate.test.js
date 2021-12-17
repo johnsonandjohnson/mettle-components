@@ -4,7 +4,6 @@ describe(ELEM_TAG_NAME, () => {
 
   let $el
   const elemTag = ELEM_TAG_NAME
-  const expect = chai.expect
 
   beforeEach(() => {
     $el = globalThis.document.createElement(elemTag)
@@ -20,13 +19,13 @@ describe(ELEM_TAG_NAME, () => {
 
   describe('interface', () => {
 
-    it('should be defined', async () => {
-      expect($el).to.not.be.undefined
-      expect(globalThis.customElements.get(elemTag)).to.not.be.undefined
+    it('should be defined', () => {
+      expect($el).toBeDefined()
+      expect(globalThis.customElements.get(ELEM_TAG_NAME)).toBeDefined()
     })
 
-    it('should be an Element node', async () => {
-      expect($el.nodeType).to.equal(Node.ELEMENT_NODE)
+    it('should be an Element node', () => {
+      expect($el.nodeType).toEqual(Node.ELEMENT_NODE)
     })
 
   })
@@ -35,7 +34,7 @@ describe(ELEM_TAG_NAME, () => {
 
     it('should update the items shown when page size is updated', async () => {
       $el.setCurrentPageSize('20')
-      expect($el.totalPages).to.equal(5)
+      expect($el.totalPages).toEqual(5)
     })
 
     it('should dispatch a custom event when the next button is clicked', () => {
@@ -44,7 +43,7 @@ describe(ELEM_TAG_NAME, () => {
         eventDispatched = true
       })
       $el.$next.click()
-      expect(eventDispatched).to.be.true
+      expect(eventDispatched).toBeTrue()
     })
 
     it('should dispatch a custom event when the previous button is clicked', () => {
@@ -54,7 +53,7 @@ describe(ELEM_TAG_NAME, () => {
         eventDispatched = true
       })
       $el.$previous.click()
-      expect(eventDispatched).to.be.true
+      expect(eventDispatched).toBeTrue()
     })
 
     it('should dispatch a custom event when the page jump selection is changed', () => {
@@ -65,7 +64,7 @@ describe(ELEM_TAG_NAME, () => {
       })
       $el.$pageJump.value = 2
       $el.$pageJump.dispatchEvent(new Event('change'))
-      expect(eventDispatched).to.be.true
+      expect(eventDispatched).toBeTrue()
     })
 
     it('should dispatch a custom event when the page size selection is changed', () => {
@@ -76,21 +75,21 @@ describe(ELEM_TAG_NAME, () => {
       })
       $el.$pageSizeSelect.value = 20
       $el.$pageSizeSelect.dispatchEvent(new Event('change'))
-      expect(eventDispatched).to.be.true
+      expect(eventDispatched).toBeTrue()
     })
 
     it('should return an object of controller values', () => {
-      expect($el.CONTROLLERS).to.be.an('object')
+      expect($el.CONTROLLERS).toEqual(jasmine.any(Object))
     })
 
     it('should set the current page to one if less than one', () => {
       $el.setCurrentPage(-1)
-      expect($el.currentPage).to.equal(1)
+      expect($el.currentPage).toEqual(1)
     })
 
     it('should set the current page to the max pages if set above limit', () => {
       $el.setCurrentPage($el.totalPages+999)
-      expect($el.currentPage).to.equal($el.totalPages)
+      expect($el.currentPage).toEqual($el.totalPages)
     })
 
   })

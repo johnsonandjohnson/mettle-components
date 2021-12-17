@@ -343,4 +343,5 @@ Script.parameters = {
       code: TemplateScript(Script.args)
     },
   },
+  layout: 'padded',
 }

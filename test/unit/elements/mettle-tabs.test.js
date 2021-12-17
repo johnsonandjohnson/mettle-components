@@ -5,7 +5,6 @@ describe(ELEM_TAG_NAME, () => {
 
   let $el
   const elemTag = ELEM_TAG_NAME
-  const expect = chai.expect
 
   function generateSlot() {
     return `<div slot="navigation">one</div>
@@ -27,13 +26,13 @@ describe(ELEM_TAG_NAME, () => {
 
   describe('interface', () => {
 
-    it('should be defined', async () => {
-      expect($el).to.not.be.undefined
-      expect(globalThis.customElements.get(elemTag)).to.not.be.undefined
+    it('should be defined', () => {
+      expect($el).toBeDefined()
+      expect(globalThis.customElements.get(ELEM_TAG_NAME)).toBeDefined()
     })
 
-    it('should be an Element node', async () => {
-      expect($el.nodeType).to.equal(Node.ELEMENT_NODE)
+    it('should be an Element node', () => {
+      expect($el.nodeType).toEqual(Node.ELEMENT_NODE)
     })
 
   })
@@ -45,11 +44,11 @@ describe(ELEM_TAG_NAME, () => {
       const tabIndex = 1
       const $slotDiv = globalThis.document.querySelector('div:nth-child(2)')
       let attrValue = $slotDiv.getAttribute('aria-selected')
-      expect(attrValue).to.equal('false')
+      expect(attrValue).toEqual('false')
       $el.selected = tabIndex
-      expect($el.selected).to.equal(tabIndex)
+      expect($el.selected).toEqual(tabIndex)
       attrValue = $slotDiv.getAttribute('aria-selected')
-      expect(attrValue).to.equal('true')
+      expect(attrValue).toEqual('true')
     })
 
   })

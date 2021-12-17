@@ -6,7 +6,6 @@ describe(ELEM_TAG_NAME, () => {
 
   let $el
   const elemTag = ELEM_TAG_NAME
-  const expect = chai.expect
 
   function generateDetails() {
     return `
@@ -46,12 +45,12 @@ describe(ELEM_TAG_NAME, () => {
   describe('interface', () => {
 
     it('should be defined', async () => {
-      expect($el).to.not.be.undefined
-      expect(globalThis.customElements.get(elemTag)).to.not.be.undefined
+      expect($el).toBeDefined()
+      expect(globalThis.customElements.get(elemTag)).toBeDefined()
     })
 
     it('should be an Element node ', async () => {
-      expect($el.nodeType).to.equal(Node.ELEMENT_NODE)
+      expect($el.nodeType).toEqual(Node.ELEMENT_NODE)
     })
 
   })
@@ -61,18 +60,18 @@ describe(ELEM_TAG_NAME, () => {
     it('should be able to open all', () => {
       $el.openAll()
       const isOpen = $el.details[0].hasAttribute('open')
-      expect(isOpen).to.be.true
+      expect(isOpen).toBeTrue()
     })
 
     it('should able to close all', () => {
       $el.collapseAll()
       const isOpen = $el.details[0].hasAttribute('open')
-      expect(isOpen).to.be.false
+      expect(isOpen).toBeFalse()
     })
 
     it('should able to adjust when adding more slots', async () => {
       $el.insertAdjacentHTML('afterbegin', generateDetails())
-      expect($el.details.length).to.equal(1)
+      expect($el.details.length).toEqual(1)
     })
 
     it('should able to adjust when a detail is mutated', async () => {
@@ -81,7 +80,7 @@ describe(ELEM_TAG_NAME, () => {
       $el.details[0].querySelector('p').innerHTML = 'adjusted'
       await wait(50)
       const afterHeight = $el.details[0].style.getPropertyValue('--open')
-      expect(beforeHeight).to.not.equal(afterHeight)
+      expect(beforeHeight).not.toEqual(afterHeight)
     })
 
   })

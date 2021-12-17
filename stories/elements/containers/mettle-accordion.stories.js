@@ -67,6 +67,7 @@ Default.parameters = {
       code: Template(Default.args)
     },
   },
+  layout: 'padded',
 }
 
 const TemplateStyle = (args) => {
@@ -177,4 +178,5 @@ Script.parameters = {
       code: TemplateScript(Script.args)
     },
   },
+  layout: 'padded',
 }
