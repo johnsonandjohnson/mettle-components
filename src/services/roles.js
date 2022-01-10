@@ -5,6 +5,7 @@ let _rights = null
 let _defaultRights = null
 let _userRoles = []
 const _rightsConfig = new Map()
+let _shouldDeleteElement = false
 
 class Roles {
 
@@ -69,6 +70,14 @@ class Roles {
         this.disconnectObserver().enforceElementRoles()
       }
     }
+  }
+
+  get shouldDeleteElement() {
+    return _shouldDeleteElement
+  }
+
+  set shouldDeleteElement(bool) {
+    _shouldDeleteElement = !!bool
   }
 
   isValidRole(roleName) {
@@ -137,8 +146,11 @@ class Roles {
       configKey = isInverted ? configKey.slice(1) : configKey
       if (configKey in elementRoles) {
         const toggleVal = isInverted ? !!elementRoles[configKey] : !elementRoles[configKey]
-        //TODO: Allow for deleting element from page
-        element.toggleAttribute('hidden', toggleVal)
+        if(this.shouldDeleteElement && toggleVal) {
+          element.remove()
+        } else if(!this.shouldDeleteElement) {
+          element.toggleAttribute('hidden', toggleVal)
+        }
       }
     })
 

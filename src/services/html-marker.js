@@ -3,7 +3,6 @@ const REGEX_LITERAL = /(\${.+(?=[${.+?}]+)?})/gi
 const STRING_LITERAL_FINDS = /\$\{(([\w_().$])+)\}/gi
 const PARAM_FROM_FUNCTION = /\$*\w+\s*\((.*)\)/gi
 const QUOTES = /["']/g
-// TODO: allow for booleans to be added incase list is not up to date
 const BOOLEAN_ATTRIBUTES = new Set([
   'allowfullscreen',
   'allowpaymentrequest',
@@ -54,6 +53,14 @@ export default class HtmlMarker {
 
   get decorators() {
     return this._decorators
+  }
+
+  get BOOLEAN_ATTRIBUTES() {
+    return BOOLEAN_ATTRIBUTES
+  }
+
+  addBooleanAttribute(boolAttr) {
+    this.BOOLEAN_ATTRIBUTES.add(boolAttr)
   }
 
   addDecorator(name, func) {
@@ -194,7 +201,7 @@ export default class HtmlMarker {
         const attrs = [...node.attributes]
         attrs.forEach(attr => {
           const hasLiteral = attr.value.match(REGEX_LITERAL)
-          const isBooleanAttr = BOOLEAN_ATTRIBUTES.has(attr.name)
+          const isBooleanAttr = this.BOOLEAN_ATTRIBUTES.has(attr.name)
           if (hasLiteral) {
             this.referenceNodes.add({
               isBooleanAttr,

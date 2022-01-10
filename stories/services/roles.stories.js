@@ -181,3 +181,61 @@ InvertedRoles.parameters = {
   },
   layout: 'fullscreen',
 }
+
+
+
+
+const TemplateDeleteElements = () => {
+  return `<p>
+    Roles: <span id="roles"></span> <br />
+    <p>
+      <strong data-roles="admin">For Admin Display</strong>
+      <strong data-roles="!admin">Not for Admin Display</strong>
+    </p>
+    <button id="admin">Admin</button>
+    <button id="notadmin">Not Admin</button>
+
+  <script type="module">
+    import Roles from './roles.js'
+
+    Roles.shouldDeleteElement = true
+
+    Roles.setDefaultRights({
+      admin: false,
+    }).setRightsConfig('admin', {
+      admin: true
+    }).enforceElementRoles()
+
+    const btnNotAdmin = document.querySelector('#notadmin')
+    const btnAdmin = document.querySelector('#admin')
+
+    btnNotAdmin.addEventListener('click', () => {
+      Roles.UserRoles = []
+      roles.innerHTML = Roles.UserRoles
+    })
+    btnAdmin.addEventListener('click', () => {
+      Roles.UserRoles = ['admin']
+      roles.innerHTML = Roles.UserRoles
+    })
+
+  </script>`.trim()
+}
+
+export const DeleteElements = TemplateDeleteElements.bind({})
+DeleteElements.args = {
+  ...args
+}
+
+
+DeleteElements.parameters = {
+  docs: {
+    inlineStories: false,
+    description: {
+      story: 'Sample of how roles can be used to remove a DOM element by setting <strong>shouldDeleteElement=true</strong>. The default behavior is to toggle the elements to be hidden.',
+    },
+    source: {
+      code: TemplateDeleteElements(DeleteElements.args)
+    },
+  },
+  layout: 'fullscreen',
+}

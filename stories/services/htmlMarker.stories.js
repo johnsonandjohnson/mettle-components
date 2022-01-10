@@ -29,8 +29,18 @@ export default {
       control: {
         type: null
       },
-      description: 'Function that will update the DOM with the new data model values ',
+      description: 'Function that will update the DOM with the new data model values.',
       name: 'updateModel(dataModel)',
+      table: {
+        category: Constants.CATEGORIES.METHODS,
+      }
+    },
+    addBooleanAttribute: {
+      control: {
+        type: null
+      },
+      description: 'Function that will update the HTML Boolean list with the new value in the case a boolean attribute value is missing.',
+      name: 'addBooleanAttribute(boolAttr)',
       table: {
         category: Constants.CATEGORIES.METHODS,
       }
