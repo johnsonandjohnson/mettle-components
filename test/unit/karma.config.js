@@ -1,6 +1,8 @@
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/6.3/config/configuration-file.html
 
+const { join, resolve } = require('path')
+
 module.exports = function (config) {
   config.set({
     autoWatch: false,
@@ -8,14 +10,11 @@ module.exports = function (config) {
     browsers: ['ChromeHeadless'],
     colors: true,
     concurrency: Infinity,
-    coverageReporter: {
-      dir: './coverage',
-      subdir: '.',
+    coverageIstanbulReporter: {
+      dir: join(__dirname, 'coverage'),
       includeAllSources: true,
-      reporters: [
-          { type: 'lcov' },
-          { type: 'text-summary' }
-      ]
+      fixWebpackSourcePaths: true,
+      reports: ['lcov', 'text-summary']
     },
     customLaunchers: {
       ChromeCustom: {
@@ -24,26 +23,43 @@ module.exports = function (config) {
       }
     },
     files: [
-      { included: true, pattern: '../../src/**/*.js', type: 'module', watched: false },
-      { included: true, pattern: 'elements/index.test.js', type: 'module', watched: false },
+      { included: true, pattern: 'index.test.js', type: 'module', watched: false },
     ],
     frameworks: ['jasmine', 'webpack'],
     logLevel: config.LOG_INFO,
     plugins: [
       require('karma-chrome-launcher'),
-      require('karma-coverage'),
+      require('karma-coverage-istanbul-reporter'),
       require('karma-jasmine'),
       require('karma-webpack'),
     ],
     port: 9876,
     preprocessors: {
-      '../../src/**/*.js': ['coverage'],
-      'elements/index.test.js': ['webpack'],
+      'index.test.js': ['webpack'],
     },
-    reporters: ['coverage', 'dots'],
+    reporters: ['coverage-istanbul', 'dots'],
     singleRun: true,
     webpack: {
       mode: 'production',
+      module: {
+        rules: [
+          {
+            enforce: 'post',
+            exclude: /(node_modules|index\.js|\.test\.js)$/,
+            test: /\.js/,
+            include: resolve('src/'),
+            use: '@jsdevtools/coverage-istanbul-loader'
+          }
+        ]
+      },
+      resolve: {
+        alias: {
+          elements: resolve(__dirname, '../..', 'index.js'),
+          helper: resolve(__dirname, 'helper.js'),
+          services: resolve(__dirname, '../..', 'services.js'),
+        },
+        extensions: ['.js']
+      },
       target: "web",
     },
     webpackMiddleware: {

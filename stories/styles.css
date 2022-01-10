@@ -121,3 +121,15 @@ textarea {
   width: 100%;
   min-height: 5rem;
 }
+
+.red {
+  color:red;
+}
+
+.green {
+  color:green;
+}
+
+.bold {
+  font-weight: bold;
+}

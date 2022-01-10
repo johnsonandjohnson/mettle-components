@@ -48,11 +48,27 @@ function generateTitle() {
   return `The ${adjectives[rand1]} ${nouns[rand2]}`
 }
 
+function mockApiResponse(body = {}, status = 200, headers = { 'Content-type': 'application/json' }) {
+  return new window.Response(JSON.stringify(body, null, 2), {
+    headers,
+    status
+  })
+}
+
+function mockApiResponseBlob(blobData, status = 200, headers = { 'Content-type': 'application/octet-stream' }) {
+  return new window.Response(new Blob([blobData]), {
+    headers,
+    status
+  })
+}
+
 export {
   generateParagraph,
   generateHTMLParagraphs,
   generateTitle,
   getRandomInt,
+  mockApiResponse,
+  mockApiResponseBlob,
   uuid,
   wait
 }

@@ -11,7 +11,9 @@ To install from NPM do the following
 $ npm install @johnsonandjohnson/mettle-components --save
 ```
 
-<p>import the components into your project like so</p>
+### Using Custom Elements
+
+<p>Import the components into your project like so</p>
 
 ```js
 import '@johnsonandjohnson/mettle-components/index.js'
@@ -26,4 +28,16 @@ or with HTML
 <div className="tip-wrapper">
   <span className="tip">Tip</span> Once included you can use the HTML tags, no assembly required.
 </div>
+
+<br />
+
+### Using Services
+
+<p>Import the services into your project like so</p>
+
+```js
+import { HtmlMarker } from '@johnsonandjohnson/mettle-components/services'
+
+const htmlMarker = new HtmlMarker()
+```
 
