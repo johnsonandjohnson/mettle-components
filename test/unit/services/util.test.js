@@ -98,5 +98,11 @@ describe('Util', () => {
       expect(result).toEqual('this is a working test')
     })
 
+    it('should call the downloadBlob when download function is executed', () => {
+      spyOn(Util, 'downloadBlob')
+      Util.download('filename', 'working text')
+      expect(Util.downloadBlob).toHaveBeenCalled()
+    })
+
   })
 })

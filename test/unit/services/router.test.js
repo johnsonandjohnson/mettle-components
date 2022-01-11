@@ -1,9 +1,15 @@
 import { Router as RouterService } from 'services'
+import { wait } from 'helper'
 
 describe('RouterService', () => {
 
 
   describe('functions', () => {
+
+    it('should be able to set a global middleware', () => {
+      RouterService.use(RouterService.customElementsReady)
+      expect(RouterService._allPathHandlers.size).toBeGreaterThan(0)
+    })
 
     it('should change the history api', (done) => {
       RouterService.setPath('test', (req, next) => {
@@ -80,15 +86,10 @@ describe('RouterService', () => {
       expect(URLParams.get('sort')).toBeNull()
     })
 
-    it('should be able to set a global middleware', () => {
-      RouterService.use(RouterService.customElementsReady)
-      expect(RouterService._allPathHandlers.size).toBeGreaterThan(0)
-    })
-
     it('should be able to block the user from exiting the page', (done) => {
       let canExitCheck = true
 
-      RouterService.setPath('/canexit1', (req, next) => {
+      RouterService.setPath('/canexit1', async (req, next) => {
         req.canExit(() => {
           canExitCheck = !canExitCheck
           return canExitCheck
@@ -98,12 +99,18 @@ describe('RouterService', () => {
           done()
         })
         RouterService.goto('/canexit2')
+        await wait(100)
         RouterService.goto('/canexit2')
       })
       RouterService.setPath('/canexit2', (req, next) => {
         next()
       })
       RouterService.goto('/canexit1')
+    })
+
+    it('should be able to get the URL search params as a string', () => {
+      const URLParams = RouterService.urlParams('http://example.com/get?test=tester')
+      expect(URLParams).toEqual('?test=tester')
     })
 
   })

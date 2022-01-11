@@ -61,7 +61,7 @@ export default class HttpFetch {
     } catch (error) {
       if (url) {
         const queryString = [...new URLSearchParams(url.slice(0).split('?')[1]).entries()].reduce((acc, [key, val]) => Object.assign(acc, { [key]: String(val) }), Object.create(null))
-        result = url.split('?')[0] + this.prototype.generateUrlParams({ ...queryString, ...params })
+        result = url.split('?')[0] + this.generateUrlParams({ ...queryString, ...params })
       }
     }
     return result

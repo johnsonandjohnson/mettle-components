@@ -96,6 +96,7 @@ describe('I18nService', () => {
       document.body.appendChild(div)
 
       I18nService.translatePage()
+      await wait(100)
       expect(div.textContent).not.toEqual(TRANSLATE_UNSAFE_KEY)
       div.remove()
     })
