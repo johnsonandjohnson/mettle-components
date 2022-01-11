@@ -110,7 +110,8 @@ const Template = () => {
         id: new Date().getTime(),
         items: [
           {val:'<em>1</em>'},
-          {val:'2&k'}, {val:'3'},
+          {val:'2&k'},
+          {val:'3'},
           {val:'4'},
           {val:'5'}
         ],

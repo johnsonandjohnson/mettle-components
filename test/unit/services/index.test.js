@@ -1,4 +1,5 @@
 import './debounce.test.js'
+import './html-marker.test.js'
 import './http-fetch.test.js'
 import './i18n.test.js'
 import './observable.test.js'

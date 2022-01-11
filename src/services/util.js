@@ -2,6 +2,12 @@ import Debounce from './debounce.js'
 
 class Util {
 
+  allowHTML(input) {
+    const txt = document.createElement('textarea')
+    txt.innerHTML = input
+    return txt.value
+  }
+
   bytesToSize(bytes) {
     const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB']
     if (bytes === 0) {
@@ -72,6 +78,19 @@ class Util {
     return typeof f === 'function'
   }
 
+  /* this function will execute a function to object values with a deep nest */
+  mapRecursive(obj, func) {
+    if ((typeof obj !== 'object' && !Array.isArray(obj)) || !obj) {
+      return typeof obj === 'function' ? obj : func(obj)
+    }
+    const accObj = Array.isArray(obj) ? [] : Object.create(null)
+    const arrObj = Array.isArray(obj) ? [...obj.entries()] : Object.entries(obj)
+    return arrObj.reduce((acc, [key, value]) => {
+      acc[key] = this.mapRecursive(value, func)
+      return acc
+    }, accObj)
+  }
+
   parseJSON(string) {
     return new Promise((resolve, reject) => {
       try {
@@ -81,6 +100,12 @@ class Util {
         reject(jsonParseError)
       }
     })
+  }
+
+  removeHTML(input) {
+    const doc = new DOMParser().parseFromString(input, 'text/html')
+    const docEnsure = new DOMParser().parseFromString(doc.documentElement.textContent, 'text/html')
+    return docEnsure.documentElement.textContent
   }
 
   safeInnerHTML(html = '') {

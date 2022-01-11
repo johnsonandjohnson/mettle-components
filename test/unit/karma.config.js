@@ -12,8 +12,8 @@ module.exports = function (config) {
     concurrency: Infinity,
     coverageIstanbulReporter: {
       dir: join(__dirname, 'coverage'),
-      includeAllSources: true,
       fixWebpackSourcePaths: true,
+      skipFilesWithNoCoverage: false,
       reports: ['lcov', 'text-summary']
     },
     customLaunchers: {

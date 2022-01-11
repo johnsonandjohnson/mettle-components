@@ -1,3 +1,5 @@
+import Util from './util.js'
+
 const REGEX_LITERAL = /(\${.+(?=[${.+?}]+)?})/gi
 /* Alt: /(\${.+?})/gi  */
 const STRING_LITERAL_FINDS = /\$\{(([\w_().$])+)\}/gi
@@ -34,20 +36,16 @@ const BOOLEAN_ATTRIBUTES = new Set([
 ])
 
 const DEFAULT_DECORATORS = ['$_arrayMarker', '$_removeHTML', '$_allowHTML']
-function uuid() {
-  return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, b =>
-    (b ^ crypto.getRandomValues(new Uint16Array(1))[0] & 15 >> b / 4).toString(16))
-}
 
 export default class HtmlMarker {
   constructor() {
     this.referenceNodes = new Set()
-    this.uuid = uuid() + '@'
+    this.uuid = Util.uuid() + '@'
     this.model = Object.create(null)
     this._decorators = new Map([
       ['$_arrayMarker', () => ''],
-      ['$_removeHTML', this._removeHTML.bind(this)],
-      ['$_allowHTML', this._allowHTML.bind(this)]
+      ['$_removeHTML', Util.removeHTML.bind(this)],
+      ['$_allowHTML', Util.allowHTML.bind(this)]
     ])
   }
 
@@ -71,7 +69,7 @@ export default class HtmlMarker {
   }
 
   updateModel(obj = Object.create(null)) {
-    obj = this.mapRecursive(obj, this.safeHTML.bind(this))
+    obj = Util.mapRecursive(obj, Util.safeInnerHTML.bind(this))
     Object.assign(this.model, obj)
     return this.update()
   }
@@ -362,38 +360,4 @@ export default class HtmlMarker {
     return t.content.cloneNode(true)
   }
 
-  safeHTML(input = '') {
-    return String(input)
-      .replace(/&(?=[^amp;|lt;|gt;|quot;|#])/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#39;')
-      .replace(/\//g, '&#x2F;')
-  }
-
-  _removeHTML(input) {
-    const doc = new DOMParser().parseFromString(input, 'text/html')
-    const docEnsure = new DOMParser().parseFromString(doc.documentElement.textContent, 'text/html')
-    return docEnsure.documentElement.textContent
-  }
-
-  _allowHTML(input) {
-    const txt = document.createElement('textarea')
-    txt.innerHTML = input
-    return txt.value
-  }
-
-  /* this function will execute a function to object values with a deep nest */
-  mapRecursive(obj, func) {
-    if ((typeof obj !== 'object' && !Array.isArray(obj)) || !obj) {
-      return typeof obj === 'function' ? obj : func(obj)
-    }
-    const accObj = Array.isArray(obj) ? [] : Object.create(null)
-    const arrObj = Array.isArray(obj) ? [...obj.entries()] : Object.entries(obj)
-    return arrObj.reduce((acc, [key, value]) => {
-      acc[key] = this.mapRecursive(value, func)
-      return acc
-    }, accObj)
-  }
 }
