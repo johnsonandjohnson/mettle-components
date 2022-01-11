@@ -88,5 +88,15 @@ describe('Util', () => {
       expect(uuid).toEqual(jasmine.any(String))
     })
 
+    it('should generate a hash code', () => {
+      const code = Util.hashCode('test')
+      expect(code).toEqual(jasmine.any(Number))
+    })
+
+    it('should interpolate a string with string literals', () => {
+      const result = Util.interpolate('this is a ${test}', {test: 'working test'})
+      expect(result).toEqual('this is a working test')
+    })
+
   })
 })

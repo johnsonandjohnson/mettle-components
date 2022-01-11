@@ -93,5 +93,19 @@ describe('HtmlMarker', () => {
       expect($textarea.value.toString()).not.toEqual('')
     })
 
+    it('should render the $_allowHTML decorator into a DOM target', async () => {
+      const htmlString = '<p>${$_allowHTML(test)}</p>'
+      await htmlMarker.render($renderedDiv, htmlString, dataModel)
+      const $p = $renderedDiv.querySelector('p')
+      expect($p.innerHTML.toString()).toContain('<strong>')
+    })
+
+    it('should render the $_removeHTML decorator into a DOM target', async () => {
+      const htmlString = '<p>${$_removeHTML(test)}</p>'
+      await htmlMarker.render($renderedDiv, htmlString, dataModel)
+      const $p = $renderedDiv.querySelector('p')
+      expect($p.innerHTML.toString().includes('<strong>')).toBeFalse()
+    })
+
   })
 })

@@ -57,5 +57,54 @@ describe('RouterService', () => {
       RouterService.goto('/optional')
     })
 
+    it('should be able to set the resolve time', () => {
+      RouterService.resolveIn(500)
+      expect(RouterService._resolveTimeMS).toEqual(500)
+    })
+
+    it('should be able to update a route params', () => {
+      const id = '123abc'
+      RouterService.setPath('/update/:id', (req, next) => {
+      })
+      RouterService.goto('/update/123')
+      RouterService.updateRouteParams({ id })
+      expect(RouterService.getCurrentPath()).toContain(id)
+    })
+
+    it('should be able to update the URL search params', () => {
+      RouterService.updateURLSearchParams({sort: 'date'})
+      let URLParams = RouterService.getCurrentSearchParams()
+      expect(URLParams.get('sort')).toEqual('date')
+      RouterService.removeURLSearchParams()
+      URLParams = RouterService.getCurrentSearchParams()
+      expect(URLParams.get('sort')).toBeNull()
+    })
+
+    it('should be able to set a global middleware', () => {
+      RouterService.use(RouterService.customElementsReady)
+      expect(RouterService._allPathHandlers.size).toBeGreaterThan(0)
+    })
+
+    it('should be able to block the user from exiting the page', (done) => {
+      let canExitCheck = true
+
+      RouterService.setPath('/canexit1', (req, next) => {
+        req.canExit(() => {
+          canExitCheck = !canExitCheck
+          return canExitCheck
+        })
+        req.exit(() => {
+          expect(canExitCheck).toBeTrue()
+          done()
+        })
+        RouterService.goto('/canexit2')
+        RouterService.goto('/canexit2')
+      })
+      RouterService.setPath('/canexit2', (req, next) => {
+        next()
+      })
+      RouterService.goto('/canexit1')
+    })
+
   })
 })

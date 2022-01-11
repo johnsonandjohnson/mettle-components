@@ -114,7 +114,7 @@ class Router {
       exit: this._exit.bind(this),
       params: this._pathParams(route),
       route,
-      search: new URLSearchParams(window.location.search)
+      search: this.getCurrentSearchParams()
     }
     const pipeNext = callbacks => {
       if (Array.isArray(callbacks) && callbacks.length) {
@@ -173,7 +173,7 @@ class Router {
 
   urlParams(path) {
     const pathURL = Array.from(new URL(path, this.basePath).searchParams.entries())
-    const searchParams = new URLSearchParams(window.location.search)
+    const searchParams = this.getCurrentSearchParams()
     pathURL.forEach(([key, value]) => {
       if (!searchParams.has(key)) {
         searchParams.append(key, value)
@@ -281,7 +281,7 @@ class Router {
   }
 
   updateURLSearchParams(params = Object.create(null)) {
-    const searchParams = new URLSearchParams(window.location.search)
+    const searchParams = this.getCurrentSearchParams()
 
     Object.entries(params)
       .map(param => param.map(window.encodeURIComponent))
