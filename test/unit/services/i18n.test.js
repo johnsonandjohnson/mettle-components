@@ -20,6 +20,7 @@ describe('I18nService', () => {
       .withArgs(URLFail).and.returnValue(Promise.resolve(resFail));
 
     I18nService.localeId = I18nService.DEFAULT_LOCALE
+    I18nService.setLocale(I18nService.localeId)
   })
 
   afterAll(() => {
@@ -182,6 +183,11 @@ describe('I18nService', () => {
       const translator = await I18nService.setLocale('ek')
       const message = translator('test')
       expect(message).toEqual('A thing')
+    })
+
+    it('should add to the dictionary without the use of fetch', async () => {
+      I18nService.addDictionary('fr', {"test" : "essai"})
+      expect(I18nService.dictionary.has('fr')).toBeTrue()
     })
 
   })
