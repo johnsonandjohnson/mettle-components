@@ -6,8 +6,15 @@
  */
 
 export const MixinDefs = {
+  DataModel: Symbol('DataModel'),
+  DefaultDataModel: Symbol('DefaultDataModel'),
+  HTMLMarker: Symbol('HTMLMarker'),
+  Subscription: Symbol('Subscription'),
+  onModelUpdate: Symbol('onModelUpdate'),
   onRemove: Symbol('onRemove'),
   onRemoveObserver: Symbol('onRemoveObserver'),
+  resetDataModel: Symbol('resetDataModel'),
+  updateDataModel: Symbol('updateDataModel'),
 }
 
 export default MixinDefs

@@ -1,0 +1,28 @@
+[data-key] {
+  cursor: pointer;
+}
+
+[data-sort="desc"].active::after {
+  content: ' \2191';
+  color: initial;
+}
+
+[data-sort="asc"].active::after {
+  content: ' \2193';
+  color: initial;
+}
+
+.container {
+  width: 340px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.col {
+  border: 1px solid silver;
+  flex: 1 0 0%;
+  padding: 0.4rem;
+}

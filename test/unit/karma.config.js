@@ -56,6 +56,7 @@ module.exports = function (config) {
         alias: {
           elements: resolve(__dirname, '../..', 'index.js'),
           helper: resolve(__dirname, 'helper.js'),
+          mixins: resolve(__dirname, '../..', 'mixins.js'),
           services: resolve(__dirname, '../..', 'services.js'),
         },
         extensions: ['.js']

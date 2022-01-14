@@ -10,12 +10,6 @@ All notable changes to this project will be documented in this file. See [standa
 * Add to i18n dictionary without the need to fetch ([#28](https://github.com/johnsonandjohnson/mettle-components/issues/28)) ([0929648](https://github.com/johnsonandjohnson/mettle-components/commit/0929648fa20de3ee551db5228cd2ce689aadbea8))
 * Services now available for front-end development ([#22](https://github.com/johnsonandjohnson/mettle-components/issues/22)) ([68c48f2](https://github.com/johnsonandjohnson/mettle-components/commit/68c48f268f3690e30884cef703bf5d8fb9430fa6))
 
-## 1.1.0 (2022-01-11)
-
-
-### Features
-
-* Services now available for front-end development ([#22](https://www.github.com/johnsonandjohnson/mettle-components/issues/22)) ([68c48f2](https://www.github.com/johnsonandjohnson/mettle-components/commit/68c48f268f3690e30884cef703bf5d8fb9430fa6))
 
 ## 1.0.0 (2021-10-15)
 
