@@ -32,7 +32,7 @@ class I18n {
     this._localeId = DEFAULT_LOCALE
     this._observer = null
     this._dictionary = new Map()
-    this._loadBasePath = window.location.href
+    this._loadBasePath = window.location.origin
     this._loadPath = ''
     this._storageKey = 'i18nLocale'
     this._urlParamKey = 'locale'
@@ -40,7 +40,7 @@ class I18n {
   }
 
   config({attributeMap, decorators, loadBasePath, loadPath, storageKey, urlParam}) {
-    this._loadBasePath = loadBasePath || window.location.href
+    this._loadBasePath = loadBasePath || window.location.origin
     this._loadPath = loadPath || ''
     this._storageKey = storageKey || 'i18nLocale'
     this._urlParamKey = urlParam || 'locale'
@@ -58,6 +58,17 @@ class I18n {
         }
       })
     }
+  }
+
+  addDictionary(localeId, dictionary) {
+    if(localeId && dictionary) {
+      this.dictionary.set(localeId, dictionary)
+    }
+    return this
+  }
+
+  get dictionary() {
+    return this._dictionary
   }
 
   get localeId() {
@@ -129,7 +140,7 @@ class I18n {
 
     this._pending = new Promise(resolve => {
       let translator = this._translator.bind(this)
-      if (!this._dictionary.get(this.localeId)) {
+      if (!this.dictionary.get(this.localeId)) {
         fetch(this.loadPath)
           .then(response => {
             if (response instanceof Response && response.ok) {
@@ -141,7 +152,7 @@ class I18n {
           .then(response => response.clone().json().catch(() => null))
           .then(responseJSON => {
             if (null !== responseJSON) {
-              this._dictionary.set(this.localeId, responseJSON)
+              this.dictionary.set(this.localeId, responseJSON)
             } else {
               throw new Error()
             }
@@ -168,7 +179,7 @@ class I18n {
   }
 
   _translator(i18nKey) {
-    const dictionary = this._dictionary.get(this.localeId)
+    const dictionary = this.dictionary.get(this.localeId)
     // Replace with Object.hasOwn() when Safari has support
     return dictionary && Object.prototype.hasOwnProperty.call(dictionary, i18nKey) ? dictionary[i18nKey] : i18nKey
   }
