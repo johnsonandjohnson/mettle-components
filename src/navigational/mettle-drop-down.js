@@ -1,4 +1,4 @@
-import { MixinDefs, OnRemoveMixin } from '../mixins/index.js'
+import { OnRemoveMixin } from '../mixins/index.js'
 
 const EVENT_TYPES = {
   HIDE: 'dropdown-hidden',
@@ -13,6 +13,8 @@ const ACTION_TYPES = {
 
 const TAG_NAME = 'mettle-drop-down'
 const BASE = OnRemoveMixin(HTMLElement)
+const MixinDefs = BASE.MixinDefs
+
 if (!window.customElements.get(TAG_NAME)) {
   window.customElements.define(TAG_NAME, class extends BASE {
     constructor() {

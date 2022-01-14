@@ -6,6 +6,10 @@ export default Base => class extends Base {
     super()
   }
 
+  static get MixinDefs() {
+    return MixinDefs
+  }
+
   [MixinDefs.onRemove](element, onDetachCallback) {
     const isDetached = el => {
       if (document === el.parentNode) {

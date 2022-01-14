@@ -15,7 +15,7 @@ class Router {
     this._currentHistoryState = ''
     this._canExitFn = null
     this._exitFn = null
-    this.lastRoutePath = window.sessionStorage.getItem('last-route-path') || '' // NOSONAR last-route-path allowed
+    this.lastRoutePath = window.sessionStorage.getItem('last-route-path') || ''
     this.historyChangeBind = this.historyChange.bind(this)
     this.routeChangeEventName = 'route-change'
 
