@@ -41,14 +41,14 @@ export default {
       },
     },
     dataPosition: {
-      control: { type: 'select', options: ['left', 'right'] },
-      description: 'The set side position to open the menu.',
+      control: { type: 'select', options: ['bottom', 'left', 'right'] },
+      description: 'The set position to open the menu.',
       name: 'data-position',
       table: {
         category: Constants.CATEGORIES.ATTRIBUTES,
         defaultValue: {
-          detail: 'If omitted defaults to right',
-          summary: 'right',
+          detail: 'If omitted defaults to bottom',
+          summary: 'bottom',
         }
       },
     },

@@ -7,6 +7,10 @@
   <title>JSON json-syntax</title>
 
   <style>
+    .flex {
+      display: flex;
+      justify-content: center;
+    }
 #d {
   cursor: pointer;
   width: 300px;
@@ -14,6 +18,11 @@
   z-index: 999;
 }
 
+ul {
+  border: 1px solid black;
+  margin: 0;
+  width: 261px;
+}
 
 
 mettle-drop-down {
@@ -32,14 +41,15 @@ mettle-drop-down[data-open] {
 <body>
   <h1>hi</h1>
 
-
+<div class="flex">
   <div id="d"> *** </div>
+</div>
   <mettle-drop-down
  data-for="d"
  data-user-action="click"
- data-position="right"
- data-distance-x="15"
- data-distance-y="15"
+ data-position="bottom"
+ data-distance-x="0"
+ data-distance-y="0"
  data-parent=""
  >
    <ul>
@@ -52,7 +62,7 @@ mettle-drop-down[data-open] {
  <mettle-drop-down
  data-for="d2"
  data-user-action="click"
- data-position="right"
+ data-position="bottom"
  data-distance-x="15"
  data-distance-y="15"
  data-parent="d"
