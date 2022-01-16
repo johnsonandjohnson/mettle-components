@@ -19,7 +19,7 @@ if (!window.customElements.get(TAG_NAME)) {
   window.customElements.define(TAG_NAME, class extends BASE {
     constructor() {
       super()
-      this._allowedPositions = new Set(['left', 'right'])
+      this._allowedPositions = new Set(['bottom', 'left', 'right'])
       this._allowedUserActions = new Set([ACTION_TYPES.AUXCLICK, ACTION_TYPES.CLICK, ACTION_TYPES.MOUSE])
       this._onClickBind = this.toggleMenu.bind(this)
       this._onShowBind = this.show.bind(this)
@@ -139,7 +139,7 @@ if (!window.customElements.get(TAG_NAME)) {
     _positionAt() {
       if (this.$menuFor) {
         const attrPosition = this.getAttribute('data-position')
-        const position = this._allowedPositions.has(attrPosition) ? attrPosition : 'right'
+        const position = this._allowedPositions.has(attrPosition) ? attrPosition : 'bottom'
         const parentCoords = this.$menuFor.getBoundingClientRect()
         const attrDistanceX = this.getAttribute('data-distance-x') || 0
         const attrDistanceY = this.getAttribute('data-distance-y') || 0
@@ -150,6 +150,11 @@ if (!window.customElements.get(TAG_NAME)) {
 
         if (position === 'left') {
           left = parseInt(parentCoords.left, 10) - distX - this.offsetWidth
+        }
+
+        if (position === 'bottom') {
+          left = parseInt(parentCoords.left, 10) - distX
+          top = parseInt(parentCoords.bottom, 10) + distY
         }
 
         left += window.scrollX
