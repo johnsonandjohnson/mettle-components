@@ -1,0 +1,39 @@
+<html>
+  <head>
+    <title>Progress Bar Sample</title>
+    <style>
+      .bar {
+        background-color: silver;
+        width: 100%;
+      }
+
+      .progress {
+        background-color: #3F4EA1;
+        color: white;
+        height: 2rem;
+        width: 1%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bar">
+      <div class="progress"></div>
+    </div>
+
+    <script>
+      window.addEventListener('load', initProgress)
+
+      function initProgress() {
+        const $progress = document.querySelector('.progress')
+        let width = 1;
+        const maxCounter = 100
+        function increase() {
+          width = (width + 1) % maxCounter
+          $progress.style.width = `${width}%`
+          window.requestAnimationFrame(increase)
+        }
+        increase()
+      }
+    </script>
+  </body>
+</html>

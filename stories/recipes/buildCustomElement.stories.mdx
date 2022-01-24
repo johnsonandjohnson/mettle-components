@@ -1,0 +1,536 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import Code from '../assets/code.svg';
+import BeginerLevel from '../assets/thermometer_quarter.svg';
+import ProgressBar from '../assets/main-progress-bar.gif';
+import ProgressBarStyled from '../assets/styled-progress-bar.gif';
+
+import '../styles.css'
+
+
+<Meta title="Welcome/Recipes/Build A Custom Element" />
+
+<div class="recipe">
+  <img src={Code} alt="Code" height="160" />
+  <div class="flex-col">
+    <h1 class="heading">Building a Custom Element</h1>
+    <small class="flex"> <img src={BeginerLevel} alt="Beginer Level" height="20" /> Beginner level</small>
+    <p>In this Recipe, we will create a vanillaJS custom elememt.
+      By the end you should be able to take `HTML`, `CSS` and `JavaScript` into a reusable HTML Element.
+    </p>
+  </div>
+</div>
+
+
+
+#### Prequisite
+Reading this reference might help before going through the tutorial.
+
+- <a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components" target="_blank">https://developer.mozilla.org/en-US/docs/Web/Web_Components</a>
+
+
+### Traditionally...
+Lets use the classic example of a progress bar.  Traditionally to add any feature into a website there is `HTML`, `CSS` and `JavaScript` involved.
+
+**HTML**
+```html
+<div class="bar">
+  <div class="progress"></div>
+</div>
+```
+
+**CSS**
+```css
+.bar {
+  background-color: silver;
+  width: 100%;
+}
+
+.progress {
+  background-color: #3F4EA1;
+  color: white;
+  height: 2rem;
+  width: 1%;
+}
+```
+
+**JavaScript**
+```js
+window.addEventListener('load', initProgress)
+
+function initProgress() {
+  const $progress = document.querySelector('.progress')
+  let width = 1;
+  const maxCounter = 100
+  function increase() {
+    width = (width + 1) % maxCounter
+    $progress.dataset.percent = width
+    if(width < maxCounter) {
+      window.requestAnimationFrame(increase)
+    }
+  }
+  increase()
+}
+```
+
+This would be the outcome in the HTML to combine each part for it to work.
+
+```html
+<html>
+  <head>
+    <title>Progress Bar Sample</title>
+    <style>
+      .bar {
+        background-color: silver;
+        width: 100%;
+      }
+
+      .progress {
+        background-color: #3F4EA1;
+        color: white;
+        height: 2rem;
+        width: 1%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bar">
+      <div class="progress"></div>
+    </div>
+
+    <script>
+      window.addEventListener('load', initProgress)
+
+      function initProgress() {
+        const $progress = document.querySelector('.progress')
+        let width = 1;
+        const maxCounter = 100
+        function increase() {
+          width = (width + 1) % maxCounter
+          $progress.style.width = `${width}%`
+          window.requestAnimationFrame(increase)
+        }
+        increase()
+      }
+    </script>
+  </body>
+</html>
+```
+
+<div class="centered">
+  <img src={ProgressBar} alt="Progress Bar" />
+  <small>Sample output for progress bar</small>
+</div>
+
+
+### The problem
+
+So what happens here?  You want to use this on different projects but each piece must be included by it's different parts.  If there is an upgrade to the functionality you will also have to go back and update every implementation.  This is not ideal but it is the way of the web.
+
+### The solution
+
+So the new solution is to use `Web Components`.  Web Components is a suite of different technologies allowing you to create reusable custom elements — with their functionality encapsulated away from the rest of your code — and utilize them in your web apps.
+
+Those technologies are
+- Custom elements
+- Shadow DOM
+- HTML templates
+
+Lets start with a base template we can use to turn our progress bar into a web component.
+
+***Base Template for creating a `custom element`**
+```js
+window.customElements.define('progress-bar', class extends HTMLElement {
+
+  constructor() {
+    super()
+    const shadowRoot = this.attachShadow({ mode: 'open' })
+    shadowRoot.appendChild(this._generateTemplate().content.cloneNode(true))
+  }
+
+  _generateTemplate() {
+    const template = document.createElement('template')
+    template.innerHTML = `
+      <style>
+      </style>
+      <div></div>
+    `.trim()
+    return template
+  }
+
+  connectedCallback() {
+  }
+
+  static get observedAttributes() {
+    return []
+  }
+
+  attributeChangedCallback(attr, oldValue, newValue) {
+    if (oldValue !== newValue) {
+    }
+  }
+
+})
+```
+
+> Note that _generateTemplate() is a custom function that is not part of the spec
+
+The main functions that are supported by the spec are
+
+- connectedCallback
+- disconnectedCallback
+- adoptedCallback
+- attributeChangedCallback
+- observedAttributes (static get with an array of values to observe)
+
+**Lets get started by adding in the `HTML` and `CSS`**
+```js
+window.customElements.define('progress-bar', class extends HTMLElement {
+
+  _generateTemplate() {
+    const template = document.createElement('template')
+    template.innerHTML = `
+      <style>
+        :host .bar {
+          width: 100%;
+          background-color: silver;
+        }
+        :host .progress {
+          background-color: #3F4EA1;
+          color: white;
+          height: 2rem;
+          width: 1%;
+        }
+      </style>
+      <div class="bar" part="bar">
+        <div class="progress" part="progress"></div>
+      </div>
+    `.trim()
+    return template
+  }
+
+  constructor() {
+    super()
+    const shadowRoot = this.attachShadow({ mode: 'open' })
+    shadowRoot.appendChild(this._generateTemplate().content.cloneNode(true))
+  }
+
+  connectedCallback() {
+  }
+
+  static get observedAttributes() {
+    return []
+  }
+
+  attributeChangedCallback(attr, oldValue, newValue) {
+    if (oldValue !== newValue) {
+    }
+  }
+
+})
+```
+
+> Add the above code to your `test.html` page within the script tag and it will register your new HTML tag to the document.
+To test the new tag simply put the tag (`<progress-bar></progress-bar>`) in the body.
+
+```html
+<html>
+  <head>
+    <title>Progress Bar Sample</title>
+  </head>
+  <body>
+    <progress-bar></progress-bar>
+    <script>
+      window.customElements.define('progress-bar', class extends HTMLElement {
+        ...
+      }
+    </script>
+  </body>
+</html>
+```
+
+Just from this alone we created a reusable component that will display our `HTML` and `CSS`.
+To make it useful lets add some JavaScript to change the progress percentage.
+
+1. Add an attribute to observe the correct percentage, we will call it `data-percent`
+2. Make sure to have a reference to the div. This can be done in the constructor
+3. Create a custom render function to execute based on the attribute update.
+
+**JavaScript functionality added**
+```js
+window.customElements.define('progress-bar', class extends HTMLElement {
+
+  _generateTemplate() {
+    const template = document.createElement('template')
+    template.innerHTML = `
+      <style>
+        :host .bar {
+          width: 100%;
+          background-color: silver;
+        }
+        :host .progress {
+          background-color: #3F4EA1;
+          color: white;
+          height: 2rem;
+          width: 1%;
+        }
+      </style>
+      <div class="bar" part="bar">
+        <div class="progress" part="progress"></div>
+      </div>
+    `.trim()
+    return template
+  }
+
+  constructor() {
+    super()
+    const shadowRoot = this.attachShadow({ mode: 'open' })
+    shadowRoot.appendChild(this._generateTemplate().content.cloneNode(true))
+    this.$progress = this.shadowRoot.querySelector('.progress')
+  }
+
+  connectedCallback() {
+  }
+
+  static get observedAttributes() {
+    return ['data-percent']
+  }
+
+  attributeChangedCallback(attr, oldValue, newValue) {
+    if (oldValue !== newValue) {
+      this._render()
+    }
+  }
+
+  _render() {
+    const percentage = `${this.dataset.percent || 1}%`
+    this.$progress.style.width = percentage
+  }
+
+})
+```
+
+
+On the page you can now select the `<progress-bar>` element and update the attribute like so
+
+```html
+<progress-bar data-percent="1"></progress-bar>
+```
+
+```js
+window.addEventListener('load', initProgress)
+
+function initProgress() {
+  const $progressBar = document.querySelector('progress-bar')
+  let width = 1;
+  const maxCounter = 100
+  function increase() {
+    width = (width + 1) % maxCounter
+    $progressBar.dataset.percent = width
+    window.requestAnimationFrame(increase)
+  }
+  increase()
+}
+```
+
+
+The Above will cause in infinite loop updating the attribute thus the observer updating the shadow dom as implemented.
+
+## The Result
+
+Web components are a great addition to the web stack.  It should help developers create reusable elements that can be maintained in a single file and used in a more sematic fashion.
+
+```html
+<html>
+  <head>
+    <title>Progress Bar Sample</title>
+  </head>
+  <body>
+    <progress-bar data-percent="1"></progress-bar>
+    <script>
+
+      window.customElements.define('progress-bar', class extends HTMLElement {
+
+        _generateTemplate() {
+          const template = document.createElement('template')
+          template.innerHTML = `
+            <style>
+              :host .bar {
+                width: 100%;
+                background-color: silver;
+              }
+              :host .progress {
+                background-color: #3F4EA1;
+                color: white;
+                height: 2rem;
+                width: 1%;
+              }
+            </style>
+            <div class="bar" part="bar">
+              <div class="progress" part="progress"></div>
+            </div>
+          `.trim()
+          return template
+        }
+
+        constructor() {
+          super()
+          const shadowRoot = this.attachShadow({ mode: 'open' })
+          shadowRoot.appendChild(this._generateTemplate().content.cloneNode(true))
+          this.$progress = this.shadowRoot.querySelector('.progress')
+        }
+
+        connectedCallback() {
+        }
+
+        static get observedAttributes() {
+          return ['data-percent']
+        }
+
+        attributeChangedCallback(attr, oldValue, newValue) {
+          if (oldValue !== newValue) {
+            this._render()
+          }
+        }
+
+        _render() {
+          const percentage = `${this.dataset.percent || 1}%`
+          this.$progress.style.width = percentage
+        }
+
+      })
+
+      window.addEventListener('load', initProgress)
+
+      function initProgress() {
+        const $progressBar = document.querySelector('progress-bar')
+        let width = 1;
+        const maxCounter = 100
+        function increase() {
+          width = (width + 1) % maxCounter
+          $progressBar.dataset.percent = width
+          window.requestAnimationFrame(increase)
+        }
+        increase()
+      }
+
+    </script>
+  </body>
+</html>
+```
+
+<div class="centered">
+  <img src={ProgressBar} alt="Progress Bar" />
+  <small>progress-bar custom element output</small>
+</div>
+
+## Styled Custom Elements
+As a Bonus, we can use CSS Parts to customize the CSS for the custom element.
+This will allow the developer to override the CSS that generally the shadowDom would have encapsluated.
+It is up to the developer to decide what should be styled and what should not be allowed.
+Do note that there are limitations with using CSS Parts.
+
+```html
+<html>
+  <head>
+    <title>Progress Bar Sample</title>
+    <style>
+      progress-bar::part(bar) {
+        background-color: #d4bbd6;
+      }
+      progress-bar::part(progress) {
+        background-color: #9b3fa1;
+      }
+    </style>
+  </head>
+  <body>
+    <progress-bar data-percent="1"></progress-bar>
+    <script>
+
+      window.customElements.define('progress-bar', class extends HTMLElement {
+
+        _generateTemplate() {
+          const template = document.createElement('template')
+          template.innerHTML = `
+            <style>
+              :host .bar {
+                width: 100%;
+                background-color: silver;
+              }
+              :host .progress {
+                background-color: #3F4EA1;
+                color: white;
+                height: 2rem;
+                width: 1%;
+              }
+            </style>
+            <div class="bar" part="bar">
+              <div class="progress" part="progress"></div>
+            </div>
+          `.trim()
+          return template
+        }
+
+        constructor() {
+          super()
+          const shadowRoot = this.attachShadow({ mode: 'open' })
+          shadowRoot.appendChild(this._generateTemplate().content.cloneNode(true))
+          this.$progress = this.shadowRoot.querySelector('.progress')
+        }
+
+        connectedCallback() {
+        }
+
+        static get observedAttributes() {
+          return ['data-percent']
+        }
+
+        attributeChangedCallback(attr, oldValue, newValue) {
+          if (oldValue !== newValue) {
+            this._render()
+          }
+        }
+
+        _render() {
+          const percentage = `${this.dataset.percent || 1}%`
+          this.$progress.style.width = percentage
+        }
+
+      })
+
+      window.addEventListener('load', initProgress)
+
+      function initProgress() {
+        const $progressBar = document.querySelector('progress-bar')
+        let width = 1;
+        const maxCounter = 100
+        function increase() {
+          width = (width + 1) % maxCounter
+          $progressBar.dataset.percent = width
+          window.requestAnimationFrame(increase)
+        }
+        increase()
+      }
+
+    </script>
+  </body>
+</html>
+```
+
+
+<div class="centered">
+  <img src={ProgressBarStyled} alt="Progress Bar Styled" />
+  <small>Sample output for the styled progress bar</small>
+</div>
+
+### Final notes
+
+- CSS Parts only applies for custom elements that use Shadow Dom
+- You do not have to use Shadow Dom in a custom element
+- If you do not use shadow dom, outside JavaScript and CSS can affect your component.
+- creating custom elements used in forms will require that you omit the use of Shadow Dom
+
+<div class="centered">
+<p class="bold">Happy Building</p>
+</div>
+
+

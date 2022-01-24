@@ -1,0 +1,84 @@
+<html>
+  <head>
+    <title>Progress Bar Sample</title>
+    <style>
+      progress-bar::part(bar) {
+        background-color: #d4bbd6;
+      }
+      progress-bar::part(progress) {
+        background-color: #9b3fa1;
+      }
+    </style>
+  </head>
+  <body>
+    <progress-bar data-percent="1"></progress-bar>
+    <script>
+
+      window.customElements.define('progress-bar', class extends HTMLElement {
+
+        _generateTemplate() {
+          const template = document.createElement('template')
+          template.innerHTML = `
+            <style>
+              :host .bar {
+                width: 100%;
+                background-color: silver;
+              }
+              :host .progress {
+                background-color: #3F4EA1;
+                color: white;
+                height: 2rem;
+                width: 1%;
+              }
+            </style>
+            <div class="bar" part="bar">
+              <div class="progress" part="progress"></div>
+            </div>
+          `.trim()
+          return template
+        }
+
+        constructor() {
+          super()
+          const shadowRoot = this.attachShadow({ mode: 'open' })
+          shadowRoot.appendChild(this._generateTemplate().content.cloneNode(true))
+          this.$progress = this.shadowRoot.querySelector('.progress')
+        }
+
+        connectedCallback() {
+        }
+
+        static get observedAttributes() {
+          return ['data-percent']
+        }
+
+        attributeChangedCallback(attr, oldValue, newValue) {
+          if (oldValue !== newValue) {
+            this._render()
+          }
+        }
+
+        _render() {
+          const percentage = `${this.dataset.percent || 1}%`
+          this.$progress.style.width = percentage
+        }
+
+      })
+
+      window.addEventListener('load', initProgress)
+
+      function initProgress() {
+        const $progressBar = document.querySelector('progress-bar')
+        let width = 1;
+        const maxCounter = 100
+        function increase() {
+          width = (width + 1) % maxCounter
+          $progressBar.dataset.percent = width
+          window.requestAnimationFrame(increase)
+        }
+        increase()
+      }
+
+    </script>
+  </body>
+</html>

@@ -133,3 +133,35 @@ textarea {
 .bold {
   font-weight: bold;
 }
+
+.centered {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.recipe {
+  display: flex;
+  padding-bottom: 2rem;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+}
+
+.recipe .heading {
+  border-bottom: 1px solid silver;
+  font-size: 1.778rem;
+  font-weight: 300;
+  letter-spacing: 1px;
+  line-height: 2.5rem;
+  margin: 1.25rem 0;
+  text-transform: uppercase;
+}

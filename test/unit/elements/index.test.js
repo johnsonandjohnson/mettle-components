@@ -1,5 +1,6 @@
 import './mettle-accordion.test.js'
 import './mettle-drop-down.test.js'
+import './mettle-field-validation.test.js'
 import './mettle-loader.test.js'
 import './mettle-notification.test.js'
 import './mettle-paginate.test.js'
