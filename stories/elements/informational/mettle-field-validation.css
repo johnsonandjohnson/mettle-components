@@ -1,0 +1,8 @@
+mettle-field-validation.error::part(validation) {
+  color: red;
+  padding: 0.2rem 0 0 0;
+}
+
+input.dirty:invalid {
+  border: 1px solid red;;
+}
