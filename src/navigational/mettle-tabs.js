@@ -113,8 +113,8 @@ if (!window.customElements.get(TAG_NAME)) {
       let panelOffset = this.selected * (-FULL_LENGTH / this.numTabs).toFixed(1)
       this.$panelTab.style.transform = `translateX(${panelOffset}%)`
       const detail = {
-        selectedIndex: this.selected,
         previousSelectedIndex: this._selectedPrevious,
+        selectedIndex: this.selected,
       }
       this.dispatchEvent(new CustomEvent(EVENT_TYPES.TAB, { bubbles: true, detail }))
     }
