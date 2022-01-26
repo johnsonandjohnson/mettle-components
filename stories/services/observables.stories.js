@@ -272,6 +272,7 @@ const TemplateObservableService = () => {
   </table>
 
   <button class="observe">Send Notifications</button>
+  <button class="subToggle">Toggle Component One subscription</button>
 
   <script type="module">
         import Observable from './observable.js'
@@ -300,14 +301,26 @@ const TemplateObservableService = () => {
         const $render1 = document.querySelector('#component1')
         const $render2 = document.querySelector('#component2')
         const $startBtn = document.querySelector('.observe')
+        const $subToggleBtn = document.querySelector('.subToggle')
 
         // If just a function is passed it will be registered as the next for notify
-        const subscription1 = templateClass.subscribe(subject => {
+        let subscription1 = templateClass.subscribe(subject => {
             $render1.innerText = subject
         })
 
         const subscription2 = templateClass.subscribe(subject => {
           $render2.innerText = subject
+        })
+
+        $subToggleBtn.addEventListener('click', () => {
+          if(null === subscription1) {
+            subscription1 = templateClass.subscribe(subject => {
+                $render1.innerText = subject
+            })
+          } else {
+            subscription1.unsubscribe()
+            subscription1 = null
+          }
         })
 
         $startBtn.addEventListener('click', () => {
