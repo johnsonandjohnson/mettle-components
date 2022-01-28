@@ -35,7 +35,27 @@ When you subscribe to an observable the subscription will return some methods
 | unsubscribe() | Removes the subscription from the observable and Invokes complete callback if defined. **Important** Do this to avoid memory leaks if no more notifications are needed. |
 | only(times) | Subscribe to the observable for only a limited amount of notifications |
 
-> See the code sample below
+
+**Use case for only getting data one time.**
+
+<pre><code>
+    const subscription = observed.subscribe(()=>{
+      // do something
+    }).only(1)
+
+</code></pre>
+
+**Use case to unsubscribe.**
+
+<pre><code className="language-javascript">
+    const subscription = observed.subscribe(()=>{
+      // do something
+    })
+
+    subscription.unsubscribe()
+</code></pre>
+
+> More code samples below
 `
 export default {
   title: 'Services/Observables',
@@ -340,6 +360,7 @@ ObservableService.args = {
 
 const ObservableServiceMDX = `
 Sample using Observables with Class Extends.
+Click on send notification each time you want to see the update.
 `.trim()
 
 ObservableService.parameters = {
