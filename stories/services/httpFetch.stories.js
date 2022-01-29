@@ -384,8 +384,8 @@ const parseResponseTemplate = () => {
   `.trim()
 }
 
-export const parseResponse = parseResponseTemplate.bind({})
-parseResponse.args = {
+export const parseJsonResponse = parseResponseTemplate.bind({})
+parseJsonResponse.args = {
   ...args
 }
 
@@ -394,14 +394,74 @@ Sample use of HttpFetch.parseResponse() static function.
 
 `.trim()
 
-parseResponse.parameters = {
+parseJsonResponse.parameters = {
   docs: {
     inlineStories: false,
     description: {
       story: parseResponseMDX,
     },
     source: {
-      code: parseResponseTemplate(parseResponse.args)
+      code: parseResponseTemplate(parseJsonResponse.args)
+    },
+  },
+  layout: 'padded',
+}
+
+
+
+
+
+
+const parseBlobResponseTemplate = () => {
+  return `
+  <strong>Fetch parseResponse Blob Results:</strong>
+  <br />
+  <img class="results" />
+
+  <script type="module">
+    import HttpFetch from './http-fetch.js'
+
+    (async () => {
+      const $results = globalThis.document.querySelector('.results')
+      const imgData = new Uint8Array([
+        137,80,78,71,13,10,26,10,0,0,0,13,73,72,68,82,0,0,0,16,0,0,0,16,8,6,0,0,0,31,243,255,97,0,0,0,9,112,72,89,115,
+        0,0,11,19,0,0,11,19,1,0,154,156,24,0,0,0,180,73,68,65,84,56,141,99,96,24,5,131,0,136,214,253,137,21,169,253,
+        245,92,180,238,215,63,209,186,223,255,129,244,39,145,186,223,119,128,244,22,209,218,223,61,64,177,94,160,252,
+        118,160,216,61,144,28,84,13,80,237,175,103,162,245,191,67,24,132,234,255,203,32,36,80,177,72,221,175,61,64,67,
+        14,226,144,123,35,86,249,95,28,226,138,218,95,155,49,21,253,250,39,86,255,93,73,168,230,135,38,54,3,128,122,
+        86,192,189,33,86,243,39,6,139,1,171,224,222,172,253,181,21,93,94,172,254,119,0,82,72,252,103,20,171,253,237,
+        12,84,152,5,116,90,190,112,237,111,95,134,250,255,108,48,89,149,220,255,236,64,121,127,144,28,208,224,76,96,
+        152,216,211,33,122,70,14,0,0,170,160,157,21,72,170,99,188,0,0,0,0,73,69,78,68,174,66,96,130
+      ]);
+      const myBlob = new Blob([imgData], { type: 'image/png' })
+      const response = new Response(myBlob, { status: 200, headers: { 'Content-type': 'application/octet-stream' } })
+      const results = await HttpFetch.parseResponse(response)
+      const url = window.URL.createObjectURL(results)
+      $results.src = url
+    })()
+
+  </script>
+  `.trim()
+}
+
+export const parseBlobResponse = parseBlobResponseTemplate.bind({})
+parseBlobResponse.args = {
+  ...args
+}
+
+const parseBlobResponseMDX = `
+Sample use of HttpFetch.parseResponse() static function with blob data.
+
+`.trim()
+
+parseBlobResponse.parameters = {
+  docs: {
+    inlineStories: false,
+    description: {
+      story: parseBlobResponseMDX,
+    },
+    source: {
+      code: parseBlobResponseTemplate(parseBlobResponse.args)
     },
   },
   layout: 'padded',

@@ -67,7 +67,7 @@ attributeMap, decorators, loadBasePath, loadPath, storageKey, urlParam
 | decorators | Set a custom attribute that will also format the translation value | |
 | fallbackLocale | Will try to load in the event a set locale Id does not exist | window.navigator.language.split('-').shift() |
 | loadBasePath | Base path of the web app | window.location.origin |
-| loadPath | From the base path, location to the locales folder | / |
+| loadPath | From the base path, location to the locales folder | ./ (root) |
 | storageKey | Local Session Storage key used to store the set locale | i18nLocale |
 | urlParam | Url Param key used to change locale | locale |
 
@@ -334,8 +334,9 @@ singleTranslate.parameters = {
 
 const decoratorsTemplate = () => {
   return `
-  <button class="en">English</button>
-  <button class="es">Spanish</button>
+    <button class="en">English</button>
+    <button class="es">Spanish</button>
+    <button class="ar">Arabic</button>
     <h1 class="demo" data-i18n-currency="3242342344"></h1>
 
   <script type="module">
@@ -363,6 +364,10 @@ const decoratorsTemplate = () => {
 
     document.querySelector('button.es').addEventListener('click', async () => {
       await I18n.setLocale('es')
+    })
+
+    document.querySelector('button.ar').addEventListener('click', async () => {
+      await I18n.setLocale('ar')
     })
 
   </script>
@@ -415,6 +420,7 @@ const attributeMapTemplate = () => {
   return `
   <button class="en">English</button>
   <button class="es">Spanish</button>
+  <button class="ar">Arabic</button>
   <h1 class="demo" data-i18n-title="global:title">Hover and pause to see the title attribute</h1>
 
   <script type="module">
@@ -436,6 +442,10 @@ const attributeMapTemplate = () => {
 
     document.querySelector('button.es').addEventListener('click', async () => {
       await I18n.setLocale('es')
+    })
+
+    document.querySelector('button.ar').addEventListener('click', async () => {
+      await I18n.setLocale('ar')
     })
 
   </script>

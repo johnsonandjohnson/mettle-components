@@ -12,6 +12,11 @@ describe('Util', () => {
       expect(value).toEqual('N/A')
     })
 
+    it('should convert a base64 to an array buffer array', async () => {
+      const value = Util.base64ToArrayBuffer('R0lGODlhAQABAAAAACw=')
+      expect(value).toEqual([71,73,70,56,57,97,1,0,1,0,0,0,0,44])
+    })
+
     it('should return filtered object', () => {
       const arr = [{ foo: 'bar', zar: 'foo'}]
       const exp = [{ zar: 'foo' }]
