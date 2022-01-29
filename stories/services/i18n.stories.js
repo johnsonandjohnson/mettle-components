@@ -216,6 +216,7 @@ const Template = () => {
       <th>Number</th>
       <th>Placeholder</th>
       <th>Image</th>
+      <th>Button</th>
     </thead>
     <tbody>
       <td>
@@ -232,6 +233,9 @@ const Template = () => {
       </td>
       <td>
         <img src="img/hamburger.png" data-i18n-src="global:nav">
+      </td>
+      <td>
+        <button class="demo" data-i18n="global:header"></button>
       </td>
     </tbody>
   </table>

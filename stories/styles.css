@@ -1,3 +1,11 @@
+:root {
+  --primary: #3F4EA1;
+  --on-primary: #fff;
+  --secondary: hsla(237, 52%, 35%, 0.515);
+  --on-secondary: #fff;
+}
+
+
 .subheading {
   --mediumdark: '#999999';
   font-weight: 900;
@@ -164,4 +172,102 @@ textarea {
   line-height: 2.5rem;
   margin: 1.25rem 0;
   text-transform: uppercase;
+}
+
+.url-display {
+  display: flex;
+  width: 80vw;
+  font-size: 1rem;
+  padding: 0.5rem;
+}
+
+.role-story-header nav {
+  display: flex;
+  margin: 0.2rem 0;
+}
+
+.role-story-header nav a {
+  background-color: #1f1d1d;
+  color: var(--on-primary);
+  display: flex;
+  padding: 0.8rem;
+}
+
+.role-story-header nav a:hover {
+  background-color: var(--secondary);
+  display: flex;
+}
+
+.role-story-header nav a.active {
+  background-color: var(--primary);
+}
+
+.role-story-main {
+  display: flex;
+  flex-grow: 1;
+  margin-top: 0.2rem;
+  padding: 0.4rem;
+}
+
+.role-story-main .route-display {
+  flex-basis: 100%;;
+}
+
+.role-story-main section {
+  background-color: #eee;
+  border: 0.2em solid;
+  padding: 0.5em;
+  display: grid;
+  grid-gap: 1rem;
+  width: 100%;
+}
+
+.page1 {
+  grid-template-rows: auto 3ch 1em;
+  grid-template-columns: 30% 2rem 1fr;
+  grid-template-areas:
+      "main main header"
+      "main main footer"
+      "main main footer";
+}
+
+.page2 {
+  grid-template-rows: 3rem 3rem 3rem;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-areas:
+      "header header header"
+      "main footer footer"
+      "main footer footer";
+}
+
+.page3 {
+  grid-template-rows: minmax(5rem, auto) 8rem auto;
+  grid-template-columns: 2em 3em auto;
+  grid-template-areas:
+      "header header header"
+      "main main main"
+      "footer footer footer";
+}
+
+.role-story-main section :nth-child(1) {
+  background-color: #ffadad;
+  display: flex;
+  align-items: center;
+  justify-content:center;
+  grid-area: header;
+}
+
+.role-story-main section :nth-child(2) {
+  background-color: #caffbf;
+  display: flex;
+  align-items: center;
+  justify-content:center;
+  grid-area: main;
+}
+.role-story-main section :nth-child(3) {
+  background-color: #bdb2ff;
+  display: flex;
+  align-items: center;
+  justify-content:center;
+  grid-area: footer;
 }

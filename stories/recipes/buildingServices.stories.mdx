@@ -28,3 +28,82 @@ import '../styles.css'
 Make sure to have an understanding of these services
 - HTTPFetch
 - Observables
+
+### Expected Results
+
+What we hope to appcomplish is to have a service that stores and model data for multiple
+UI components. We will create a products service with mock data
+
+
+### The Base Class
+
+Before creating services, many of them if not all, will share similar patterns.
+To not repeat code we can create a base class that all services can extend from.
+This will help the development team have a structure way of handling data.
+
+What is important to have in our base class is to be a singleton instance
+and to extend it as an Observable so components can subscribe for updates.
+We can also have specific data mappings that are also observables.
+
+```js
+import {
+  Observable,
+} from '@johnsonandjohnson/mettle-components/services'
+
+
+export default class BaseService extends Observable {
+
+  constructor() {
+    super()
+    if (this.instance) {
+      return this.instance
+    }
+    this.instance = this
+    this._payloads = new Map()
+    this._mutatedPayloads = new Map()
+    this._observers = new Map()
+  }
+
+  setNewObserver(key) {
+    this._observers.set(key, new Observable())
+  }
+
+  /* Use safe copy to avoid updating the payload by reference */
+  set _payload(val) {
+    this.__payload = this.safeCopy(val)
+  }
+
+  get _payload() {
+    return this.__payload
+  }
+
+  /**
+   * Sends out data to subscribed dependents
+   */
+  announcePayload(type) {
+    this.notify(this._mutatedPayloads)
+  }
+
+  /**
+   * Reset the stored payload values
+   */
+  resetPayload() {
+    this._payloads = new Map()
+    this._mutatedPayloads = new Map()
+    return this
+  }
+
+  _isNewPayload(payload, key) {
+    return !!(JSON.stringify(payload) !== JSON.stringify(this._payloads.get(key)))
+  }
+
+  /* Safely copy deeply nested objects/arrays */
+  safeCopy(obj) {
+    return obj ? JSON.parse(JSON.stringify(obj)) : obj
+  }
+
+}
+```
+
+> Note while this service foucses on the use of a JSON API,
+there are times when blob data might come from an API so dont always assume
