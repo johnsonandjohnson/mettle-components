@@ -5,6 +5,10 @@
   --on-secondary: #fff;
 }
 
+/* Bug: https://github.com/storybookjs/storybook/issues/15577 */
+.innerZoomElementWrapper > div > div > div {
+  height: 100% !important;
+}
 
 .subheading {
   --mediumdark: '#999999';
@@ -175,10 +179,14 @@ textarea {
 }
 
 .url-display {
+  background-color: hsl(0deg 0% 94% / 49%);
+  border: 1px solid #ddd;
+  border-radius: 50px;
   display: flex;
-  width: 80vw;
   font-size: 1rem;
   padding: 0.5rem;
+  padding-left: 1.2rem;
+  width: 80vw;
 }
 
 .role-story-header nav {
@@ -219,11 +227,10 @@ textarea {
   padding: 0.5em;
   display: grid;
   grid-gap: 1rem;
-  width: 100%;
 }
 
 .page1 {
-  grid-template-rows: auto 3ch 1em;
+  grid-template-rows: 4em 5em 1em;
   grid-template-columns: 30% 2rem 1fr;
   grid-template-areas:
       "main main header"
@@ -232,7 +239,7 @@ textarea {
 }
 
 .page2 {
-  grid-template-rows: 3rem 3rem 3rem;
+  grid-template-rows: 4em 4em 4em;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-areas:
       "header header header"
@@ -241,12 +248,12 @@ textarea {
 }
 
 .page3 {
-  grid-template-rows: minmax(5rem, auto) 8rem auto;
-  grid-template-columns: 2em 3em auto;
+  grid-template-rows: minmax(4rem, auto) 8rem 5rem;
+  grid-template-columns: auto;
   grid-template-areas:
-      "header header header"
-      "main main main"
-      "footer footer footer";
+      "header"
+      "main"
+      "footer";
 }
 
 .role-story-main section :nth-child(1) {

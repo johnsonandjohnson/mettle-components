@@ -2,8 +2,6 @@
 
 import { Constants } from '../helper/index.js'
 
-import '../styles.css'
-
 const DocsDescriptionMDX = `
 
 
