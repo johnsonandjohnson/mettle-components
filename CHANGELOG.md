@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://www.github.com/johnsonandjohnson/mettle-components/compare/v1.4.0...v1.5.0) (2022-01-31)
+
+
+### Features
+
+* Tabs dispatch events when clicked ([#43](https://www.github.com/johnsonandjohnson/mettle-components/issues/43)) ([f4582ab](https://www.github.com/johnsonandjohnson/mettle-components/commit/f4582ab3b9d2541b8fd7bb4e27d801d4521768b1))
+
 ## [1.4.0](https://www.github.com/johnsonandjohnson/mettle-components/compare/v1.3.0...v1.4.0) (2022-01-24)
 
 
