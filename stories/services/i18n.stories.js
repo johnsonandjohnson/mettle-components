@@ -313,7 +313,7 @@ const singleTranslateTemplate = () => {
 
     I18n.config({
       fallbackLocale: 'en',
-      loadPath: \`\${finalPathname}locales\`,
+      loadPath: \`\${finalPathName}locales\`,
     })
 
     globalThis.document.querySelector('button.en').addEventListener('click', async () => {
