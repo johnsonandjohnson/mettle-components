@@ -251,7 +251,7 @@ const Template = () => {
 
     I18n.config({
       fallbackLocale: 'en',
-      loadPath: \`\${finalPathName}locales\`,
+      loadPath: \`\${finalPathName}/locales\`,
     })
 
     I18n.enableDocumentObserver()
@@ -313,7 +313,7 @@ const singleTranslateTemplate = () => {
 
     I18n.config({
       fallbackLocale: 'en',
-      loadPath: \`\${finalPathName}locales\`,
+      loadPath: \`\${finalPathName}/locales\`,
     })
 
     globalThis.document.querySelector('button.en').addEventListener('click', async () => {
@@ -366,7 +366,7 @@ const decoratorsTemplate = () => {
 
     I18n.config({
       fallbackLocale: 'en',
-      loadPath: \`\${finalPathName}locales\`,
+      loadPath: \`\${finalPathName}/locales\`,
       decorators: [
         {
           attr: 'data-i18n-currency',
@@ -456,7 +456,7 @@ const attributeMapTemplate = () => {
 
     I18n.config({
       fallbackLocale: 'en',
-      loadPath: \`\${finalPathName}locales\`,
+      loadPath: \`\${finalPathName}/locales\`,
       attributeMap: [
         { attr: 'title', selector: 'data-i18n-title' }
       ]
