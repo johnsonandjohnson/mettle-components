@@ -136,13 +136,13 @@ const Template = () => {
 
           const subscription = observed.subscribe({
             complete : () => {
-              $render.innerText = 'Complete!'
+              $render.textContent = 'Complete!'
             },
             error: error => {
-              $render.innerText = error
+              $render.textContent = error
             },
             next: subject => {
-              $render.innerText = subject
+              $render.textContent = subject
             }
           })
 
@@ -226,7 +226,7 @@ const TemplateOnly = () => {
               $startBtn.toggleAttribute('disabled', false)
             },
             next: subject => {
-              $render.innerText = subject
+              $render.textContent = subject
             }
           }).only(2)
 
@@ -325,17 +325,17 @@ const TemplateObservableService = () => {
 
         // If just a function is passed it will be registered as the next for notify
         let subscription1 = templateClass.subscribe(subject => {
-            $render1.innerText = subject
+            $render1.textContent = subject
         })
 
         const subscription2 = templateClass.subscribe(subject => {
-          $render2.innerText = subject
+          $render2.textContent = subject
         })
 
         $subToggleBtn.addEventListener('click', () => {
           if(null === subscription1) {
             subscription1 = templateClass.subscribe(subject => {
-                $render1.innerText = subject
+                $render1.textContent = subject
             })
           } else {
             subscription1.unsubscribe()

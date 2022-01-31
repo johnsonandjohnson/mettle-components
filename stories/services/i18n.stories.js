@@ -45,7 +45,7 @@ Here is a list of default attributes.  These attributes should be added with the
 
 | Attribute | Purpose |
 |:---------:|:---------:|
-| data-i18n | Replace innerText key with pair value, does not display HTML |
+| data-i18n | Replace textContent key with pair value, does not display HTML |
 | data-i18n-unsafe | Replace innerHTML key with pair value, displays HTML |
 | data-i18n-date | Takes a value supported by new Date() and converts it with toLocaleDateString() |
 | data-i18n-number | Converts the number using Intl.NumberFormat() |
@@ -464,7 +464,7 @@ attributeMap.args = {
 
 const attributeMapMDX = `
 Attribute Map for I18n allow you to add a translation but instead of mapping the value
-to the innerText, it will map it to an attribute.
+to the textContent, it will map it to an attribute.
 
 Pass an array of objects in the config to utilize.
 

@@ -7,7 +7,7 @@ const generateTemplate = ({type = null, time = 10}) => {
   const notification = document.createElement('mettle-notification')
 
   const btn = document.createElement('button')
-  btn.innerText = 'Random Notification'
+  btn.textContent = 'Random Notification'
   btn.addEventListener('click', () => {
     const types = ["warning", "info", "error", "success"]
     if(!type) {

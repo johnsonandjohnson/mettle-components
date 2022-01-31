@@ -280,7 +280,7 @@ const addParamsToURLTemplate = () => {
     const URL = 'http://example.com?test=tester'
     const PARAMS = {one:1, two:2}
     const results = HttpFetch.addParamsToURL(URL, PARAMS)
-    $results.innerText = results
+    $results.textContent = results
 
   </script>
   `.trim()
@@ -326,7 +326,7 @@ const generateUrlParamsTemplate = () => {
     const $results = globalThis.document.querySelector('.results')
     const PARAMS = {one:1, two:2}
     const results = HttpFetch.generateUrlParams(PARAMS)
-    $results.innerText = results
+    $results.textContent = results
 
   </script>
   `.trim()
