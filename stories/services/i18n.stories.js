@@ -243,9 +243,15 @@ const Template = () => {
   <script type="module">
     import I18n from './i18n.js'
 
+    const isHTMLRegex = /\.html$/
+    const pathName = window.location.pathname
+    const finalPathName = pathName.trim().split('/')
+    .filter(path => !isHTMLRegex.test(path))
+    .join('/')
+
     I18n.config({
       fallbackLocale: 'en',
-      loadPath: './locales',
+      loadPath: \`\${finalPathName}locales\`,
     })
 
     I18n.enableDocumentObserver()
@@ -299,9 +305,15 @@ const singleTranslateTemplate = () => {
   <script type="module">
     import I18n from './i18n.js'
 
+    const isHTMLRegex = /\.html$/
+    const pathName = window.location.pathname
+    const finalPathName = pathName.trim().split('/')
+    .filter(path => !isHTMLRegex.test(path))
+    .join('/')
+
     I18n.config({
       fallbackLocale: 'en',
-      loadPath: './locales',
+      loadPath: \`\${finalPathName}locales\`,
     })
 
     globalThis.document.querySelector('button.en').addEventListener('click', async () => {
@@ -346,9 +358,15 @@ const decoratorsTemplate = () => {
   <script type="module">
     import I18n from './i18n.js'
 
+    const isHTMLRegex = /\.html$/
+    const pathName = window.location.pathname
+    const finalPathName = pathName.trim().split('/')
+    .filter(path => !isHTMLRegex.test(path))
+    .join('/')
+
     I18n.config({
       fallbackLocale: 'en',
-      loadPath: './locales',
+      loadPath: \`\${finalPathName}locales\`,
       decorators: [
         {
           attr: 'data-i18n-currency',
@@ -430,9 +448,15 @@ const attributeMapTemplate = () => {
   <script type="module">
     import I18n from './i18n.js'
 
+    const isHTMLRegex = /\.html$/
+    const pathName = window.location.pathname
+    const finalPathName = pathName.trim().split('/')
+    .filter(path => !isHTMLRegex.test(path))
+    .join('/')
+
     I18n.config({
       fallbackLocale: 'en',
-      loadPath: './locales',
+      loadPath: \`\${finalPathName}locales\`,
       attributeMap: [
         { attr: 'title', selector: 'data-i18n-title' }
       ]
