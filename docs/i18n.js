@@ -20,6 +20,7 @@ const I18N_ATTR_DEFAULTS = {
 }
 
 /* TODO: clean up variables */
+let _fallbackLocale = DEFAULT_LOCALE
 class I18n {
 
   constructor() {
@@ -29,7 +30,7 @@ class I18n {
     ]
     this._attributeFilters = new Set(Object.values(I18N_ATTR_DEFAULTS))
     this._decorators = new Map()
-    this._localeId = DEFAULT_LOCALE
+    this._localeId = null
     this._observer = null
     this._dictionary = new Map()
     this._loadBasePath = window.location.origin
@@ -39,7 +40,8 @@ class I18n {
     this._pending = null
   }
 
-  config({attributeMap, decorators, loadBasePath, loadPath, storageKey, urlParam}) {
+  config({attributeMap, decorators, fallbackLocale, loadBasePath, loadPath, storageKey, urlParam}) {
+    this.fallbackLocale = fallbackLocale || DEFAULT_LOCALE
     this._loadBasePath = loadBasePath || window.location.origin
     this._loadPath = loadPath || ''
     this._storageKey = storageKey || 'i18nLocale'
@@ -69,6 +71,14 @@ class I18n {
 
   get dictionary() {
     return this._dictionary
+  }
+
+  get fallbackLocale() {
+    return _fallbackLocale
+  }
+
+  set fallbackLocale(id) {
+    _fallbackLocale = id
   }
 
   get localeId() {
@@ -136,7 +146,7 @@ class I18n {
    * Sets the local based on a language key stored in session.
    */
   async setLocale(locale = null) {
-    this.localeId = locale || DEFAULT_LOCALE
+    this.localeId = locale || this.fallbackLocale
 
     this._pending = new Promise(resolve => {
       let translator = this._translator.bind(this)
@@ -163,8 +173,8 @@ class I18n {
             resolve(translator)
           })
           .catch(() => {
-            if (this.localeId !== DEFAULT_LOCALE) {
-              translator = this.setLocale(DEFAULT_LOCALE).then(translator => translator)
+            if (this.localeId !== this.fallbackLocale) {
+              translator = this.setLocale(this.fallbackLocale).then(translator => translator)
             }
             this.translatePage()
             resolve(translator)
