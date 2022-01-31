@@ -1,0 +1,106 @@
+import { Meta } from '@storybook/addon-docs';
+import Code from '../assets/code.svg';
+import BeginerLevel from '../assets/thermometer_quarter.svg';
+
+import '../styles.css'
+
+
+<Meta title="Welcome/Recipes/Router Server Redirects" />
+
+<div className="recipe">
+  <img src={Code} alt="Code" height="160" />
+  <div classNamw="flex-col">
+    <h1 className="heading">Router Server Redirects</h1>
+    <small className="flex"> <img src={BeginerLevel} alt="Beginer Level" height="20" /> Beginner level</small>
+    <p>In this Recipe, we will take a look a different solutions to handle our
+      server side redirects.  When using the History API for routing, your
+      SPA (Single page application) will change the path locally but if the server is
+      refreshed, we need to ensure the server can load the site back to the base home
+      page.
+    </p>
+  </div>
+</div>
+
+
+
+### Apache
+
+`.htaccess` file
+
+```sh
+RewriteEngine On
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-l
+RewriteRule ^.*$ / [L,QSA]
+```
+
+**or**
+
+```sh
+RewriteEngine On
+# set the base URL prefix
+RewriteBase /
+# for requests for index.html, just respond with the file
+RewriteRule ^index\.html$ - [L]
+# if requested path is not a valid filename, continue rewrite
+RewriteCond %{REQUEST_FILENAME} !-f
+# if requested path is not a valid directory, continue rewrite
+RewriteCond %{REQUEST_FILENAME} !-d
+# if you have continue to here, respond with index.html
+RewriteRule . /index.html [L]
+```
+
+### 404.html
+
+```html
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <script> window.location.replace(window.location.origin) </script>
+    </body>
+</html>
+```
+
+> <code>window</code> can be replaced with <code>globalThis</code>
+
+### Express Node.js
+
+```js
+const express = require('express')
+const app = express()
+const port = process.env.APP_PORT || 9000
+const root = __dirname
+
+const fallback = (...pathOptions) => (req, res, next) => {
+  if ((req.method === 'GET' || req.method === 'HEAD') && req.accepts('html')) {
+    res.sendFile.call(res, ...pathOptions, error => error && next())
+  } else next()
+}
+
+app.use(express.static(root))
+app.use(fallback('index.html', { root }))
+
+let httpInstance = app.listen(port)
+
+process.on('SIGINT', () => {
+  console.log('gracefully shutting down')
+  httpInstance.close()
+  process.exit(0)
+})
+```
+
+ > <https://www.npmjs.com/package/forever> can be used to run the server incase of crashes
+
+
+
+### Final notes
+
+Note that front end routing helps in organizing the application but these paths
+do not exist on the server.  If the user refreshes the page it could result in a 404
+page not found.  When hosting an SPA consider using these recipes so
+404's can be rerouted to the home page.

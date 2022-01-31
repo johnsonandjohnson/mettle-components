@@ -42,6 +42,26 @@ export default {
         category: Constants.CATEGORIES.CSS,
       },
     },
+    ariaSelected: {
+      control: { type: null },
+      description: 'The selected tab.',
+      name: 'aria-selected',
+      table: {
+        category: Constants.CATEGORIES.ATTRIBUTES,
+      },
+    },
+    TAB: {
+      description: 'The main event when a tab is clicked on',
+      name: 'TAB',
+      table: {
+        category: Constants.CATEGORIES.EVENTS,
+        defaultValue: {
+          detail: 'Constants with all Event types.',
+          summary: '$selector.EVENT_TYPES.TAB',
+        }
+
+      },
+    },
   },
   parameters: {
     docs: {
@@ -247,4 +267,44 @@ TabAnimationStyle.parameters = {
       code: TemplateStyle3(TabAnimationStyle.args)
     },
   },
+}
+
+
+const TemplateScript = (args) => {
+  return `
+  <p><strong>Interact with the component to see the results of the event listener</strong></p>
+
+  ${Template(args)}
+
+  <textarea></textarea>
+
+  <script>
+    const $component = globalThis.document.querySelector('mettle-tabs.${args.Class}')
+    const $textarea = globalThis.document.querySelector('textarea')
+
+    $component.addEventListener($component.EVENT_TYPES.TAB, evt => {
+      const details = evt.detail
+      $textarea.value = JSON.stringify(details)
+    })
+
+  </script>
+  `.trim()
+}
+
+export const Script = TemplateScript.bind({})
+Script.args = {
+  ...args,
+  Class: 'js'
+}
+Script.parameters = {
+  docs: {
+    inlineStories: false,
+    description: {
+      story: 'JavaScript sample on how to handle the event listener',
+    },
+    source: {
+      code: TemplateScript(Script.args)
+    },
+  },
+  layout: 'padded',
 }

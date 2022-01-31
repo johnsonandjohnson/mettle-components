@@ -1,4 +1,4 @@
-import { Meta } from '@storybook/addon-docs/blocks';
+import { Meta } from '@storybook/addon-docs';
 import './styles.css'
 
 <Meta title="Welcome/Installation" />
@@ -35,9 +35,38 @@ or with HTML
 
 <p>Import the services into your project like so</p>
 
+**Single**
 ```js
 import { HtmlMarker } from '@johnsonandjohnson/mettle-components/services'
 
 const htmlMarker = new HtmlMarker()
+```
+
+**Multiple**
+```js
+import {
+  Observable,
+  HtmlMarker,
+  Roles
+} from '@johnsonandjohnson/mettle-components/services'
+
+const htmlMarker = new HtmlMarker()
+
+class TemplateService extends Observable {
+  constructor() {
+    super()
+    this.payload
+  }
+
+  announcePayload() {
+    this.notify(this.payload)
+  }
+}
+
+Roles.setDefaultRights({
+      default: true,
+      admin: false,
+      mod: false
+    }).enforceElementRoles()
 ```
 

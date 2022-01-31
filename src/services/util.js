@@ -8,6 +8,12 @@ class Util {
     return txt.value
   }
 
+  base64ToArrayBuffer(base64) {
+    const binaryStr = window.atob(base64)
+    const arrBuffer = new Uint8Array(binaryStr.length)
+    return [...arrBuffer.map((v, i) => binaryStr.charCodeAt(i))]
+  }
+
   bytesToSize(bytes) {
     const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB']
     if (bytes === 0) {

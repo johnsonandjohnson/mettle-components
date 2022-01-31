@@ -119,9 +119,19 @@
     <div>three thing</div>
   </mettle-tabs>
 
-  <script type="module" src="mettle-tabs.js"></script>
 
+  <script type="module">
+    import './mettle-tabs.js'
+    const $component = globalThis.document.querySelector('mettle-tabs')
 
+    $component.addEventListener($component.EVENT_TYPES.TAB, evt => {
+      const details = evt.detail
+      console.log(details)
+      if(evt.detail.selectedIndex === 5)
+      $component.selected = evt.detail.previousSelectedIndex
+    })
+
+  </script>
 
 </body>
 

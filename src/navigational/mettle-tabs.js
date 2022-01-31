@@ -1,5 +1,10 @@
 const TAG_NAME = 'mettle-tabs'
 const FULL_LENGTH = 100
+
+const EVENT_TYPES = {
+  TAB: 'tab'
+}
+
 if (!window.customElements.get(TAG_NAME)) {
   window.customElements.define(TAG_NAME, class extends window.HTMLElement {
 
@@ -63,6 +68,7 @@ if (!window.customElements.get(TAG_NAME)) {
       this.$tabSlot = this.shadowRoot.querySelector('#tabSlot')
       this.$panelSlot = this.shadowRoot.querySelector('#panelSlot')
       this._selected = 0
+      this._selectedPrevious = 0
       this.numTabs = 0
       this.$tabs = []
       this.$panels = []
@@ -84,11 +90,16 @@ if (!window.customElements.get(TAG_NAME)) {
       })
     }
 
+    get EVENT_TYPES() {
+      return EVENT_TYPES
+    }
+
     get selected() {
       return this._selected
     }
 
     set selected(selectedIndex) {
+      this._selectedPrevious = this._selected
       this._selected = selectedIndex
       this._selectTab(selectedIndex)
     }
@@ -101,6 +112,11 @@ if (!window.customElements.get(TAG_NAME)) {
       })
       let panelOffset = this.selected * (-FULL_LENGTH / this.numTabs).toFixed(1)
       this.$panelTab.style.transform = `translateX(${panelOffset}%)`
+      const detail = {
+        previousSelectedIndex: this._selectedPrevious,
+        selectedIndex: this.selected,
+      }
+      this.dispatchEvent(new CustomEvent(EVENT_TYPES.TAB, { bubbles: true, detail }))
     }
 
     _findFirstSelectedTab() {
