@@ -5,6 +5,12 @@ const EVENT_TYPES = {
   TAB: 'tab'
 }
 
+const ATTR_TYPES = {
+  HIDDEN: 'aria-hidden',
+  IGNORE: 'data-ignore',
+  SELECTED: 'aria-selected'
+}
+
 if (!window.customElements.get(TAG_NAME)) {
   window.customElements.define(TAG_NAME, class extends window.HTMLElement {
 
@@ -20,7 +26,7 @@ if (!window.customElements.get(TAG_NAME)) {
           display: inline-flex;
           overflow: hidden;
         }
-        .tab-navigation ::slotted(*) {
+        .tab-navigation #tabSlot::slotted(:not([${ATTR_TYPES.IGNORE}])) {
           cursor: pointer;
           user-select: none;
           outline: none;
@@ -40,7 +46,11 @@ if (!window.customElements.get(TAG_NAME)) {
         }
     </style>
     <div class="tab-navigation" part="navigation">
-      <slot id="tabSlot" name="navigation" part="navigation-slot"></slot>
+      <slot id="tabSlotBefore" name="beforeNavigation" part="before-navigation-slot"></slot>
+      <div part="navigation-tab-group">
+        <slot id="tabSlot" name="navigation" part="navigation-slot"></slot>
+      </div>
+      <slot id="tabSlotAfter" name="afterNavigation" part="after-navigation-slot"></slot>
     </div>
     <div class="panel-container" part="panel-container">
         <div id="panelTab" class="panel-tab" part="panel-tab">
@@ -75,6 +85,7 @@ if (!window.customElements.get(TAG_NAME)) {
 
       this.$tabSlot.addEventListener('slotchange', () => {
         this.$tabs = this.$tabSlot.assignedNodes({ flatten: true })
+          .filter(el => !el.hasAttribute(ATTR_TYPES.IGNORE))
         this.$panels = this.$panelSlot.assignedNodes({ flatten: true })
           .filter(el => el.nodeType === Node.ELEMENT_NODE)
         this.numTabs = this.$panels.length
@@ -83,15 +94,20 @@ if (!window.customElements.get(TAG_NAME)) {
       })
 
       this.$tabSlot.addEventListener('click', evt => {
-        if (evt.target.slot === 'navigation' && this.$tabs) {
-          this.selected = this.$tabs.indexOf(evt.target)
-          evt.target.focus()
+        const $tab = evt.target
+        if ($tab.slot === 'navigation' && this.$tabs && !$tab.hasAttribute(ATTR_TYPES.IGNORE)) {
+          this.selected = this.$tabs.indexOf($tab)
+          $tab.focus()
         }
       })
     }
 
     get EVENT_TYPES() {
       return EVENT_TYPES
+    }
+
+    get ATTR_TYPES() {
+      return ATTR_TYPES
     }
 
     get selected() {
@@ -107,8 +123,8 @@ if (!window.customElements.get(TAG_NAME)) {
     _selectTab(selectedIndex = null) {
       this.$tabs.forEach((tab, i) => {
         const select = i === selectedIndex
-        tab.setAttribute('aria-selected', select)
-        this.$panels[i].setAttribute('aria-hidden', !select)
+        tab.setAttribute(ATTR_TYPES.SELECTED, select)
+        this.$panels[i].setAttribute(ATTR_TYPES.HIDDEN, !select)
       })
       let panelOffset = this.selected * (-FULL_LENGTH / this.numTabs).toFixed(1)
       this.$panelTab.style.transform = `translateX(${panelOffset}%)`
@@ -122,7 +138,7 @@ if (!window.customElements.get(TAG_NAME)) {
     _findFirstSelectedTab() {
       let selectedIndex = 0
       this.$tabs.forEach((tab, i) => {
-        if (tab.hasAttribute('aria-selected')) {
+        if (tab.hasAttribute(ATTR_TYPES.SELECTED)) {
           selectedIndex = i
         }
       })
