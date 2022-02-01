@@ -8,8 +8,22 @@ export default {
   title: 'Custom Elements/Navigational/Mettle-Tabs',
   argTypes: {
     navigation: {
-      description: 'Navigation title',
+      description: 'Navigation tab',
       name: 'slot="navigation"',
+      table: {
+        category: Constants.CATEGORIES.SLOTS,
+      }
+    },
+    beforeNavigation: {
+      description: 'Before navigation tab group',
+      name: 'slot="beforeNavigation"',
+      table: {
+        category: Constants.CATEGORIES.SLOTS,
+      }
+    },
+    afterNavigation: {
+      description: 'After navigation tab group',
+      name: 'slot="afterNavigation"',
       table: {
         category: Constants.CATEGORIES.SLOTS,
       }
@@ -22,8 +36,15 @@ export default {
       }
     },
     tabNavigation: {
-      description: 'Wrapper div for the title tabs.',
+      description: 'Wrapper div for the tab navigation.',
       name: '::part(navigation)',
+      table: {
+        category: Constants.CATEGORIES.CSS,
+      },
+    },
+    tabNavigationGroup: {
+      description: 'Wrapper div for the tab navigation slots.',
+      name: '::part(navigation-tab-group)',
       table: {
         category: Constants.CATEGORIES.CSS,
       },
@@ -46,6 +67,14 @@ export default {
       control: { type: null },
       description: 'The selected tab.',
       name: 'aria-selected',
+      table: {
+        category: Constants.CATEGORIES.ATTRIBUTES,
+      },
+    },
+    dataIgnore: {
+      control: { type: null },
+      description: 'Ignore a navigation slot. Used to break up tab slots.',
+      name: 'data-ignore',
       table: {
         category: Constants.CATEGORIES.ATTRIBUTES,
       },
@@ -308,3 +337,8 @@ Script.parameters = {
   },
   layout: 'padded',
 }
+
+
+// prevent tab click
+// Navigation header style
+// pre-selected tab
