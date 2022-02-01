@@ -43,12 +43,20 @@ describe(ELEM_TAG_NAME, () => {
       await wait(50)
       const tabIndex = 1
       const $slotDiv = globalThis.document.querySelector('div:nth-child(2)')
-      let attrValue = $slotDiv.getAttribute('aria-selected')
+      let attrValue = $slotDiv.getAttribute($el.ATTR_TYPES.SELECTED)
       expect(attrValue).toEqual('false')
       $el.selected = tabIndex
       expect($el.selected).toEqual(tabIndex)
-      attrValue = $slotDiv.getAttribute('aria-selected')
+      attrValue = $slotDiv.getAttribute($el.ATTR_TYPES.SELECTED)
       expect(attrValue).toEqual('true')
+    })
+
+    it('should return an object of event type values', () => {
+      expect($el.EVENT_TYPES).toEqual(jasmine.any(Object))
+    })
+
+    it('should return an object of attribute type values', () => {
+      expect($el.ATTR_TYPES).toEqual(jasmine.any(Object))
     })
 
   })

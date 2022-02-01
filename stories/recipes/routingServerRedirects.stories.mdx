@@ -25,7 +25,8 @@ import '../styles.css'
 
 ### Apache
 
-`.htaccess` file
+If hosted on an apache shared server create a **.htaccess** file
+with one of the scripts below
 
 ```sh
 RewriteEngine On
@@ -54,6 +55,9 @@ RewriteRule . /index.html [L]
 
 ### 404.html
 
+Sites that are not hosted with a configurable server or no
+backend code is allowed can use this **404.html** fallback.
+
 ```html
 <!doctype html>
 <html lang="en">
@@ -70,6 +74,7 @@ RewriteRule . /index.html [L]
 
 ### Express Node.js
 
+A **serve.js** file can be created like so
 ```js
 const express = require('express')
 const app = express()
@@ -96,7 +101,24 @@ process.on('SIGINT', () => {
 
  > <https://www.npmjs.com/package/forever> can be used to run the server incase of crashes
 
+Lets not forget the **package.json** file too
 
+```js
+{
+  "name": "projectName",
+  "description": "Development Work Description.",
+  "version": "0.0.0",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "private": true,
+  "scripts": {
+    "start": "node serve.js --APP_PORT 9000"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "helmet": "^4.6.0"
+  }
+}
+```
 
 ### Final notes
 
