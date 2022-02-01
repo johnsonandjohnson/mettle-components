@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://www.github.com/johnsonandjohnson/mettle-components/compare/v1.5.0...v1.6.0) (2022-02-01)
+
+
+### Features
+
+* Tabs navigation has more slots ([#47](https://www.github.com/johnsonandjohnson/mettle-components/issues/47)) ([6501565](https://www.github.com/johnsonandjohnson/mettle-components/commit/65015656bc4d39965cb0ba5dab64b1ab76923aae))
+
 ## [1.5.0](https://www.github.com/johnsonandjohnson/mettle-components/compare/v1.4.0...v1.5.0) (2022-01-31)
 
 
