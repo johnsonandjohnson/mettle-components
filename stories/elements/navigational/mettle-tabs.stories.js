@@ -164,8 +164,7 @@ const TemplateStyle = (args) => {
       border-top-right-radius: 5px;
     }
 
-    mettle-tabs.styled div:not([slot="navigation"]),
-    mettle-tabs.styled p {
+    mettle-tabs.styled > div:not([slot]) {
       padding: 1rem;
       background: var(--surface, rgba(0, 0, 0, 0.5));
       color: var(--on-surface, white);
@@ -225,8 +224,7 @@ const TemplateStyle2 = (args) => {
       border-top-right-radius: 5px;
     }
 
-    mettle-tabs.styled div:not([slot="navigation"]),
-    mettle-tabs.styled p {
+    mettle-tabs.styled > div:not([slot]) {
       padding: 1rem;
       background: var(--surface, rgba(0, 0, 0, 0.5));
       color: var(--on-surface, white);
@@ -409,6 +407,92 @@ TabIgnored.parameters = {
     },
     source: {
       code: TemplateTabIgnored(TabIgnored.args)
+    },
+  },
+}
+
+
+const TemplateTabNavigation = ({Class = ''}) => {
+  return `
+  <mettle-tabs class="${Class}">
+
+    <div slot="beforeNavigation" class="title">My site title</div>
+
+    <div slot="navigation">Tab1 &nbsp;&nbsp;</div>
+    <div slot="navigation">Tab2 &nbsp;&nbsp;</div>
+    <div slot="navigation">Tab3 &nbsp;&nbsp;</div>
+    <div slot="navigation">Tab4 &nbsp;&nbsp;</div>
+
+    <div slot="afterNavigation" class="end-nav">
+      <div>About US</div>
+      <div>Blog</div>
+      <div>Pricing</div>
+    </div>
+
+    <div>${generateParagraph()}</div>
+    <div>${generateParagraph()}</div>
+    <div>${generateParagraph()}</div>
+    <div>${generateParagraph()}</div>
+  </mettle-tabs>
+
+  <style>
+    /** Add with the Styled CSS **/
+
+    .title {
+      align-items: center;
+      display: flex;
+      font-family: sans-serif;
+      font-size: 1rem;
+      justify-content: center;
+      padding-left: 1rem;
+      text-transform: capitalize;
+    }
+
+    .end-nav {
+      align-items: center;
+      display: flex;
+      justify-content: space-around;
+      margin-right: 1rem;
+    }
+
+    .end-nav div {
+      cursor: pointer;
+      padding-right: 1rem;
+    }
+
+    .end-nav div:hover {
+      text-decoration: underline;
+    }
+
+    mettle-tabs.nav::part(navigation) {
+      justify-content: space-between;
+    }
+
+    mettle-tabs.nav::part(panel-container) {
+      width: initial;
+    }
+  </style>
+`.trim()
+}
+
+export const TabNavigation = TemplateTabNavigation.bind({})
+TabNavigation.args = {
+  ...args,
+  Class: 'styled nav',
+}
+
+const TabNavigationMDX = `
+Sample of a content left and right of the navigation tabs.
+Added <code>slot="beforeNavigation"</code> and <code>slot="afterNavigation"</code>.
+`.trim()
+
+TabNavigation.parameters = {
+  docs: {
+    description: {
+      story: TabNavigationMDX,
+    },
+    source: {
+      code: TemplateTabNavigation(TabNavigation.args)
     },
   },
 }

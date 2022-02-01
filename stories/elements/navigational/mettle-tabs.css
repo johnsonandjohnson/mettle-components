@@ -13,8 +13,7 @@ mettle-tabs.styled::part(navigation-slot) {
   border-top-right-radius: 5px;
 }
 
-mettle-tabs.styled div:not([slot="navigation"]),
-mettle-tabs.styled p {
+mettle-tabs.styled > div:not([slot]) {
   padding: 1rem;
   background: var(--surface, rgba(0, 0, 0, 0.5));
   color: var(--on-surface, white);
@@ -74,4 +73,40 @@ mettle-tabs.ignore::part(navigation-slot) {
 
 mettle-tabs.ignore::part(panel-container) {
   border-top-right-radius: 0;
+}
+
+/** Nav CSS **/
+
+.title {
+  align-items: center;
+  display: flex;
+  font-family: sans-serif;
+  font-size: 1rem;
+  justify-content: center;
+  padding-left: 1rem;
+  text-transform: capitalize;
+}
+
+.end-nav {
+  align-items: center;
+  display: flex;
+  justify-content: space-around;
+  margin-right: 1rem;
+}
+
+.end-nav div {
+  cursor: pointer;
+  padding-right: 1rem;
+}
+
+.end-nav div:hover {
+  text-decoration: underline;
+}
+
+mettle-tabs.nav::part(navigation) {
+  justify-content: space-between;
+}
+
+mettle-tabs.nav::part(panel-container) {
+  width: initial;
 }
