@@ -55,3 +55,23 @@ mettle-tabs.styled.side::part(navigation-slot) {
 mettle-tabs.animate::part(panel-tab) {
   transition: transform 0.3s;
 }
+
+/** Ignore CSS **/
+mettle-tabs.ignore [data-ignore] {
+  flex-grow: 1;
+}
+
+mettle-tabs.ignore::part(navigation) {
+  width: 50rem;
+}
+mettle-tabs.ignore::part(navigation-tab-group) {
+  display: flex;
+  flex-grow: 1;
+}
+mettle-tabs.ignore::part(navigation-slot) {
+  flex-grow: 1;
+}
+
+mettle-tabs.ignore::part(panel-container) {
+  border-top-right-radius: 0;
+}

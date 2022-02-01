@@ -22,6 +22,9 @@ if (!window.customElements.get(TAG_NAME)) {
           --tabs-width: 100px;
           --tabs-section-width: 100px;
         }
+        .tab-navigation {
+          display: flex;
+        }
         .tab-navigation slot {
           display: inline-flex;
           overflow: hidden;
