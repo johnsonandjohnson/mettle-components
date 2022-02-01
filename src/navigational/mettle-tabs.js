@@ -68,7 +68,7 @@ if (!window.customElements.get(TAG_NAME)) {
       if (this.$panelTab && this.$panels) {
         const numTabs = this.$panels.length
         this.$panelTab.style.setProperty('--tabs-width', `${FULL_LENGTH * numTabs}%`)
-        this.$panelTab.style.setProperty('--tabs-section-width', `${(FULL_LENGTH / numTabs).toFixed(1)}%`)
+        this.$panelTab.style.setProperty('--tabs-section-width', `${(FULL_LENGTH / numTabs)}%`)
       }
     }
 
@@ -129,7 +129,7 @@ if (!window.customElements.get(TAG_NAME)) {
         tab.setAttribute(ATTR_TYPES.SELECTED, select)
         this.$panels[i].setAttribute(ATTR_TYPES.HIDDEN, !select)
       })
-      let panelOffset = this.selected * (-FULL_LENGTH / this.numTabs).toFixed(1)
+      const panelOffset = this.selected * (-FULL_LENGTH / this.numTabs)
       this.$panelTab.style.transform = `translateX(${panelOffset}%)`
       const detail = {
         previousSelectedIndex: this._selectedPrevious,
