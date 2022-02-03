@@ -7,6 +7,9 @@ const METHODS = {
   PUT: 'PUT',
 }
 
+let _requestOptions = Object.create(null)
+let _nextRequestOptions = Object.create(null)
+
 export default class HttpFetch {
 
   constructor(options = Object.create(null)) {
@@ -27,6 +30,28 @@ export default class HttpFetch {
     return METHODS
   }
 
+  get requestOptions() {
+    return _requestOptions
+  }
+
+  set requestOptions(options) {
+    if(typeof options === 'object') {
+      _requestOptions = options
+    }
+  }
+
+  nextRequestOptions(options) {
+    if(typeof options === 'object') {
+      _nextRequestOptions = options
+    }
+    return this
+  }
+
+  resetNextRequestOptions() {
+    _nextRequestOptions = Object.create(null)
+    return this
+  }
+
   async request({ body = null, params = null, url, method }) {
     const myHeaders = new Headers()
     method = method.toUpperCase()
@@ -35,19 +60,25 @@ export default class HttpFetch {
       url = this.constructor.addParamsToURL(url, params)
     }
 
-    let options = { cache: 'default', method, mode: 'cors', ...this.requestOptions }
+    let options = { cache: 'default', method, mode: 'cors', ...this.requestOptions, ..._nextRequestOptions }
     options.body = body
     if (body && !(body instanceof FormData || body instanceof URLSearchParams)) {
       options.body = JSON.stringify(body)
       myHeaders.set('Content-Type', 'application/json')
     }
     // Replace with Object.hasOwn() when Safari has support
+    let headerOptions = Object.create(null)
     if (typeof this.requestOptions === 'object' && Object.prototype.hasOwnProperty.call(this.requestOptions, 'headers')) {
-      Object.entries(this.requestOptions.headers).forEach(([key, value]) => {
-        myHeaders.set(key, value)
-      })
+      headerOptions = { ...headerOptions, ...this.requestOptions.headers }
     }
+    if (typeof _nextRequestOptions === 'object' && Object.prototype.hasOwnProperty.call(_nextRequestOptions, 'headers')) {
+      headerOptions = { ...headerOptions, ..._nextRequestOptions.headers }
+    }
+    Object.entries(headerOptions).forEach(([key, value]) => {
+      myHeaders.set(key, value)
+    })
     options.headers = myHeaders
+    this.resetNextRequestOptions()
 
     return window.fetch(url, options)
   }
