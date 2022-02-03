@@ -9,6 +9,7 @@ const METHODS = {
 
 let _requestOptions = Object.create(null)
 let _nextRequestOptions = Object.create(null)
+let _interceptorMap = new Map()
 
 export default class HttpFetch {
 
@@ -28,6 +29,10 @@ export default class HttpFetch {
 
   static get METHODS() {
     return METHODS
+  }
+
+  get interceptors() {
+    return _interceptorMap
   }
 
   get requestOptions() {
@@ -59,7 +64,6 @@ export default class HttpFetch {
     if (params) {
       url = this.constructor.addParamsToURL(url, params)
     }
-
     let options = { cache: 'default', method, mode: 'cors', ...this.requestOptions, ..._nextRequestOptions }
     options.body = body
     if (body && !(body instanceof FormData || body instanceof URLSearchParams)) {
@@ -80,7 +84,7 @@ export default class HttpFetch {
     options.headers = myHeaders
     this.resetNextRequestOptions()
 
-    return window.fetch(url, options)
+    return this.interceptor(window.fetch, url, options)
   }
 
   async requestAll(requests, settled = true) {
@@ -162,5 +166,42 @@ export default class HttpFetch {
   delete(url) {
     return this.request({ method: METHODS.DELETE, url })
   }
-}
 
+  setInterceptors(interceptFunctions) {
+    const uid = Util.uuid()
+    this.interceptors.set(uid, interceptFunctions)
+    return { remove: this.deleteInterceptor.bind(this, uid) }
+  }
+
+  deleteInterceptor(uid) {
+    this.interceptors.delete(uid)
+  }
+
+  clearAllInterceptors() {
+    this.interceptors.clear()
+  }
+
+  interceptor(fetch, ...fetchArgs) {
+    let promise = Promise.resolve(fetchArgs)
+    const resolveRequest = (...fetchArgs) => fetchArgs
+    const REJECT = error => Promise.reject(error)
+    const RESOLVE = response => response
+
+    this.interceptors.forEach(({ request, requestError }) => {
+      request = request || resolveRequest
+      requestError = requestError || REJECT
+      promise = promise.then(fetchArgs => request(...fetchArgs)).catch(requestError)
+    })
+
+    promise = promise.then(fetchArgs => fetch(...fetchArgs))
+
+    this.interceptors.forEach(({ response, responseError }) => {
+      response = response || RESOLVE
+      responseError = responseError || REJECT
+      promise = promise.then(response, responseError)
+    })
+
+    return promise
+  }
+
+}
