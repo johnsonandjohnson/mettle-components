@@ -1,3 +1,5 @@
+import Util from './util.js'
+
 const METHODS = {
   DELETE: 'DELETE',
   GET: 'GET',
@@ -11,6 +13,16 @@ export default class HttpFetch {
     this.requestOptions = options
   }
 
+  get STATIC() {
+    return {
+      METHODS,
+      addParamsToURL: this.constructor.addParamsToURL,
+      generateUrlParams: this.constructor.generateUrlParams,
+      parseResponse: this.constructor.parseResponse,
+      searchParamsToObject: this.constructor.searchParamsToObject,
+    }
+  }
+
   static get METHODS() {
     return METHODS
   }
@@ -19,13 +31,13 @@ export default class HttpFetch {
     const myHeaders = new Headers()
     method = method.toUpperCase()
 
-    if (params && typeof params === 'object' && Object.keys(params).length) {
+    if (params) {
       url = this.constructor.addParamsToURL(url, params)
     }
 
     let options = { cache: 'default', method, mode: 'cors', ...this.requestOptions }
     options.body = body
-    if (body && !(body instanceof FormData)) {
+    if (body && !(body instanceof FormData || body instanceof URLSearchParams)) {
       options.body = JSON.stringify(body)
       myHeaders.set('Content-Type', 'application/json')
     }
@@ -49,20 +61,29 @@ export default class HttpFetch {
     try {
       const pathURL = new URL(url)
       const searchParams = pathURL.searchParams
+      params = this.searchParamsToObject(params)
       Object.entries(params)
-        .map(param => param.map(window.encodeURIComponent))
         .forEach(([key, value]) => {
-          if (!searchParams.has(key)) {
-            searchParams.append(key, value)
-          }
+          searchParams.set(key, value)
         })
       const urlSearchParams = searchParams.toString().length ? `?${searchParams.toString()}` : ''
       result = `${pathURL.origin}${pathURL.pathname}${urlSearchParams}`
     } catch (error) {
       if (url) {
-        const queryString = [...new URLSearchParams(url.slice(0).split('?')[1]).entries()].reduce((acc, [key, val]) => Object.assign(acc, { [key]: String(val) }), Object.create(null))
+        const queryString = this.searchParamsToObject(new URLSearchParams(url.slice(0).split('?')[1]))
         result = url.split('?')[0] + this.generateUrlParams({ ...queryString, ...params })
       }
+    }
+    return result
+  }
+
+  static searchParamsToObject(searchParams) {
+    let result = Object.create(null)
+    if(Util.isNotEmptyObject(searchParams)) {
+      result = searchParams
+    }
+    if(searchParams instanceof URLSearchParams) {
+      result = [...searchParams.entries()].reduce((acc, [key, val]) => Object.assign(acc, { [key]: String(val) }), Object.create(null))
     }
     return result
   }
@@ -87,7 +108,7 @@ export default class HttpFetch {
   }
 
   static generateUrlParams(params = Object.create(null)) {
-    return `?${Object.entries(params).map(param => param.map(window.encodeURIComponent).join('=')).join('&')}`
+    return `?${new URLSearchParams(params).toString()}`
   }
 
   get(url, params = null) {
