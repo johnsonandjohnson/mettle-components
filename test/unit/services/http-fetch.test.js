@@ -8,9 +8,9 @@ describe('HttpFetch', () => {
   const JSONHeaders = new Headers()
   JSONHeaders.set('Content-Type', 'application/json')
   const AuthHeaders = new Headers()
-  AuthHeaders.set('authorization', 'Basic xyz')
+  AuthHeaders.set('Authorization', 'Basic xyz')
   const AuthHeadersReplace = new Headers()
-  AuthHeadersReplace.set('authorization', 'Basic 123')
+  AuthHeadersReplace.set('Authorization', 'Basic 123')
   const formData = new FormData()
   formData.append('username', 'Tester')
   const PUTData = {data: 'value'}
@@ -170,14 +170,14 @@ describe('HttpFetch', () => {
 
 
     it('should add header options when defined from the constructor', async () => {
-      const http = new HttpFetch({mode: 'no-cors', headers: { authorization: 'Basic xyz'}})
+      const http = new HttpFetch({mode: 'no-cors', headers: { Authorization: 'Basic xyz'}})
       const results = await http.get(GET_URL).then(HttpFetch.parseResponse)
       expect(results).toEqual(GENERAL_RESPONSE)
     })
 
     it('should add replace options when updated from nextRequestOptions', async () => {
-      const http = new HttpFetch({mode: 'no-cors', headers: { authorization: 'Basic xyz'}})
-      const options = {headers: { authorization: 'Basic 123'}}
+      const http = new HttpFetch({mode: 'no-cors', headers: { Authorization: 'Basic xyz'}})
+      const options = {headers: { Authorization: 'Basic 123'}}
       const results = await http.nextRequestOptions(options).get(GET_URL).then(HttpFetch.parseResponse)
       expect(results).toEqual(GENERAL_RESPONSE)
     })
