@@ -46,7 +46,25 @@ Below are just a few samples of possible headers.
 
 <br />
 
-## Create a reusable instance
+###Update Options for a single call
+
+If you need to update the Fetch options for a single call, use the <code>nextRequestOptions()</code>
+function.
+
+
+<pre>
+fetchInstance
+  .nextRequestOptions({headers: {Accept: 'text/html'}, cache: 'no-cache'})
+  .get(URL)
+  .then(fetchInstance.STATIC.parseResponse)
+  .then(results => {
+    //handle results
+  })
+</pre>
+
+<br />
+
+##Create a reusable instance
 
 HttpFetch calls will always return a new fetch call on each invoked function call.
 Creating a single instance will give the benefit of using configured Interceptors
@@ -280,6 +298,16 @@ export default {
       },
       description: 'Async Function generally used as the fetch wrapper.',
       name: 'async request({ body = null, params = null, url, method })',
+      table: {
+        category: Constants.CATEGORIES.METHODS,
+      }
+    },
+    nextRequestOptions: {
+      control: {
+        type: null
+      },
+      description: 'Single use to update Fetch Options on the next Fetch call. Resets after.',
+      name: 'nextRequestOptions(options)',
       table: {
         category: Constants.CATEGORIES.METHODS,
       }
