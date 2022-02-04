@@ -32,7 +32,7 @@ Below are just a few samples of possible headers.
 | Access-Control-Allow-Origin | '*', (origin) <code>http://example.com</code> |
 
 
-**Header Samples**
+**Options/Header Samples**
 
 <pre><code>
   new HttpFetch({
@@ -74,12 +74,12 @@ fetchInstance.setInterceptors({
 export default fetchInstance
 </code></pre>
 
-
-**Static Functions**
+<br />
+###Static Functions
 
 You can access the Static functions from the HttpFetch class using the <code>STATIC</code>
 property. This is just supplied as a shortcut and is not part of any JavaScript spec.
-<code>HttpFetch.addParamsToURL()</code <code>fetchInstance.STATIC.addParamsToURL()</code>
+<code>HttpFetch.addParamsToURL()</code> <code>fetchInstance.STATIC.addParamsToURL()</code>
 
 
 Alternatively you can use the more native approach and access any Static function from any
@@ -120,7 +120,7 @@ instantiated HttpFetch class.
 </code></pre>
 
 
-**Interceptor use cases**
+<br />
 
 | Interceptor use cases | Reason |
 |:---------:|:---------:|
@@ -128,6 +128,7 @@ instantiated HttpFetch class.
 | Url Manipulation | update the url before a request to add query params or validation |
 | Response error | If a required API service is down have a global/general way of handling |
 
+**Interceptor Code Sample**
 
 <pre>
   <code>import ( AuthService ) from 'yourAppServices'

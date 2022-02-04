@@ -84,6 +84,10 @@ class Util {
     return typeof f === 'function'
   }
 
+  isNotEmptyObject(obj) {
+    return typeof obj === 'object' && Object.keys(obj).length
+  }
+
   /* this function will execute a function to object values with a deep nest */
   mapRecursive(obj, func) {
     if ((typeof obj !== 'object' && !Array.isArray(obj)) || !obj) {

@@ -11,6 +11,8 @@ I18n also will utilize browser and JavaScript built-in functionality.
 
 > This service is a Singleton
 
+> Note that each browser may behave differently based on the native implementation
+
 **What is needed**
 
 You will need a json file with the name the matches the locale code like so.
@@ -93,7 +95,8 @@ All dom elements that use the <code>data-i18n</code> attribute will also add the
 to ensure the text direction is properly displayed based on the locale.  This is handled
 by the browser.
 
-> See more code samples below
+
+##See more code samples below
 `
 export default {
   title: 'Services/I18n (Internationalization)',

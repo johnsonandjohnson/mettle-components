@@ -1,3 +1,5 @@
+import Util from './util.js'
+
 const METHODS = {
   DELETE: 'DELETE',
   GET: 'GET',
@@ -5,39 +7,84 @@ const METHODS = {
   PUT: 'PUT',
 }
 
+let _requestOptions = Object.create(null)
+let _nextRequestOptions = Object.create(null)
+let _interceptorMap = new Map()
+
 export default class HttpFetch {
 
   constructor(options = Object.create(null)) {
     this.requestOptions = options
   }
 
+  get STATIC() {
+    return {
+      METHODS,
+      addParamsToURL: this.constructor.addParamsToURL,
+      generateUrlParams: this.constructor.generateUrlParams,
+      parseResponse: this.constructor.parseResponse,
+      searchParamsToObject: this.constructor.searchParamsToObject,
+    }
+  }
+
   static get METHODS() {
     return METHODS
+  }
+
+  get interceptors() {
+    return _interceptorMap
+  }
+
+  get requestOptions() {
+    return _requestOptions
+  }
+
+  set requestOptions(options) {
+    if(typeof options === 'object') {
+      _requestOptions = options
+    }
+  }
+
+  nextRequestOptions(options) {
+    if(typeof options === 'object') {
+      _nextRequestOptions = options
+    }
+    return this
+  }
+
+  resetNextRequestOptions() {
+    _nextRequestOptions = Object.create(null)
+    return this
   }
 
   async request({ body = null, params = null, url, method }) {
     const myHeaders = new Headers()
     method = method.toUpperCase()
 
-    if (params && typeof params === 'object' && Object.keys(params).length) {
+    if (params) {
       url = this.constructor.addParamsToURL(url, params)
     }
-
-    let options = { cache: 'default', method, mode: 'cors', ...this.requestOptions }
+    let options = { cache: 'default', method, mode: 'cors', ...this.requestOptions, ..._nextRequestOptions }
     options.body = body
-    if (body && !(body instanceof FormData)) {
+    if (body && !(body instanceof FormData || body instanceof URLSearchParams)) {
       options.body = JSON.stringify(body)
       myHeaders.set('Content-Type', 'application/json')
     }
     // Replace with Object.hasOwn() when Safari has support
+    let headerOptions = Object.create(null)
     if (typeof this.requestOptions === 'object' && Object.prototype.hasOwnProperty.call(this.requestOptions, 'headers')) {
-      Object.entries(this.requestOptions.headers).forEach(([key, value]) => {
-        myHeaders.set(key, value)
-      })
+      headerOptions = { ...headerOptions, ...this.requestOptions.headers }
     }
+    if (typeof _nextRequestOptions === 'object' && Object.prototype.hasOwnProperty.call(_nextRequestOptions, 'headers')) {
+      headerOptions = { ...headerOptions, ..._nextRequestOptions.headers }
+    }
+    Object.entries(headerOptions).forEach(([key, value]) => {
+      myHeaders.set(key, value)
+    })
     options.headers = myHeaders
+    this.resetNextRequestOptions()
 
-    return window.fetch(url, options)
+    return this.interceptor(window.fetch, url, options)
   }
 
   async requestAll(requests, settled = true) {
@@ -49,20 +96,29 @@ export default class HttpFetch {
     try {
       const pathURL = new URL(url)
       const searchParams = pathURL.searchParams
+      params = this.searchParamsToObject(params)
       Object.entries(params)
-        .map(param => param.map(window.encodeURIComponent))
         .forEach(([key, value]) => {
-          if (!searchParams.has(key)) {
-            searchParams.append(key, value)
-          }
+          searchParams.set(key, value)
         })
       const urlSearchParams = searchParams.toString().length ? `?${searchParams.toString()}` : ''
       result = `${pathURL.origin}${pathURL.pathname}${urlSearchParams}`
     } catch (error) {
       if (url) {
-        const queryString = [...new URLSearchParams(url.slice(0).split('?')[1]).entries()].reduce((acc, [key, val]) => Object.assign(acc, { [key]: String(val) }), Object.create(null))
+        const queryString = this.searchParamsToObject(new URLSearchParams(url.slice(0).split('?')[1]))
         result = url.split('?')[0] + this.generateUrlParams({ ...queryString, ...params })
       }
+    }
+    return result
+  }
+
+  static searchParamsToObject(searchParams) {
+    let result = Object.create(null)
+    if(Util.isNotEmptyObject(searchParams)) {
+      result = searchParams
+    }
+    if(searchParams instanceof URLSearchParams) {
+      result = [...searchParams.entries()].reduce((acc, [key, val]) => Object.assign(acc, { [key]: String(val) }), Object.create(null))
     }
     return result
   }
@@ -87,7 +143,7 @@ export default class HttpFetch {
   }
 
   static generateUrlParams(params = Object.create(null)) {
-    return `?${Object.entries(params).map(param => param.map(window.encodeURIComponent).join('=')).join('&')}`
+    return `?${new URLSearchParams(params).toString()}`
   }
 
   get(url, params = null) {
@@ -110,5 +166,42 @@ export default class HttpFetch {
   delete(url) {
     return this.request({ method: METHODS.DELETE, url })
   }
-}
 
+  setInterceptors(interceptFunctions) {
+    const uid = Util.uuid()
+    this.interceptors.set(uid, interceptFunctions)
+    return { remove: this.deleteInterceptor.bind(this, uid) }
+  }
+
+  deleteInterceptor(uid) {
+    this.interceptors.delete(uid)
+  }
+
+  clearAllInterceptors() {
+    this.interceptors.clear()
+  }
+
+  interceptor(fetch, ...fetchArgs) {
+    let promise = Promise.resolve(fetchArgs)
+    const resolveRequest = (...fetchArgs) => fetchArgs
+    const REJECT = error => Promise.reject(error)
+    const RESOLVE = response => response
+
+    this.interceptors.forEach(({ request, requestError }) => {
+      request = request || resolveRequest
+      requestError = requestError || REJECT
+      promise = promise.then(fetchArgs => request(...fetchArgs)).catch(requestError)
+    })
+
+    promise = promise.then(fetchArgs => fetch(...fetchArgs))
+
+    this.interceptors.forEach(({ response, responseError }) => {
+      response = response || RESOLVE
+      responseError = responseError || REJECT
+      promise = promise.then(response, responseError)
+    })
+
+    return promise
+  }
+
+}
