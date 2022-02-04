@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://www.github.com/johnsonandjohnson/mettle-components/compare/v1.6.0...v1.7.0) (2022-02-04)
+
+
+### Features
+
+* HttpFetch upgrades with interceptors and configurable options ([#50](https://www.github.com/johnsonandjohnson/mettle-components/issues/50)) ([55c71ef](https://www.github.com/johnsonandjohnson/mettle-components/commit/55c71efc4f286f0251dab98776fa1610583aee7c))
+
 ## [1.6.0](https://www.github.com/johnsonandjohnson/mettle-components/compare/v1.5.0...v1.6.0) (2022-02-01)
 
 
