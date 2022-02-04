@@ -169,6 +169,14 @@ instantiated HttpFetch class.
 </pre>
 
 
+##Post Body Data
+
+When making a post request, the <code>options.body</code> will be set with the data
+to send.  If a JSON object is sent, the header will be set with <code>'Content-Type': 'application/json'</code>
+and the JSON will be stringified.
+
+Note that sending a <code>FormData</code> API object or <code>URLSearchParams</code>
+API object will be handled by the Fetch API.
 
 
 ##See more code samples below
