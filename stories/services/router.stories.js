@@ -102,7 +102,7 @@ To change the path use the <code>Router.goto()</code> function.
 
 
 
-> See more code samples below
+##See more code samples below
 `
 export default {
   title: 'Services/Router',

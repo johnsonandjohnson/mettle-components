@@ -29,19 +29,175 @@ Below are just a few samples of possible headers.
 |:---------:|:---------:|
 | Content-Type | application/json, application/x-www-form-urlencoded, application/octet-stream |
 | Authorization | 'Basic ' + window.btoa(username + ":" + password), 'Bearer '.concat(JWTtoken) |
+| Access-Control-Allow-Origin | '*', (origin) <code>http://example.com</code> |
 
-**Header Samples**
+
+**Options/Header Samples**
 
 <pre><code>
   new HttpFetch({
+    cache: 'no-cache',
     headers: {
-      Authorization: 'Basic ' + btoa(username + ":" + password)
+      'Access-Control-Allow-Origin': '*',
+      Authorization: 'Basic ' + btoa(username + ":" + password),
     }
   })
 </code></pre>
 
+<br />
 
-> See more code samples below
+###Update Options for a single call
+
+If you need to update the Fetch options for a single call, use the <code>nextRequestOptions()</code>
+function.
+
+
+<pre>
+fetchInstance
+  .nextRequestOptions({headers: {Accept: 'text/html'}, cache: 'no-cache'})
+  .get(URL)
+  .then(fetchInstance.STATIC.parseResponse)
+  .then(results => {
+    //handle results
+  })
+</pre>
+
+<br />
+
+##Create a reusable instance
+
+HttpFetch calls will always return a new fetch call on each invoked function call.
+Creating a single instance will give the benefit of using configured Interceptors
+and fetch request options with all of the calls needed in your application.
+
+**Sample of an export file with a single instance**
+
+<pre><code>
+import { HttpFetch } from '@johnsonandjohnson/mettle-components/services'
+
+const fetchInstance = new HttpFetch({
+  headers: {
+    'Access-Control-Allow-Origin': '*',
+    Authorization: 'Basic ' + btoa(username + ":" + password)
+  }
+})
+fetchInstance.setInterceptors({
+  request: (url, config) => {
+    const cacheBuster = new Date().getTime()
+    url = fetchInstance.STATIC.addParamsToURL(url, { cacheBuster })
+    return [url, config]
+  }
+})
+
+export default fetchInstance
+</code></pre>
+
+<br />
+###Static Functions
+
+You can access the Static functions from the HttpFetch class using the <code>STATIC</code>
+property. This is just supplied as a shortcut and is not part of any JavaScript spec.
+<code>HttpFetch.addParamsToURL()</code> <code>fetchInstance.STATIC.addParamsToURL()</code>
+
+
+Alternatively you can use the more native approach and access any Static function from any
+class in JavaScript with the <code>constructor</code> property.
+<code>fetchInstance.constructor.addParamsToURL()</code>
+
+
+## Interceptors
+
+Interceptor is an object with methods that are invoked at the preprocessing and postprocessing of a fetch request.
+There are four(4) interceptors, two(2) before the fetch request and two(2) after the response.
+You can add as many interceptors, but most applications just need one as this will be applied for all
+fetch request.  Note that this is not a global request, just for an instance of an
+instantiated HttpFetch class.
+
+<pre><code>
+  const fetchInstance = new HttpFetch()
+  const fetchInterceptorInstance = fetchInstance.setInterceptors({
+    request: (url, config) => {
+      return [url, config]
+    },
+    requestError: error => {
+      return Promise.reject(error)
+    },
+    response: response => {
+      return response
+    },
+    responseError: error => {
+      return Promise.reject(error)
+    }
+  })
+
+  // Optional to remove just this added interceptor
+  fetchInterceptorInstance.remove()
+
+  // Option to remove all fetch interceptors set on the HttpFetch instance
+  fetchInstance.clearAllInterceptors()
+</code></pre>
+
+
+<br />
+
+| Interceptor use cases | Reason |
+|:---------:|:---------:|
+| Authentication | No need to repeat passing auth values with each request |
+| Url Manipulation | update the url before a request to add query params or validation |
+| Response error | If a required API service is down have a global/general way of handling |
+
+**Interceptor Code Sample**
+
+<pre>
+  <code>import ( AuthService ) from 'yourAppServices'
+
+  const fetchInstance = new HttpFetch()
+
+  const fetchInterceptorInstance = fetchInstance.setInterceptors({
+    request: (url, config) => {
+      // Authentication
+      const authToken = AuthService.getJWTToken()
+      if (config && config.headers instanceof Headers && authToken) {
+        config.headers.set('Authorization', authToken)
+      }
+      // Url Manipulation
+      const cacheBuster = new Date().getTime()
+      url = fetchInstance.STATIC.addParamsToURL(url, { cacheBuster })
+      return [url, config]
+    },
+    response: response => {
+      if (response instanceof Response && [401, 403].includes(response.status) ) {
+        if (PERMISSION_DENIED) {
+          permissionDeniedDisplay()
+        } else if (AUTH_EXPIRED) {
+          RouterService.goto('/logout')
+        }
+      }
+      return response
+    },
+    responseError: error => {
+      // If error is not aborted by the user
+      if (error.name !== 'AbortError') {
+        serviceErrorDisplay()
+      }
+      return Promise.reject(error)
+    }
+  })
+  export default fetchInstance</code>
+</pre>
+
+
+##Post Body Data
+
+When making a post request, the <code>options.body</code> will be set with the data
+to send.  If a JSON object is sent, the header will be set with <code>'Content-Type': 'application/json'</code>
+and the JSON will be stringified.
+
+Note that sending a <code>FormData</code> API object or <code>URLSearchParams</code>
+API object will be handled by the Fetch API.
+
+
+##See more code samples below
 `
 export default {
   title: 'Services/HTTP Fetch',
@@ -61,7 +217,7 @@ export default {
         type: null
       },
       description: 'Static Function to convert an object to a query string.',
-      name: 'generateUrlParams(params = {})',
+      name: 'HttpFetch.generateUrlParams(params = {})',
       table: {
         category: Constants.CATEGORIES.METHODS,
       }
@@ -71,7 +227,17 @@ export default {
         type: null
       },
       description: 'Static Function that will convert a Response object into an appropriate JavaScript object.',
-      name: 'parseResponse(instanceof Response)',
+      name: 'HttpFetch.parseResponse(instanceof Response)',
+      table: {
+        category: Constants.CATEGORIES.METHODS,
+      }
+    },
+    searchParamsToObject: {
+      control: {
+        type: null
+      },
+      description: 'Static Function that will convert a URLSearchParams object into an appropriate JSON object.',
+      name: 'HttpFetch.searchParamsToObject(instanceof URLSearchParams)',
       table: {
         category: Constants.CATEGORIES.METHODS,
       }
@@ -132,6 +298,36 @@ export default {
       },
       description: 'Async Function generally used as the fetch wrapper.',
       name: 'async request({ body = null, params = null, url, method })',
+      table: {
+        category: Constants.CATEGORIES.METHODS,
+      }
+    },
+    nextRequestOptions: {
+      control: {
+        type: null
+      },
+      description: 'Single use to update Fetch Options on the next Fetch call. Resets after.',
+      name: 'nextRequestOptions(options)',
+      table: {
+        category: Constants.CATEGORIES.METHODS,
+      }
+    },
+    setInterceptors: {
+      control: {
+        type: null
+      },
+      description: 'Set functions to handle the request before and after the fetch call. Returns an object with methods',
+      name: 'setInterceptors({ request, requestError, response, responseError })',
+      table: {
+        category: Constants.CATEGORIES.METHODS,
+      }
+    },
+    clearAllInterceptors: {
+      control: {
+        type: null
+      },
+      description: 'Set functions to remove all fetch interceptors.',
+      name: 'clearAllInterceptors()',
       table: {
         category: Constants.CATEGORIES.METHODS,
       }
@@ -278,7 +474,7 @@ const addParamsToURLTemplate = () => {
 
     const $results = globalThis.document.querySelector('.results')
     const URL = 'http://example.com?test=tester'
-    const PARAMS = {one:1, two:2}
+    const PARAMS = {one:1, two:2, test: 'replaced'}
     const results = HttpFetch.addParamsToURL(URL, PARAMS)
     $results.textContent = results
 
@@ -294,6 +490,8 @@ addParamsToURL.args = {
 
 const addParamsToURLMDX = `
 Sample use of HttpFetch.addParamsToURL() static function.
+
+>Note that if a param already exist it will replace the value
 
 `.trim()
 
@@ -324,7 +522,7 @@ const generateUrlParamsTemplate = () => {
     import HttpFetch from './http-fetch.js'
 
     const $results = globalThis.document.querySelector('.results')
-    const PARAMS = {one:1, two:2}
+    const PARAMS = { one:1, two:2 }
     const results = HttpFetch.generateUrlParams(PARAMS)
     $results.textContent = results
 
@@ -340,6 +538,7 @@ generateUrlParams.args = {
 
 const generateUrlParamsMDX = `
 Sample use of HttpFetch.generateUrlParams() static function.
+Returns the string value from the URLSearchParams API
 
 `.trim()
 
