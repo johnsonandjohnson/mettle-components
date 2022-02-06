@@ -278,3 +278,7 @@ textarea {
   justify-content:center;
   grid-area: footer;
 }
+
+.img-border {
+  border: 1px solid black;
+}
