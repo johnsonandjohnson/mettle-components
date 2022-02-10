@@ -1,0 +1,18 @@
+html,
+body {
+  background-color: var(--background, #ddd);
+  font-family: sans-serif;
+  font-size: 0.94em;
+  margin: 0;
+  padding: 0;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.col {
+  flex: 1 0 0%;
+  padding: 0.4rem;
+}

@@ -1,4 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const { resolve } = require('path')
 
 module.exports = (env, argv) => {
@@ -20,6 +21,10 @@ module.exports = (env, argv) => {
     module: {
       rules: [
         {
+          test: /\.css$/i,
+          use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        },
+        {
           test: /\.(png|svg|jpg|jpeg|gif)$/i,
           type: 'asset/resource',
         },
@@ -37,6 +42,7 @@ module.exports = (env, argv) => {
       path: resolve(__dirname, 'dist'),
     },
     plugins: [
+      new MiniCssExtractPlugin(),
       new HtmlWebpackPlugin({
         base: IS_BUILD ? false : '/',
         inject: 'body',

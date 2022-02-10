@@ -1,0 +1,22 @@
+:root {
+  --background: #f5f5f5;
+  --on-background: #3c3a36;
+  --surface: #e8e7e3;
+  --on-surface: #999;
+
+  --header: #fcfcfc;
+  --on-header: #494949;
+  --nav: #fff;
+  --on-nav: #000;
+
+  --primary: #3d5a80;
+  --on-primary: #fff;
+  --primary-variant: #98c1d9;
+  --secondary: #ee6c4d;
+  --on-secondary: #fff;
+
+  --danger: #ff0011;
+  --info: #4fd2fa;
+  --success: #75dd0c;
+  --warning: #f7f313;
+}
