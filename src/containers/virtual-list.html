@@ -1,0 +1,130 @@
+<html>
+
+<head>
+  <style>
+    .red {
+      border: 1px solid black;
+      color: red;
+      padding:1rem;
+    }
+
+    .blue {
+      border: 1px solid black;
+      color: blue;
+      padding:1rem;
+    }
+
+    .v-container {
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+  <virtual-list></virtual-list>
+
+  <script type="module">
+    import './virtual-list.js'
+
+
+    window.customElements.define('tag-one', class extends HTMLElement {
+      constructor() {
+        super()
+      }
+      async connectedCallback() {
+        this.innerHTML = `<div class="blue">data</div>`
+        this.$div = this.querySelector('div')
+      }
+      updateModel(data) {
+        if (data && this.$div) {
+          this.$div.innerText = data
+        }
+      }
+    })
+
+    window.customElements.define('tag-two', class extends HTMLElement {
+      constructor() {
+        super()
+      }
+      async connectedCallback() {
+        this.innerHTML = `<div class="red">data</div>`
+        this.$div = this.querySelector('div')
+      }
+      updateModel(data) {
+        if (data && this.$div) {
+          this.$div.innerText = data
+        }
+      }
+    })
+
+
+    const $viewTableBody = document.querySelector('virtual-list')
+
+    function getListItemsSet(min=1, max=1) {
+      const randomArray = (max) => [...new Array(min)].map(() => Math.round(Math.random() * max))
+      return randomArray(max)
+    }
+
+    function getListItems() {
+      const  arrCount = Math.ceil(Math.random()*2000)
+      const randomArray = (length, max) => [...new Array(length)].map(() => Math.round(Math.random() * max))
+      return randomArray(arrCount, 4000)
+    }
+
+    function getListItemsSame() {
+      const randomArray = (length, max) => [...new Array(length)].map(() => Math.round(Math.random() * max))
+      return randomArray(20, 4000)
+    }
+
+    const listitemsstatic = getListItemsSame()
+    //listitemsstatic[0] = undefined
+    //listitemsstatic[1] = undefined
+
+    $viewTableBody.render({
+      displayAmt: 5,
+      listItems: getListItemsSet(1, 50),
+      tag: 'tag-one'
+    })
+
+    console.log(getListItemsSet(5, 50))
+    /* changing list
+    setInterval(() => {
+      $viewTableBody.render({
+        displayAmt: 3,
+        listItems: getListItems(),
+        tag: 'tag-one'
+      })
+    }, 2000)
+    */
+
+    setTimeout(() => {
+      $viewTableBody.render({
+        listItems: getListItemsSet(50, 50),
+        tag: 'tag-one'
+      })
+    }, 1000)
+
+   /*setTimeout(() => {
+      $viewTableBody.render({
+        displayAmt: 5,
+        listItems: getListItemsSet(2, 50),
+        tag: 'tag-one'
+      })
+      console.log('size5')
+    }, 2000)
+
+    setTimeout(() => {
+      $viewTableBody.render({
+        displayAmt: 7,
+        listItems: getListItems(),
+        tag: 'tag-one'
+      })
+      console.log('size4')
+    }, 3000)*/
+
+
+  </script>
+
+</body>
+
+</html>
