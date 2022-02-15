@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.1](https://www.github.com/johnsonandjohnson/mettle-components/compare/v1.7.0...v1.7.1) (2022-02-15)
+
+
+### Bug Fixes
+
+* Initial tabs selected will set correct selected attribute ([5695c05](https://www.github.com/johnsonandjohnson/mettle-components/commit/5695c054e41f7e268e585c2c499ac45c876ebe3b))
+
 ## [1.7.0](https://www.github.com/johnsonandjohnson/mettle-components/compare/v1.6.0...v1.7.0) (2022-02-04)
 
 
