@@ -1,4 +1,4 @@
-import Debounce from '../services/debounce.js'
+import Util from '../services/util.js'
 
 window.customElements.define('virtual-list', class extends HTMLElement {
 
@@ -49,32 +49,19 @@ window.customElements.define('virtual-list', class extends HTMLElement {
     this.$push = this.$container.querySelector('div.v-push')
     this.listItems = []
     this.displayAmt = 4
-    this.updateZoomFactor()
 
-    this.adjustScrollBind = this.debounce.bind(this, this.adjustScroll.bind(this))
-    this.adjustResizeBind = this.debounce.bind(this, this.adjustResize.bind(this))
+    this.adjustScrollBind = Util.debounceAnimation(this.adjustScroll.bind(this))
+    this.adjustResizeBind = Util.debounceAnimation(this.adjustResize.bind(this), 0)
     this.$container.addEventListener('scroll', this.adjustScrollBind)
-    //window.addEventListener('resize', this.adjustResizeBind)
-
-    const resizeDebounce = Debounce(() => {
-      //this.resizeObserver.unobserve()
-      this.adjustResize()
-      console.log('resize')
-      //this.resizeObserver.observe(this.$container)
-    })
-
     this.resizeObserver = new ResizeObserver(this.adjustResizeBind)
-
     this.resizeObserver.observe(this.$container)
-
   }
 
-  updateZoomFactor() {
-    this.zoomFactor = Math.ceil((window.outerWidth / window.innerWidth) * 100) / 100
+  get zoomFactor() {
+    return Math.ceil((window.outerWidth / window.innerWidth) * 100) / 100
   }
 
   disconnectedCallback() {
-    window.removeEventListener('resize', this.adjustResizeBind)
     this.resizeObserver.unobserve(this.$container)
   }
 
@@ -127,15 +114,23 @@ window.customElements.define('virtual-list', class extends HTMLElement {
     }
   }
 
-  async render({ listItems, tag }) {
+  isReady() {
+    return Array.isArray(this.listItems) &&
+    this.listItems.length &&
+    Util.isFunction(this.renderRow) &&
+    Util.isFunction(this.updateRow)
+  }
+
+  async render({ listItems, renderRow, updateRow }) {
     if (!Array.isArray(listItems) ||
       !listItems.length ||
-      !tag ||
+      !Util.isFunction(renderRow) ||
+      !Util.isFunction(updateRow) ||
       JSON.stringify(listItems) === JSON.stringify(this.listItems)) {
       return
     }
 
-    if (this.listItems.length && tag === this.tag) {
+    if (this.listItems.length && renderRow === this.renderRow) {
       return this.updateItems(listItems)
     }
     let doInit = true
@@ -144,7 +139,8 @@ window.customElements.define('virtual-list', class extends HTMLElement {
     }
 
     this.listItems = listItems
-    this.tag = tag
+    this.renderRow = renderRow
+    this.updateRow = updateRow
     this.listItemsLength = this.listItems.length
     await this.adjustResize()
 
@@ -163,10 +159,10 @@ window.customElements.define('virtual-list', class extends HTMLElement {
       this.viewPortItems = []
       let viewPortItemsLength = this.displayAmt
       while (viewPortItemsLength--) {
-        const tag = document.createElement(this.tag)
+        const tag = this.renderRow()
         tag.style.height = `${this.itemHeight}px`
         tag.style.display = (typeof this.listItems[viewPortItemsLength] === 'undefined') ? 'none' : 'block'
-        tag.updateModel(this.listItems[viewPortItemsLength])
+        //this.updateRow(tag, this.listItems[viewPortItemsLength])
         tag.classList.add('v-item')
         tag.addEventListener('click', this.triggerSelected.bind(this))
         tag.addEventListener('mouseover', () => {
@@ -184,6 +180,7 @@ window.customElements.define('virtual-list', class extends HTMLElement {
           this.isKeyDown = false
         })
         this.$list.appendChild(tag)
+        this.updateRow(tag, this.listItems[viewPortItemsLength])
         this.viewPortItems.push(tag)
       }
       this.viewPortItemsLength = this.viewPortItems.length
@@ -206,29 +203,24 @@ window.customElements.define('virtual-list', class extends HTMLElement {
     const viewportItems = this.listItems.slice(topItem, topItem + this.viewPortItemsLength)
     this.viewPortItems.forEach((tag, i) => {
       tag.style.display = (typeof viewportItems[i] === 'undefined') ? 'none' : 'block'
-      tag.updateModel(viewportItems[i])
+      this.updateRow(tag, viewportItems[i])
     })
   }
 
   async adjustResize() {
-    this.itemHeight = await this._discoverElementHeight()
-    this.totalHeight = (this.itemHeight * this.listItemsLength)
-    this.$push.style.height = `${this.totalHeight + (this.listItemsLength * this.zoomFactor)}px`
-    const containerHeight = Math.ceil(this.$container.offsetHeight)
-    const displayAmt = Math.ceil(containerHeight / this.itemHeight)
-    const listViewAmt = Math.min(displayAmt, this.listItemsLength)
-    //this.$container.style.height = `${this.itemHeight * listViewAmt}px`
-    const listAmtEnd = this.listItemsLength - listViewAmt
-    this.scrollMax = this.itemHeight * listAmtEnd
-    this.adjustScroll()
-    this.adjustRenderedItems(displayAmt)
-  }
-
-  debounce(func) {
-    if (this.timer) {
-      window.cancelAnimationFrame(this.timer)
+    if(this.isReady()) {
+      this.itemHeight = await this._discoverElementHeight()
+      this.totalHeight = (this.itemHeight * this.listItemsLength)
+      this.$push.style.height = `${this.totalHeight + (this.listItemsLength * this.zoomFactor)}px`
+      const containerHeight = Math.ceil(this.$container.offsetHeight)
+      const displayAmt = Math.ceil(containerHeight / this.itemHeight)
+      const listViewAmt = Math.min(displayAmt, this.listItemsLength)
+      //this.$container.style.height = `${this.itemHeight * listViewAmt}px`
+      const listAmtEnd = this.listItemsLength - listViewAmt
+      this.scrollMax = this.itemHeight * listAmtEnd
+      this.adjustScroll()
+      this.adjustRenderedItems(displayAmt)
     }
-    this.timer = window.requestAnimationFrame(func)
   }
 
   adjustScroll() {
@@ -247,7 +239,7 @@ window.customElements.define('virtual-list', class extends HTMLElement {
       const viewportItems = this.listItems.slice(topItem, topItem + this.viewPortItemsLength)
       this.viewPortItems.forEach((tag, i) => {
         tag.style.display = (typeof viewportItems[i] === 'undefined') ? 'none' : 'block'
-        tag.updateModel(viewportItems[i])
+        this.updateRow(tag, viewportItems[i])
       })
     }
     if (topItem === 0) {
@@ -270,14 +262,13 @@ window.customElements.define('virtual-list', class extends HTMLElement {
   _discoverElementHeight() {
     return new Promise(resolve => {
       if (this.tag) {
-        this.updateZoomFactor()
-        const tag = document.createElement(this.tag)
+        const tag = this.renderRow()
         tag.classList.add('v-item')
         tag.style.visibility = 'hidden'
         /* Find potential largest row */
         const mapLengths = this.listItems.map(listItem => JSON.stringify(listItem).length)
         const maxIndex = mapLengths.indexOf(Math.max(...mapLengths))
-        tag.updateModel(this.listItems[maxIndex])
+        this.updateRow(tag, this.listItems[maxIndex])
         this.$list.appendChild(tag)
         /* Extra time given to make sure browser has time to process */
         window.requestAnimationFrame(() => {

@@ -23,6 +23,14 @@ class Util {
     return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i]
   }
 
+  debounceAnimation(func) {
+    let timer
+    return () => {
+      window.cancelAnimationFrame(timer)
+      timer = window.requestAnimationFrame(func)
+    }
+  }
+
   download({ filename, text, type = 'text/plain' }) {
     const dataForDownload = new Blob([text], { type })
     this.downloadBlob({

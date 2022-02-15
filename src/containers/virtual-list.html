@@ -80,11 +80,11 @@
     //listitemsstatic[0] = undefined
     //listitemsstatic[1] = undefined
 
-    $viewTableBody.render({
+    /*$viewTableBody.render({
       displayAmt: 5,
       listItems: getListItemsSet(1, 50),
       tag: 'tag-one'
-    })
+    })*/
 
     console.log(getListItemsSet(5, 50))
     /* changing list
@@ -100,7 +100,13 @@
     setTimeout(() => {
       $viewTableBody.render({
         listItems: getListItemsSet(50, 50),
-        tag: 'tag-one'
+        tag: 'tag-one',
+        renderRow: (rowData) => {
+          return document.createElement('tag-one')
+        },
+        updateRow: (elem, data) => {
+          elem.updateModel(data)
+        }
       })
     }, 1000)
 
