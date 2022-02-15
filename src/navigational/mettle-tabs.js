@@ -141,7 +141,7 @@ if (!window.customElements.get(TAG_NAME)) {
     _findFirstSelectedTab() {
       let selectedIndex = 0
       this.$tabs.forEach((tab, i) => {
-        if (tab.hasAttribute(ATTR_TYPES.SELECTED)) {
+        if (tab.hasAttribute(ATTR_TYPES.SELECTED) || i === this.selected) {
           selectedIndex = i
         }
       })
