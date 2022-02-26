@@ -126,6 +126,10 @@ class Util {
     return docEnsure.documentElement.textContent
   }
 
+  safeCopy(obj) {
+    return obj ? JSON.parse(JSON.stringify(obj)) : obj
+  }
+
   safeInnerHTML(html = '') {
     return String(html)
       .replace(/&(?=[^amp;|lt;|gt;|quot;|#])/g, '&amp;')

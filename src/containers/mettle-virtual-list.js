@@ -1,5 +1,22 @@
 import Util from '../services/util.js'
 
+const DISPLAY_STATE = {
+  HIDE: 'none',
+  SHOW: ''
+}
+
+const EVENT_TYPES = {
+  ROW_UNSELECTED: 'row-unselected',
+  ROW_SELECTED: 'row-selected'
+}
+
+const CLASS_STATE = {
+  HOVERED: 'hovered',
+  UNSELECTED: 'unselected',
+  SELECTED: 'selected'
+}
+
+
 const TAG_NAME = 'mettle-virtual-list'
 if (!window.customElements.get(TAG_NAME)) {
   window.customElements.define(TAG_NAME, class extends window.HTMLElement {
@@ -13,7 +30,6 @@ if (!window.customElements.get(TAG_NAME)) {
       return `
       <style>
       ${TAG_NAME} .v-container {
-        border: 1px solid red;
         contain: strict;
         height: 100%;
         overflow-y: auto;
@@ -21,7 +37,6 @@ if (!window.customElements.get(TAG_NAME)) {
         will-change: scroll-position;
       }
       ${TAG_NAME} .v-list {
-        border: 1px solid blue;
         height: 100%;
         left: 0;
         max-height: 100vh;
@@ -30,11 +45,9 @@ if (!window.customElements.get(TAG_NAME)) {
         width: 100%;
       }
       ${TAG_NAME} .v-item {
-        display: block;
-        word-break: break-all;
+        display: inherit;
       }
       ${TAG_NAME} .v-push {
-        border: 1px solid green;
         box-sizing: border-box;
         opacity: 0;
         width: 1px;
@@ -63,6 +76,9 @@ if (!window.customElements.get(TAG_NAME)) {
       this.resizeObserver.observe(this.$container)
     }
 
+    get EVENT_TYPES() {
+      return EVENT_TYPES
+    }
 
     get listItemsLength() {
       return this.listItems.length
@@ -116,6 +132,9 @@ if (!window.customElements.get(TAG_NAME)) {
       return offsetRow
     }
 
+    get viewPortItemsLength() {
+      return this.viewPortItems.length
+    }
 
     disconnectedCallback() {
       this.resizeObserver.unobserve(this.$container)
@@ -123,51 +142,61 @@ if (!window.customElements.get(TAG_NAME)) {
 
     vItemDown() {
       this.isKeyDown = true
-      const selectedDiv = this.$list.querySelector('.selected')
-      if (selectedDiv) {
-        if (selectedDiv.nextElementSibling && selectedDiv.nextElementSibling.nextElementSibling) {
-          selectedDiv.classList.remove('selected')
-          selectedDiv.nextElementSibling.classList.add('selected')
-        } else if (this.listItemsLength >= this.displayAmt && !selectedDiv.nextElementSibling) {
-          selectedDiv.classList.remove('selected')
-          selectedDiv.previousElementSibling.classList.add('selected')
+      const $selectedRow = this.$list.querySelector(`.${CLASS_STATE.HOVERED}`)
+      if ($selectedRow) {
+        if ($selectedRow.nextElementSibling && $selectedRow.nextElementSibling.nextElementSibling) {
+          $selectedRow.classList.remove(CLASS_STATE.HOVERED)
+          $selectedRow.nextElementSibling.classList.add(CLASS_STATE.HOVERED)
+        } else if (this.listItemsLength >= this.displayAmt && !$selectedRow.nextElementSibling) {
+          $selectedRow.classList.remove(CLASS_STATE.HOVERED)
+          $selectedRow.previousElementSibling.classList.add(CLASS_STATE.HOVERED)
         } else {
-          this.$container.scrollTop += this.itemHeight
+          const selectedRowHeight = Math.ceil($selectedRow.getBoundingClientRect().height)
+          this.$container.scrollTop += selectedRowHeight
           this.adjustScroll()
         }
       } else {
-        this.viewPortItems[0].classList.add('selected')
+        this.viewPortItems[0].classList.add(CLASS_STATE.HOVERED)
       }
     }
 
     vItemUp() {
       this.isKeyDown = true
-      const selectedDiv = this.$list.querySelector('.selected')
-      if (selectedDiv) {
-        if (this.lastTopItem === 0 && selectedDiv.previousElementSibling && !selectedDiv.previousElementSibling.previousElementSibling) {
-          selectedDiv.classList.remove('selected')
-          this.viewPortItems[0].classList.add('selected')
+      const $selectedRow = this.$list.querySelector(`.${CLASS_STATE.HOVERED}`)
+      if ($selectedRow) {
+        if (this.lastTopItem === 0 && $selectedRow.previousElementSibling && !$selectedRow.previousElementSibling.previousElementSibling) {
+          $selectedRow.classList.remove(CLASS_STATE.HOVERED)
+          this.viewPortItems[0].classList.add(CLASS_STATE.HOVERED)
           this.$container.scrollTop = 0
-        } else if (selectedDiv.previousElementSibling && selectedDiv.previousElementSibling.previousElementSibling) {
-          selectedDiv.classList.remove('selected')
-          selectedDiv.previousElementSibling.classList.add('selected')
-        } else if (!selectedDiv.previousElementSibling && this.lastTopItem !== 0) {
-          selectedDiv.classList.remove('selected')
-          this.viewPortItems[1].classList.add('selected')
+        } else if ($selectedRow.previousElementSibling && $selectedRow.previousElementSibling.previousElementSibling) {
+          $selectedRow.classList.remove(CLASS_STATE.HOVERED)
+          $selectedRow.previousElementSibling.classList.add(CLASS_STATE.HOVERED)
+        } else if (!$selectedRow.previousElementSibling && this.lastTopItem !== 0) {
+          $selectedRow.classList.remove(CLASS_STATE.HOVERED)
+          this.viewPortItems[1].classList.add(CLASS_STATE.HOVERED)
         } else {
-          this.$container.scrollTop -= this.itemHeight
+          const selectedRowHeight = Math.ceil($selectedRow.getBoundingClientRect().height)
+          this.$container.scrollTop -= selectedRowHeight
           this.adjustScroll()
         }
       } else {
-        this.viewPortItems[0].classList.add('selected')
+        this.viewPortItems[0].classList.add(CLASS_STATE.HOVERED)
       }
     }
 
-    triggerSelected() {
-      const selectedElement = this.$list.querySelector('.selected')
-      if (selectedElement) {
-        this.dispatchEvent(new CustomEvent('v-item-selected', { detail: selectedElement.cloneNode(true) }))
+    triggerSelected($selectedElement, rowIndex) {
+      if ($selectedElement) {
+        this.clearSelectedRows($selectedElement)
+        $selectedElement.classList.toggle(CLASS_STATE.SELECTED)
+        this.currentSelectedIndex = $selectedElement.classList.contains(CLASS_STATE.SELECTED) ? this.offsetItem + rowIndex : null
+        const eventName = $selectedElement.classList.contains(CLASS_STATE.SELECTED) ? EVENT_TYPES.SELECTED : EVENT_TYPES.UNSELECTED
+        this.dispatchEvent(new CustomEvent(eventName, { bubbles: true, detail: $selectedElement.cloneNode(true) }))
       }
+    }
+
+    clearSelectedRows($filterRow = null) {
+      this.viewPortItems.filter(row => row !== $filterRow).forEach(viewDiv => { viewDiv.classList.remove(CLASS_STATE.SELECTED) })
+      return this
     }
 
     isReady() {
@@ -186,16 +215,12 @@ if (!window.customElements.get(TAG_NAME)) {
         return
       }
 
-      this.listItems = listItems
+      this.listItems = Util.safeCopy(listItems)
       this.renderRow = renderRow
       this.updateRow = updateRow
 
       await this.setListItemsHeights()
-
-
       await this.adjustResize()
-      console.log(this.scrollMax)
-
 
       /*
       if (this.listItems.length && renderRow === this.renderRow) {
@@ -219,40 +244,50 @@ if (!window.customElements.get(TAG_NAME)) {
     }
 
     adjustRenderedItems() {
-      if (this.viewPortItems.length !== this.displayAmt) {
-        //this.displayAmt = displayAmt
-        this.$list.innerHTML = ''
-        this.viewPortItems = []
-        let viewPortItemsLength = this.displayAmt
-        const defaultTag = this.renderRow()
+      if (this.viewPortItemsLength !== this.displayAmt) {
+        const viewPortItemsLength = this.displayAmt
+        const rowElement = this.renderRow()
         const defaultHeight = this.largestItemHeight
-        while (viewPortItemsLength--) {
-          const tag = defaultTag.cloneNode(true)
-          tag.style.height = `${this.listItemsHeight[viewPortItemsLength] || defaultHeight}px`
-          tag.style.display = (typeof this.listItems[viewPortItemsLength] === 'undefined') ? 'none' : 'block'
-          //this.updateRow(tag, this.listItems[viewPortItemsLength])
-          tag.classList.add('v-item')
-          tag.addEventListener('click', this.triggerSelected.bind(this))
-          tag.addEventListener('mouseover', () => {
-            if (!this.isKeyDown) {
-              this.viewPortItems.forEach(viewDiv => { viewDiv.classList.remove('selected') })
-              tag.classList.add('selected')
-            }
-          })
-          tag.addEventListener('mouseout', () => {
-            if (!this.isKeyDown) {
-              tag.classList.remove('selected')
-            }
-          })
-          tag.addEventListener('mousemove', () => {
-            this.isKeyDown = false
-          })
-          this.$list.appendChild(tag)
-          this.updateRow(tag, this.listItems[viewPortItemsLength])
-          this.viewPortItems.push(tag)
+        const topItem = this.offsetItem
+
+        /* Add view port rows needed */
+        for (let viewRowIndex = 0; viewRowIndex < viewPortItemsLength; viewRowIndex++) {
+          const viewPortRow = this.viewPortItems[viewRowIndex]
+          if(typeof viewPortRow === 'undefined') {
+            const offsetRowIndex = topItem + viewRowIndex
+            const viewPortRowElement = this.generateRow({
+              defaultHeight, rowElement, rowIndex: offsetRowIndex
+            })
+            this.$list.appendChild(viewPortRowElement)
+            this.updateRow(viewPortRowElement, this.listItems[offsetRowIndex])
+            this.viewPortItems.push(viewPortRowElement)
+          }
         }
-        this.viewPortItemsLength = this.viewPortItems.length
+
       }
+    }
+
+    generateRow({defaultHeight, rowElement, rowIndex}) {
+      const tag = rowElement.cloneNode(true)
+      tag.style.height = `${this.listItemsHeight[rowIndex] || defaultHeight}px`
+      tag.style.display = (typeof this.listItems[rowIndex] === 'undefined') ? DISPLAY_STATE.HIDE : DISPLAY_STATE.SHOW
+      tag.classList.add('v-item')
+      tag.addEventListener('click', this.triggerSelected.bind(this, tag, rowIndex))
+      tag.addEventListener('mouseover', () => {
+        if (!this.isKeyDown) {
+          this.viewPortItems.forEach(viewDiv => { viewDiv.classList.remove(CLASS_STATE.HOVERED) })
+          tag.classList.add(CLASS_STATE.HOVERED)
+        }
+      })
+      tag.addEventListener('mouseout', () => {
+        if (!this.isKeyDown) {
+          tag.classList.remove(CLASS_STATE.HOVERED)
+        }
+      })
+      tag.addEventListener('mousemove', () => {
+        this.isKeyDown = false
+      })
+      return tag
     }
 
     async updateItems(listItems) {
@@ -270,7 +305,7 @@ if (!window.customElements.get(TAG_NAME)) {
       const topItem = Math.floor(scrollTop / this.itemHeight)
       const viewportItems = this.listItems.slice(topItem, topItem + this.viewPortItemsLength)
       this.viewPortItems.forEach((tag, i) => {
-        tag.style.display = (typeof viewportItems[i] === 'undefined') ? 'none' : 'block'
+        tag.style.display = (typeof viewportItems[i] === 'undefined') ? DISPLAY_STATE.HIDE : DISPLAY_STATE.SHOW
         this.updateRow(tag, viewportItems[i])
       })
     }
@@ -278,8 +313,8 @@ if (!window.customElements.get(TAG_NAME)) {
     async adjustResize() {
       if (this.isReady()) {
         this.$push.style.height = `${this.totalHeight}px`
-        //this.adjustScroll()
         this.adjustRenderedItems()
+        this.adjustScroll()
       }
     }
 
@@ -298,10 +333,12 @@ if (!window.customElements.get(TAG_NAME)) {
         this.adjustListScrollPosition(translateY)
         const viewportItems = this.listItems.slice(topItem, topItem + this.viewPortItemsLength)
 
-        this.viewPortItems.forEach((tag, i) => {
-          tag.style.display = (typeof viewportItems[i] === 'undefined') ? 'none' : 'block'
-          tag.style.height = `${this.listItemsHeight[topItem+i]}px`
-          this.updateRow(tag, viewportItems[i])
+        this.viewPortItems.forEach((tag, viewRowIndex) => {
+          const offsetRowIndex = topItem + viewRowIndex
+          tag.style.display = (typeof viewportItems[viewRowIndex] === 'undefined') ? DISPLAY_STATE.HIDE : DISPLAY_STATE.SHOW
+          tag.style.height = `${this.listItemsHeight[offsetRowIndex] || 0}px`
+          tag.classList.toggle(CLASS_STATE.SELECTED, offsetRowIndex === this.currentSelectedIndex)
+          this.updateRow(tag, viewportItems[viewRowIndex])
         })
       }
       if (topItem === 0) {

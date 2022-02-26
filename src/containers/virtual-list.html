@@ -3,27 +3,39 @@
 <head>
   <style>
     .red {
-      border: 1px solid black;
+      border-bottom: 1px solid red;
       color: red;
       padding:1rem;
     }
 
     .blue {
-      border: 1px solid black;
+      border-bottom: 1px solid blue;
       color: blue;
       padding:1rem;
+      margin-bottom: 0.4rem;
     }
 
     .v-container {
-      border: 1px solid black;
+      border: 0px solid black;
     }
 
-    .v-item-x {
-        display: block;
-        word-break: break-all;
-        border: 1px solid black;
-        border-bottom: 10px solid black;
-      }
+    .v-item-x-1 {
+      display: block;
+      word-break: break-all;
+    }
+
+    .hovered {
+      background-color: rgb(255, 102, 0);
+    }
+
+    .selected {
+      background-color: yellow;
+    }
+
+    .hovered.selected {
+      background-color: rgb(205, 210, 247);
+    }
+
   </style>
 </head>
 
@@ -44,7 +56,7 @@
       }
       updateModel(data) {
         if (data && this.$div) {
-          this.$div.innerText = data
+          this.$div.innerHTML = data
         }
       }
     })
@@ -74,14 +86,14 @@
         const charactersLength = characters.length;
         length = Math.ceil(Math.random() * length)
         for ( let i = 0; i < length; i++ ) {
-            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            result += ' '+ characters.charAt(Math.floor(Math.random() * charactersLength));
         }
 
         return result;
     }
 
     function getListItemsSet(min=1) {
-      const randomArray = () => [...new Array(min)].map((element, index) => (index+1) + generateString(1000))
+      const randomArray = () => [...new Array(min)].map((element, index) => `<big>${(index+1)}</big><small> ${generateString(1000)}</small>`)
       return randomArray()
     }
 
@@ -117,11 +129,11 @@
     }, 2000)
     */
 
-    const itemsLong = getListItemsSet(100)
+    //const itemsLong = getListItemsSet(100)
 
     setTimeout(() => {
       $viewTableBody.render({
-        listItems: itemsLong, //Left off needing to generate array with random text lengths to create different heights.
+        listItems: getListItemsSet(1000),
         tag: 'tag-one',
         renderRow: () => {
           const elem = document.createElement('tag-one')
