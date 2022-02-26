@@ -17,14 +17,21 @@
     .v-container {
       border: 1px solid black;
     }
+
+    .v-item-x {
+        display: block;
+        word-break: break-all;
+        border: 1px solid black;
+        border-bottom: 10px solid black;
+      }
   </style>
 </head>
 
 <body>
-  <virtual-list></virtual-list>
+  <mettle-virtual-list data-dynamic></mettle-virtual-list>
 
   <script type="module">
-    import './virtual-list.js'
+    import './mettle-virtual-list.js'
 
 
     window.customElements.define('tag-one', class extends HTMLElement {
@@ -32,7 +39,7 @@
         super()
       }
       async connectedCallback() {
-        this.innerHTML = `<div class="blue">data</div>`
+        this.innerHTML = `<div class="blue">data test</div>`
         this.$div = this.querySelector('div')
       }
       updateModel(data) {
@@ -58,11 +65,24 @@
     })
 
 
-    const $viewTableBody = document.querySelector('virtual-list')
+    const $viewTableBody = document.querySelector('mettle-virtual-list')
 
-    function getListItemsSet(min=1, max=1) {
-      const randomArray = (max) => [...new Array(min)].map(() => Math.round(Math.random() * max))
-      return randomArray(max)
+    const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+    function generateString(length) {
+        let result = ' ';
+        const charactersLength = characters.length;
+        length = Math.ceil(Math.random() * length)
+        for ( let i = 0; i < length; i++ ) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+
+        return result;
+    }
+
+    function getListItemsSet(min=1) {
+      const randomArray = () => [...new Array(min)].map((element, index) => (index+1) + generateString(1000))
+      return randomArray()
     }
 
     function getListItems() {
@@ -86,7 +106,7 @@
       tag: 'tag-one'
     })*/
 
-    console.log(getListItemsSet(5, 50))
+    //console.log(getListItemsSet(5, 50))
     /* changing list
     setInterval(() => {
       $viewTableBody.render({
@@ -97,18 +117,40 @@
     }, 2000)
     */
 
+    const itemsLong = getListItemsSet(100)
+
     setTimeout(() => {
       $viewTableBody.render({
-        listItems: getListItemsSet(50, 50),
+        listItems: itemsLong, //Left off needing to generate array with random text lengths to create different heights.
         tag: 'tag-one',
-        renderRow: (rowData) => {
-          return document.createElement('tag-one')
+        renderRow: () => {
+          const elem = document.createElement('tag-one')
+          elem.classList.add('v-item-x')
+          return elem
         },
         updateRow: (elem, data) => {
           elem.updateModel(data)
         }
       })
     }, 1000)
+
+    /*
+    console.dir(Object.assign(document.createElement('tag-one'), {class: 'test', 'data-test': 'test'}))
+
+
+    const tagRef = document.createElement('tag-one')
+    Object.entries({
+        class: 'carouselItem',
+        loading: 'eager',
+        'data-showtime': '10'
+    }).forEach(([key, value]) => {
+        tagRef.setAttribute(key, value);
+    })
+
+    document.body.appendChild(tagRef)
+    console.dir(tagRef)
+*/
+
 
    /*setTimeout(() => {
       $viewTableBody.render({
