@@ -41,7 +41,7 @@
 
 <body>
 
-  <mettle-virtual-list ></mettle-virtual-list>
+  <mettle-virtual-list data-dynamic></mettle-virtual-list>
 
   <script type="module">
     //data-dynamic
@@ -135,7 +135,7 @@
 
     setTimeout(() => {
       $viewTableBody.render({
-        listItems: getListItemsSet(1000),
+        listItems: getListItemsSet(10),
         renderRow: () => {
           const elem = document.createElement('tag-one')
           elem.classList.add('v-item-x')
@@ -149,18 +149,11 @@
     }, 1000)
 
     setInterval(() => {
-      $viewTableBody.render({
-        listItems: getListItemsSet(50),
-        renderRow: () => {
-          const elem = document.createElement('tag-one')
-          elem.classList.add('v-item-x')
-          return elem
-        },
-        updateRow: (elem, data) => {
-          elem.updateModel(data)
-        }
-      })
-      console.log('update 2')
+     $viewTableBody.appendItems(getListItemsSet(5))
+     /* $viewTableBody.render({
+        listItems: getListItemsSet(5)
+      })*/
+      //console.count('appended')
     }, 3000)
 
     /*

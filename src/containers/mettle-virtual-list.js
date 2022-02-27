@@ -6,14 +6,14 @@ const DISPLAY_STATE = {
 }
 
 const EVENT_TYPES = {
+  ROW_SELECTED: 'row-selected',
   ROW_UNSELECTED: 'row-unselected',
-  ROW_SELECTED: 'row-selected'
 }
 
 const CLASS_STATE = {
   HOVERED: 'hovered',
+  SELECTED: 'selected',
   UNSELECTED: 'unselected',
-  SELECTED: 'selected'
 }
 
 
@@ -237,35 +237,30 @@ if (!window.customElements.get(TAG_NAME)) {
       }
 
       await this.setListItemsHeights()
-
-
-      /*
-      if (this.listItems.length && renderRow === this.renderRow) {
-        return this.updateItems(listItems)
-      }
-      let doInit = true
-      if (this.listItems.length) {
-        doInit = false
-      }
-
-      this.listItemsLength = this.listItems.length
-      await this.adjustResize()
-
-      this.adjustListScrollPosition()
-      if (doInit) {
-        this.$container.scrollTop = 0
-      }
-      this.lastTopItem = -1
-      this.adjustScroll()
-      */
     }
 
-    async setListItemsHeights() {
+    async appendItems(listItems) {
+      if (!Array.isArray(listItems) ||
+        !listItems.length ||
+        JSON.stringify(listItems) === JSON.stringify(this.listItems)) {
+        return
+      }
+      this.listItems = this.listItems.concat(Util.safeCopy(listItems))
+      await this.setListItemsHeights(true)
+    }
+
+    async setListItemsHeights(isAppended = false) {
       if (this.isReady()) {
         const tag = this.renderRow()
         let itemHeights = []
         if (this.isDynamic()) {
-          itemHeights = this.listItems.map(rowData => this._discoverElementHeight(tag.cloneNode(true), rowData))
+          itemHeights = this.listItems.map((rowData, rowIndex) => {
+            let rowHeight = isAppended ? this.listItemsHeight[rowIndex] : undefined
+            if(typeof rowHeight === 'undefined') {
+              rowHeight = this._discoverElementHeight(tag.cloneNode(true), rowData)
+            }
+            return rowHeight
+          })
         } else {
           const fixedHeight = await this._discoverLargestElementHeight(tag)
           itemHeights = this.listItems.map(() => fixedHeight)
@@ -283,7 +278,7 @@ if (!window.customElements.get(TAG_NAME)) {
       const topItem = this.offsetItem
       this.viewPortItems.forEach((tag, viewRowIndex) => {
         const offsetRowIndex = topItem + viewRowIndex
-        tag.style.display = (typeof this.listItems[viewRowIndex] === 'undefined') ? DISPLAY_STATE.HIDE : DISPLAY_STATE.SHOW
+        tag.style.display = (typeof this.listItems[offsetRowIndex] === 'undefined') ? DISPLAY_STATE.HIDE : DISPLAY_STATE.SHOW
         tag.style.height = `${this.listItemsHeight[offsetRowIndex] || 0}px`
         tag.classList.toggle(CLASS_STATE.SELECTED, offsetRowIndex === this.currentSelectedIndex)
         this.updateRow(tag, this.listItems[offsetRowIndex])
@@ -335,26 +330,6 @@ if (!window.customElements.get(TAG_NAME)) {
         this.isKeyDown = false
       })
       return tag
-    }
-
-    async updateItems(listItems) {
-      if (!Array.isArray(listItems) ||
-        !listItems.length ||
-        JSON.stringify(listItems) === JSON.stringify(this.listItems)) {
-        return
-      }
-
-      this.listItems = listItems
-      this.listItemsLength = this.listItems.length
-      await this.adjustResize()
-
-      const scrollTop = this.$container.scrollTop
-      const topItem = Math.floor(scrollTop / this.itemHeight)
-      const viewportItems = this.listItems.slice(topItem, topItem + this.viewPortItemsLength)
-      this.viewPortItems.forEach((tag, i) => {
-        tag.style.display = (typeof viewportItems[i] === 'undefined') ? DISPLAY_STATE.HIDE : DISPLAY_STATE.SHOW
-        this.updateRow(tag, viewportItems[i])
-      })
     }
 
     async adjustResize() {
