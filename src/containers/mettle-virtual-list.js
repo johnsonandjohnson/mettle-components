@@ -68,12 +68,26 @@ if (!window.customElements.get(TAG_NAME)) {
       this.listItems = []
       this.listItemsHeight = []
       this.viewPortItems = []
+      this.zoomResolution = null
 
       this.adjustScrollBind = Util.debounceAnimation(this.adjustScroll.bind(this))
-      this.adjustResizeBind = Util.debounceAnimation(this.adjustResize.bind(this), 0)
+      this.adjustResizeBind = Util.debounceAnimation(this.adjustResize.bind(this))
+      this.zoomFactorBind = this.zoomFactor.bind(this)
       this.$container.addEventListener('scroll', this.adjustScrollBind)
       this.resizeObserver = new ResizeObserver(this.adjustResizeBind)
       this.resizeObserver.observe(this.$container)
+
+      this.zoomFactor()
+    }
+
+    async zoomFactor() {
+      await this.setListItemsHeights()
+      this.zoomResolution = window.matchMedia(`(resolution: ${this.PIXEL_RATIO}dppx)`)
+      this.zoomResolution.addEventListener('change', this.zoomFactorBind, { once: true })
+    }
+
+    get PIXEL_RATIO() {
+      return window.devicePixelRatio
     }
 
     get EVENT_TYPES() {
@@ -90,11 +104,7 @@ if (!window.customElements.get(TAG_NAME)) {
 
     get totalHeight() {
       const totalHeight = this.listItemsHeight.reduce((partialSum, acc) => partialSum + acc, 0)
-      return totalHeight + (this.listItemsLength * this.zoomFactor)
-    }
-
-    get zoomFactor() {
-      return Math.ceil((window.outerWidth / window.innerWidth) * 100) / 100
+      return totalHeight
     }
 
     get smallestItemHeight() {
@@ -114,7 +124,7 @@ if (!window.customElements.get(TAG_NAME)) {
       const listViewAmt = Math.min(this.displayAmt, this.listItemsLength)
       const scrollListAmt = this.listItemsLength - listViewAmt
       const scrollHeight = this.listItemsHeight.slice(0, scrollListAmt).reduce((partialSum, acc) => partialSum + acc, 0)
-      return scrollHeight + (scrollListAmt * this.zoomFactor)
+      return scrollHeight
     }
 
     get offsetItem() {
@@ -122,9 +132,9 @@ if (!window.customElements.get(TAG_NAME)) {
       const listHeightLen = this.listItemsHeightLength
       let addedHeight = 0
       let offsetRow = 0
-      for(let row = 0; row < listHeightLen; row++) {
+      for (let row = 0; row < listHeightLen; row++) {
         addedHeight += this.listItemsHeight[row]
-        if( addedHeight > scrollTop) {
+        if (addedHeight > scrollTop) {
           offsetRow = row
           break
         }
@@ -138,6 +148,9 @@ if (!window.customElements.get(TAG_NAME)) {
 
     disconnectedCallback() {
       this.resizeObserver.unobserve(this.$container)
+      if (this.zoomResolution) {
+        this.zoomResolution.removeEventListener('change', this.zoomFactorBind)
+      }
     }
 
     vItemDown() {
@@ -201,7 +214,7 @@ if (!window.customElements.get(TAG_NAME)) {
 
     isReady() {
       return Array.isArray(this.listItems) &&
-        this.listItems.length &&
+        this.listItemsLength &&
         Util.isFunction(this.renderRow) &&
         Util.isFunction(this.updateRow)
     }
@@ -220,7 +233,7 @@ if (!window.customElements.get(TAG_NAME)) {
       this.updateRow = updateRow
 
       await this.setListItemsHeights()
-      await this.adjustResize()
+
 
       /*
       if (this.listItems.length && renderRow === this.renderRow) {
@@ -253,7 +266,7 @@ if (!window.customElements.get(TAG_NAME)) {
         /* Add view port rows needed */
         for (let viewRowIndex = 0; viewRowIndex < viewPortItemsLength; viewRowIndex++) {
           const viewPortRow = this.viewPortItems[viewRowIndex]
-          if(typeof viewPortRow === 'undefined') {
+          if (typeof viewPortRow === 'undefined') {
             const offsetRowIndex = topItem + viewRowIndex
             const viewPortRowElement = this.generateRow({
               defaultHeight, rowElement, rowIndex: offsetRowIndex
@@ -267,7 +280,7 @@ if (!window.customElements.get(TAG_NAME)) {
       }
     }
 
-    generateRow({defaultHeight, rowElement, rowIndex}) {
+    generateRow({ defaultHeight, rowElement, rowIndex }) {
       const tag = rowElement.cloneNode(true)
       tag.style.height = `${this.listItemsHeight[rowIndex] || defaultHeight}px`
       tag.style.display = (typeof this.listItems[rowIndex] === 'undefined') ? DISPLAY_STATE.HIDE : DISPLAY_STATE.SHOW
@@ -358,19 +371,31 @@ if (!window.customElements.get(TAG_NAME)) {
       return !!(this.$container.scrollTop > this.totalHeight)
     }
 
+    fixViewPortListHeight() {
+      const topItem = this.offsetItem
+      this.viewPortItems.forEach((tag, viewRowIndex) => {
+        const offsetRowIndex = topItem + viewRowIndex
+        tag.style.height = `${this.listItemsHeight[offsetRowIndex] || 0}px`
+      })
+    }
 
     async setListItemsHeights() {
-      const tag = this.renderRow()
-      let itemHeights = []
-      if(this.isDynamic()) {
-        itemHeights = this.listItems.map(rowData => this._discoverElementHeight(tag.cloneNode(true), rowData))
-      } else {
-        const fixedHeight = await this._discoverLargestElementHeight(tag)
-        itemHeights = this.listItems.map(() => fixedHeight)
+      if (this.isReady()) {
+        const tag = this.renderRow()
+        let itemHeights = []
+        if (this.isDynamic()) {
+          itemHeights = this.listItems.map(rowData => this._discoverElementHeight(tag.cloneNode(true), rowData))
+        } else {
+          const fixedHeight = await this._discoverLargestElementHeight(tag)
+          itemHeights = this.listItems.map(() => fixedHeight)
+        }
+        await Promise.all(itemHeights)
+          .then(values => {
+            this.listItemsHeight = [...values]
+          })
+        await this.adjustResize()
+        this.fixViewPortListHeight()
       }
-      return await Promise.all(itemHeights).then(values => {
-        this.listItemsHeight = [...values]
-      })
     }
 
     async _discoverElementHeight(tag, rowData) {
