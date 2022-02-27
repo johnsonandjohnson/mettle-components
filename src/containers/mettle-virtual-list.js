@@ -219,18 +219,22 @@ if (!window.customElements.get(TAG_NAME)) {
         Util.isFunction(this.updateRow)
     }
 
-    async render({ listItems, renderRow, updateRow }) {
+    async render({ listItems, renderRow = null, updateRow = null }) {
       if (!Array.isArray(listItems) ||
         !listItems.length ||
-        !Util.isFunction(renderRow) ||
-        !Util.isFunction(updateRow) ||
         JSON.stringify(listItems) === JSON.stringify(this.listItems)) {
         return
       }
 
       this.listItems = Util.safeCopy(listItems)
-      this.renderRow = renderRow
-      this.updateRow = updateRow
+
+      if(Util.isFunction(renderRow)) {
+        this.renderRow = renderRow
+      }
+
+      if(Util.isFunction(updateRow)) {
+        this.updateRow = updateRow
+      }
 
       await this.setListItemsHeights()
 
@@ -254,6 +258,36 @@ if (!window.customElements.get(TAG_NAME)) {
       this.lastTopItem = -1
       this.adjustScroll()
       */
+    }
+
+    async setListItemsHeights() {
+      if (this.isReady()) {
+        const tag = this.renderRow()
+        let itemHeights = []
+        if (this.isDynamic()) {
+          itemHeights = this.listItems.map(rowData => this._discoverElementHeight(tag.cloneNode(true), rowData))
+        } else {
+          const fixedHeight = await this._discoverLargestElementHeight(tag)
+          itemHeights = this.listItems.map(() => fixedHeight)
+        }
+        await Promise.all(itemHeights)
+          .then(values => {
+            this.listItemsHeight = [...values]
+          })
+        await this.adjustResize()
+        this.updateViewPortList()
+      }
+    }
+
+    updateViewPortList() {
+      const topItem = this.offsetItem
+      this.viewPortItems.forEach((tag, viewRowIndex) => {
+        const offsetRowIndex = topItem + viewRowIndex
+        tag.style.display = (typeof this.listItems[viewRowIndex] === 'undefined') ? DISPLAY_STATE.HIDE : DISPLAY_STATE.SHOW
+        tag.style.height = `${this.listItemsHeight[offsetRowIndex] || 0}px`
+        tag.classList.toggle(CLASS_STATE.SELECTED, offsetRowIndex === this.currentSelectedIndex)
+        this.updateRow(tag, this.listItems[offsetRowIndex])
+      })
     }
 
     adjustRenderedItems() {
@@ -344,15 +378,7 @@ if (!window.customElements.get(TAG_NAME)) {
           translateY -= this.listItemsHeight[topItem]
         }
         this.adjustListScrollPosition(translateY)
-        const viewportItems = this.listItems.slice(topItem, topItem + this.viewPortItemsLength)
-
-        this.viewPortItems.forEach((tag, viewRowIndex) => {
-          const offsetRowIndex = topItem + viewRowIndex
-          tag.style.display = (typeof viewportItems[viewRowIndex] === 'undefined') ? DISPLAY_STATE.HIDE : DISPLAY_STATE.SHOW
-          tag.style.height = `${this.listItemsHeight[offsetRowIndex] || 0}px`
-          tag.classList.toggle(CLASS_STATE.SELECTED, offsetRowIndex === this.currentSelectedIndex)
-          this.updateRow(tag, viewportItems[viewRowIndex])
-        })
+        this.updateViewPortList()
       }
       if (topItem === 0) {
         this.adjustListScrollPosition()
@@ -369,33 +395,6 @@ if (!window.customElements.get(TAG_NAME)) {
 
     atScrollEnd() {
       return !!(this.$container.scrollTop > this.totalHeight)
-    }
-
-    fixViewPortListHeight() {
-      const topItem = this.offsetItem
-      this.viewPortItems.forEach((tag, viewRowIndex) => {
-        const offsetRowIndex = topItem + viewRowIndex
-        tag.style.height = `${this.listItemsHeight[offsetRowIndex] || 0}px`
-      })
-    }
-
-    async setListItemsHeights() {
-      if (this.isReady()) {
-        const tag = this.renderRow()
-        let itemHeights = []
-        if (this.isDynamic()) {
-          itemHeights = this.listItems.map(rowData => this._discoverElementHeight(tag.cloneNode(true), rowData))
-        } else {
-          const fixedHeight = await this._discoverLargestElementHeight(tag)
-          itemHeights = this.listItems.map(() => fixedHeight)
-        }
-        await Promise.all(itemHeights)
-          .then(values => {
-            this.listItemsHeight = [...values]
-          })
-        await this.adjustResize()
-        this.fixViewPortListHeight()
-      }
     }
 
     async _discoverElementHeight(tag, rowData) {

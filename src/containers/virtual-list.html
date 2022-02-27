@@ -136,7 +136,6 @@
     setTimeout(() => {
       $viewTableBody.render({
         listItems: getListItemsSet(1000),
-        tag: 'tag-one',
         renderRow: () => {
           const elem = document.createElement('tag-one')
           elem.classList.add('v-item-x')
@@ -146,7 +145,23 @@
           elem.updateModel(data)
         }
       })
+      console.log('update 1')
     }, 1000)
+
+    setInterval(() => {
+      $viewTableBody.render({
+        listItems: getListItemsSet(50),
+        renderRow: () => {
+          const elem = document.createElement('tag-one')
+          elem.classList.add('v-item-x')
+          return elem
+        },
+        updateRow: (elem, data) => {
+          elem.updateModel(data)
+        }
+      })
+      console.log('update 2')
+    }, 3000)
 
     /*
     console.dir(Object.assign(document.createElement('tag-one'), {class: 'test', 'data-test': 'test'}))
