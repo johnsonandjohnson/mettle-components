@@ -6,16 +6,14 @@ const DISPLAY_STATE = {
 }
 
 const EVENT_TYPES = {
-  ROW_SELECTED: 'row-selected',
-  ROW_UNSELECTED: 'row-unselected',
+  SELECTED: 'selected',
+  UNSELECTED: 'unselected',
 }
 
 const CLASS_STATE = {
   HOVERED: 'hovered',
   SELECTED: 'selected',
-  UNSELECTED: 'unselected',
 }
-
 
 const TAG_NAME = 'mettle-virtual-list'
 if (!window.customElements.get(TAG_NAME)) {
@@ -23,7 +21,6 @@ if (!window.customElements.get(TAG_NAME)) {
 
     constructor() {
       super()
-      this.isKeyDown = false
     }
 
     _generateTemplate() {
@@ -94,6 +91,10 @@ if (!window.customElements.get(TAG_NAME)) {
       return EVENT_TYPES
     }
 
+    get CLASS_STATE() {
+      return CLASS_STATE
+    }
+
     get listItemsLength() {
       return this.listItems.length
     }
@@ -120,9 +121,12 @@ if (!window.customElements.get(TAG_NAME)) {
       return Math.ceil(containerHeight / this.smallestItemHeight)
     }
 
+    get listViewAmt() {
+      return Math.min(this.displayAmt, this.listItemsLength)
+    }
+
     get scrollMax() {
-      const listViewAmt = Math.min(this.displayAmt, this.listItemsLength)
-      const scrollListAmt = this.listItemsLength - listViewAmt
+      const scrollListAmt = this.listItemsLength - this.listViewAmt
       const scrollHeight = this.listItemsHeight.slice(0, scrollListAmt).reduce((partialSum, acc) => partialSum + acc, 0)
       return scrollHeight
     }
@@ -150,50 +154,6 @@ if (!window.customElements.get(TAG_NAME)) {
       this.resizeObserver.unobserve(this.$container)
       if (this.zoomResolution) {
         this.zoomResolution.removeEventListener('change', this.zoomFactorBind)
-      }
-    }
-
-    vItemDown() {
-      this.isKeyDown = true
-      const $selectedRow = this.$list.querySelector(`.${CLASS_STATE.HOVERED}`)
-      if ($selectedRow) {
-        if ($selectedRow.nextElementSibling && $selectedRow.nextElementSibling.nextElementSibling) {
-          $selectedRow.classList.remove(CLASS_STATE.HOVERED)
-          $selectedRow.nextElementSibling.classList.add(CLASS_STATE.HOVERED)
-        } else if (this.listItemsLength >= this.displayAmt && !$selectedRow.nextElementSibling) {
-          $selectedRow.classList.remove(CLASS_STATE.HOVERED)
-          $selectedRow.previousElementSibling.classList.add(CLASS_STATE.HOVERED)
-        } else {
-          const selectedRowHeight = Math.ceil($selectedRow.getBoundingClientRect().height)
-          this.$container.scrollTop += selectedRowHeight
-          this.adjustScroll()
-        }
-      } else {
-        this.viewPortItems[0].classList.add(CLASS_STATE.HOVERED)
-      }
-    }
-
-    vItemUp() {
-      this.isKeyDown = true
-      const $selectedRow = this.$list.querySelector(`.${CLASS_STATE.HOVERED}`)
-      if ($selectedRow) {
-        if (this.lastTopItem === 0 && $selectedRow.previousElementSibling && !$selectedRow.previousElementSibling.previousElementSibling) {
-          $selectedRow.classList.remove(CLASS_STATE.HOVERED)
-          this.viewPortItems[0].classList.add(CLASS_STATE.HOVERED)
-          this.$container.scrollTop = 0
-        } else if ($selectedRow.previousElementSibling && $selectedRow.previousElementSibling.previousElementSibling) {
-          $selectedRow.classList.remove(CLASS_STATE.HOVERED)
-          $selectedRow.previousElementSibling.classList.add(CLASS_STATE.HOVERED)
-        } else if (!$selectedRow.previousElementSibling && this.lastTopItem !== 0) {
-          $selectedRow.classList.remove(CLASS_STATE.HOVERED)
-          this.viewPortItems[1].classList.add(CLASS_STATE.HOVERED)
-        } else {
-          const selectedRowHeight = Math.ceil($selectedRow.getBoundingClientRect().height)
-          this.$container.scrollTop -= selectedRowHeight
-          this.adjustScroll()
-        }
-      } else {
-        this.viewPortItems[0].classList.add(CLASS_STATE.HOVERED)
       }
     }
 
@@ -228,11 +188,11 @@ if (!window.customElements.get(TAG_NAME)) {
 
       this.listItems = Util.safeCopy(listItems)
 
-      if(Util.isFunction(renderRow)) {
+      if (Util.isFunction(renderRow)) {
         this.renderRow = renderRow
       }
 
-      if(Util.isFunction(updateRow)) {
+      if (Util.isFunction(updateRow)) {
         this.updateRow = updateRow
       }
 
@@ -241,8 +201,7 @@ if (!window.customElements.get(TAG_NAME)) {
 
     async appendItems(listItems) {
       if (!Array.isArray(listItems) ||
-        !listItems.length ||
-        JSON.stringify(listItems) === JSON.stringify(this.listItems)) {
+        !listItems.length) {
         return
       }
       this.listItems = this.listItems.concat(Util.safeCopy(listItems))
@@ -256,7 +215,7 @@ if (!window.customElements.get(TAG_NAME)) {
         if (this.isDynamic()) {
           itemHeights = this.listItems.map((rowData, rowIndex) => {
             let rowHeight = isAppended ? this.listItemsHeight[rowIndex] : undefined
-            if(typeof rowHeight === 'undefined') {
+            if (typeof rowHeight === 'undefined') {
               rowHeight = this._discoverElementHeight(tag.cloneNode(true), rowData)
             }
             return rowHeight
@@ -316,18 +275,11 @@ if (!window.customElements.get(TAG_NAME)) {
       tag.classList.add('v-item')
       tag.addEventListener('click', this.triggerSelected.bind(this, tag, rowIndex))
       tag.addEventListener('mouseover', () => {
-        if (!this.isKeyDown) {
-          this.viewPortItems.forEach(viewDiv => { viewDiv.classList.remove(CLASS_STATE.HOVERED) })
-          tag.classList.add(CLASS_STATE.HOVERED)
-        }
+        this.viewPortItems.forEach(viewDiv => { viewDiv.classList.remove(CLASS_STATE.HOVERED) })
+        tag.classList.add(CLASS_STATE.HOVERED)
       })
       tag.addEventListener('mouseout', () => {
-        if (!this.isKeyDown) {
-          tag.classList.remove(CLASS_STATE.HOVERED)
-        }
-      })
-      tag.addEventListener('mousemove', () => {
-        this.isKeyDown = false
+        tag.classList.remove(CLASS_STATE.HOVERED)
       })
       return tag
     }

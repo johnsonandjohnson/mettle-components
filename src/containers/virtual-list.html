@@ -81,10 +81,10 @@
 
     const $viewTableBody = document.querySelector('mettle-virtual-list')
 
-    const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
     function generateString(length) {
         let result = ' ';
+        const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         const charactersLength = characters.length;
         length = Math.ceil(Math.random() * length)
         for ( let i = 0; i < length; i++ ) {
@@ -135,7 +135,7 @@
 
     setTimeout(() => {
       $viewTableBody.render({
-        listItems: getListItemsSet(10),
+        listItems: getListItemsSet(5),
         renderRow: () => {
           const elem = document.createElement('tag-one')
           elem.classList.add('v-item-x')
@@ -149,7 +149,8 @@
     }, 1000)
 
     setInterval(() => {
-     $viewTableBody.appendItems(getListItemsSet(5))
+      //$viewTableBody.vItemDown()
+     //$viewTableBody.appendItems(getListItemsSet(5))
      /* $viewTableBody.render({
         listItems: getListItemsSet(5)
       })*/

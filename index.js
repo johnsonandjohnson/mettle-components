@@ -1,5 +1,6 @@
 import './src/containers/mettle-accordion.js'
 import './src/containers/mettle-loader.js'
+import './src/containers/mettle-virtual-list.js'
 import './src/controls/mettle-paginate.js'
 import './src/controls/mettle-password-reveal.js'
 import './src/controls/mettle-sort-header.js'
