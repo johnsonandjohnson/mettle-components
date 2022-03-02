@@ -139,6 +139,28 @@ describe(ELEM_TAG_NAME, () => {
       expect(eventDispatched).toBeTrue()
     })
 
+    it('should dispatch a custom event on a row un-selection', () => {
+      let eventDispatched = false
+
+      $el.addEventListener($el.EVENT_TYPES.UNSELECTED, () => {
+        eventDispatched = true
+      })
+      $el.viewPortItems[0].click()
+      $el.viewPortItems[0].click()
+      expect(eventDispatched).toBeTrue()
+    })
+
+    it('should remove all rendered view port items when new render function is added', async () => {
+      await $el.render({
+        listItems: ['1', '2', '3'],
+        renderRow: () => document.createElement('div'),
+        updateRow: (elem, data) => {
+          elem.innerHTML = data
+        }
+      })
+      expect($el.listItemsHeightLength).toEqual(3)
+    })
+
 
   })
 

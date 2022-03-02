@@ -159,11 +159,17 @@ if (!window.customElements.get(TAG_NAME)) {
 
     triggerSelected($selectedElement, rowIndex) {
       if ($selectedElement) {
+        rowIndex = this.offsetItem + rowIndex
         this.clearSelectedRows($selectedElement)
         $selectedElement.classList.toggle(CLASS_STATE.SELECTED)
-        this.currentSelectedIndex = $selectedElement.classList.contains(CLASS_STATE.SELECTED) ? this.offsetItem + rowIndex : null
+        this.currentSelectedIndex = $selectedElement.classList.contains(CLASS_STATE.SELECTED) ? rowIndex : null
         const eventName = $selectedElement.classList.contains(CLASS_STATE.SELECTED) ? EVENT_TYPES.SELECTED : EVENT_TYPES.UNSELECTED
-        this.dispatchEvent(new CustomEvent(eventName, { bubbles: true, detail: $selectedElement.cloneNode(true) }))
+        const detail = {
+          elem: $selectedElement,
+          index: rowIndex,
+          itemData: Util.safeCopy(this.listItems[rowIndex]),
+        }
+        this.dispatchEvent(new CustomEvent(eventName, { bubbles: true, detail }))
       }
     }
 
@@ -189,6 +195,11 @@ if (!window.customElements.get(TAG_NAME)) {
       this.listItems = Util.safeCopy(listItems)
 
       if (Util.isFunction(renderRow)) {
+        if (Util.isFunction(this.renderRow) && renderRow.toString() !== this.renderRow.toString()) {
+          this.$list.innerHTML = ''
+          this.viewPortItems = []
+          this.listItemsHeight = []
+        }
         this.renderRow = renderRow
       }
 

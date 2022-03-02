@@ -20,20 +20,20 @@
     }
 
     .v-item-x-1 {
-      display: block;
+      display: flex;
       word-break: break-all;
     }
 
     .hovered {
-      background-color: rgb(255, 102, 0);
+      background-color: hsl(24, 100%, 50%);
     }
 
     .selected {
-      background-color: yellow;
+      background-color: hsl(60, 100%, 50%);
     }
 
     .hovered.selected {
-      background-color: rgb(205, 210, 247);
+      background-color: hsl(233, 72%, 89%);
     }
 
   </style>
@@ -53,8 +53,14 @@
         super()
       }
       async connectedCallback() {
-        this.innerHTML = `<div class="blue">data test</div>`
-        this.$div = this.querySelector('div')
+        this.innerHTML = `<div class="blue"><div>data test</div><button>Close</button></div>`
+        this.$div = this.querySelector('.blue div')
+        this.$btn = this.querySelector('button')
+        this.$btn.addEventListener('click', evt => {
+          evt.stopPropagation()
+
+          console.log('click')
+        })
       }
       updateModel(data) {
         if (data && this.$div) {
@@ -81,22 +87,27 @@
 
     const $viewTableBody = document.querySelector('mettle-virtual-list')
 
+    $viewTableBody.addEventListener($viewTableBody.EVENT_TYPES.SELECTED, evt => {
+      const { elem, index, itemData } = evt.detail
+      /*detail = {
+          elem: $selectedElement,
+          index: rowIndex,
+          itemData: Util.safeCopy(this.listItems[rowIndex]),
+        }*/
+        console.log(evt.detail)
+    })
+
 
     function generateString(length) {
-        let result = ' ';
-        const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        const charactersLength = characters.length;
-        length = Math.ceil(Math.random() * length)
-        for ( let i = 0; i < length; i++ ) {
-            result += ' '+ characters.charAt(Math.floor(Math.random() * charactersLength));
-        }
-
-        return result;
+      const chars ='0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+      const charsLength = chars.length
+      length = Math.ceil(Math.random() * length)
+      const result = [...new Array(length)].map(() => chars.charAt(Math.floor(Math.random() * charsLength)))
+      return result.join(' ')
     }
 
     function getListItemsSet(min=1) {
-      const randomArray = () => [...new Array(min)].map((element, index) => `<big>${(index+1)}</big><small> ${generateString(1000)}</small>`)
-      return randomArray()
+      return [...new Array(min)].map((element, index) => `<big>${(index+1)}</big> <small>${generateString(200)}</small>`)
     }
 
     function getListItems() {
@@ -133,6 +144,18 @@
 
     //const itemsLong = getListItemsSet(100)
 
+
+    $viewTableBody.render({
+      listItems: getListItemsSet(100),
+      renderRow: () => {
+        const elem = document.createElement('div')
+        return elem
+      },
+      updateRow: (elem, data) => {
+        elem.innerHTML = data
+      }
+    })
+
     setTimeout(() => {
       $viewTableBody.render({
         listItems: getListItemsSet(5),
@@ -146,7 +169,7 @@
         }
       })
       console.log('update 1')
-    }, 1000)
+    }, 2000)
 
     setInterval(() => {
       //$viewTableBody.vItemDown()

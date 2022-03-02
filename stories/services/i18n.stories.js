@@ -13,6 +13,12 @@ I18n also will utilize browser and JavaScript built-in functionality.
 
 > Note that each browser may behave differently based on the native implementation
 
+
+**General Overview**
+
+<img src="./i18n-Translations.svg" alt="i18n-Translations" />
+
+
 **What is needed**
 
 You will need a json file with the name the matches the locale code like so.
