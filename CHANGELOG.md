@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.8.0](https://www.github.com/johnsonandjohnson/mettle-components/compare/v1.7.1...v1.8.0) (2022-03-02)
+
+
+### Features
+
+* virtual list to display large data sets ([#55](https://www.github.com/johnsonandjohnson/mettle-components/issues/55)) ([d8ea903](https://www.github.com/johnsonandjohnson/mettle-components/commit/d8ea903deeb9aed7942f50c5932fa2f03fc6c058))
+
 ### [1.7.1](https://www.github.com/johnsonandjohnson/mettle-components/compare/v1.7.0...v1.7.1) (2022-02-15)
 
 
