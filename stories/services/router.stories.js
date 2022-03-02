@@ -19,12 +19,7 @@ This service is not responsible for displaying content, just managing routes and
 
 **Understand the URL components**
 
-<pre>
-Configured Route: products/:id
-        origin          path          search
-|--------^--------|------^------|-------^------|
-     example.com/   products/34  ?filter=size
-</pre>
+<img src="./route-components.svg" alt="i18n-Translations" />
 
 
 **Using the Router**

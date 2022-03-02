@@ -1,0 +1,28 @@
+.v-flex {
+  display: flex;
+  flex-grow: 1;
+  height: 100vh;
+}
+
+.v-row {
+  border-bottom: 1px solid blue;
+  padding: 0.4rem;
+}
+
+mettle-virtual-list {
+  height: 100%;
+  width: 100%;
+}
+
+mettle-virtual-list .hovered {
+  background-color: hsl(24, 100%, 50%);
+  cursor: pointer;
+}
+
+mettle-virtual-list .selected {
+  background-color: hsl(60, 100%, 50%);
+}
+
+mettle-virtual-list .hovered.selected {
+  background-color: hsl(233, 72%, 89%);
+}

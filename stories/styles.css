@@ -168,6 +168,10 @@ textarea {
   align-items: center;
 }
 
+.gap {
+  gap: 1rem;
+}
+
 .recipe .heading {
   border-bottom: 1px solid silver;
   font-size: 1.778rem;
