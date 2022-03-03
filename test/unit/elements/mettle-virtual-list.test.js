@@ -161,6 +161,18 @@ describe(ELEM_TAG_NAME, () => {
       expect($el.listItemsHeightLength).toEqual(3)
     })
 
+    it('should compare items from the previous list to the updated list', async () => {
+      await $el.render({
+        listItems: ['one', 'two', 'three', '4', '5', '6'],
+      })
+      let isSameItem = $el.sameListItem(0)
+      expect(isSameItem).toBeTrue()
+      isSameItem = $el.sameListItem(5)
+      expect(isSameItem).toBeFalse()
+    })
+
+
+
 
   })
 
