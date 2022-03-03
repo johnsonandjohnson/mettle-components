@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.9.0](https://www.github.com/johnsonandjohnson/mettle-components/compare/v1.8.0...v1.9.0) (2022-03-03)
+
+
+### Features
+
+* increase virtual list performance ([#58](https://www.github.com/johnsonandjohnson/mettle-components/issues/58)) ([1962c27](https://www.github.com/johnsonandjohnson/mettle-components/commit/1962c27fb111e100e94fd4d0a1be6564d18d949a))
+
 ## [1.8.0](https://www.github.com/johnsonandjohnson/mettle-components/compare/v1.7.1...v1.8.0) (2022-03-02)
 
 
