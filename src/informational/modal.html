@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>JSON json-syntax</title>
+</head>
+
+<body>
+    <mettle-modal
+    data-show="true"
+    data-allow-close="true"
+    data-position="left"
+    data-allow-screen-click="true"
+    data-is-large="true"
+    data-is-tall="true"
+    data-for="tied"
+    >
+    <p>testing modal popup</p>
+  </mettle-modal>
+
+  <div id="tied">Modal tied to this element</div>
+  <div id="tied2">Modal tied2 to this element</div>
+
+  <button class="left">left</button>
+  <button class="right">right</button>
+  <button class="center">center</button>
+  <button class="remove">Remove tied1</button>
+  <button class="remove2">Remove tied2</button>
+  <button class="toggle">toggle tied</button>
+
+  <script type="module">
+    //data-dynamic
+    import './mettle-modal.js'
+
+    const modal = document.querySelector('mettle-modal')
+    const div = document.querySelector('div#tied')
+    const div2 = document.querySelector('div#tied2')
+    document.querySelector('button.left').addEventListener('click', ()=> {
+      modal.dataset.position = 'left'
+      show()
+    })
+    document.querySelector('button.right').addEventListener('click', ()=> {
+      modal.dataset.position = 'right'
+      show()
+    })
+    document.querySelector('button.center').addEventListener('click', ()=> {
+      modal.dataset.position = 'center'
+      show()
+    })
+
+    document.querySelector('button.remove').addEventListener('click', ()=> {
+      div.remove()
+    })
+
+    document.querySelector('button.remove2').addEventListener('click', ()=> {
+      div2.remove()
+    })
+
+    document.querySelector('button.toggle').addEventListener('click', ()=> {
+      modal.dataset.for = (modal.dataset.for === 'tied' ? 'tied2' : 'tied')
+    })
+
+    function show() {
+      modal.dataset.show = true
+    }
+  </script>
+
+</body>
+
+</html>
