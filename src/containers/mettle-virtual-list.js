@@ -62,6 +62,7 @@ if (!window.customElements.get(TAG_NAME)) {
       this.$container = this.querySelector('div.v-container')
       this.$list = this.$container.querySelector('div.v-list')
       this.$push = this.$container.querySelector('div.v-push')
+      this.oldListItems = []
       this.listItems = []
       this.listItemsHeight = []
       this.viewPortItems = []
@@ -192,6 +193,7 @@ if (!window.customElements.get(TAG_NAME)) {
         return
       }
 
+      this.oldListItems = Util.safeCopy(this.listItems)
       this.listItems = Util.safeCopy(listItems)
 
       if (Util.isFunction(renderRow)) {
@@ -225,7 +227,7 @@ if (!window.customElements.get(TAG_NAME)) {
         let itemHeights = []
         if (this.isDynamic()) {
           itemHeights = this.listItems.map((rowData, rowIndex) => {
-            let rowHeight = isAppended ? this.listItemsHeight[rowIndex] : undefined
+            let rowHeight = isAppended || this.sameListItem(rowIndex) ? this.listItemsHeight[rowIndex] : undefined
             if (typeof rowHeight === 'undefined') {
               rowHeight = this._discoverElementHeight(tag.cloneNode(true), rowData)
             }
@@ -242,6 +244,10 @@ if (!window.customElements.get(TAG_NAME)) {
         await this.adjustResize()
         this.updateViewPortList()
       }
+    }
+
+    sameListItem(rowIndex) {
+      return JSON.stringify(this.oldListItems[rowIndex]) === JSON.stringify(this.listItems[rowIndex])
     }
 
     updateViewPortList() {

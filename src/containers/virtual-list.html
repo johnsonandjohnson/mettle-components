@@ -144,9 +144,10 @@
 
     //const itemsLong = getListItemsSet(100)
 
+    let itemsList = getListItemsSet(10)
 
     $viewTableBody.render({
-      listItems: getListItemsSet(100),
+      listItems: itemsList,
       renderRow: () => {
         const elem = document.createElement('div')
         return elem
@@ -157,16 +158,18 @@
     })
 
     setTimeout(() => {
+      itemsList = itemsList.concat(getListItemsSet(5))
+      //itemsList = getListItemsSet(100)
       $viewTableBody.render({
-        listItems: getListItemsSet(5),
-        renderRow: () => {
+        listItems: itemsList,
+        /*renderRow: () => {
           const elem = document.createElement('tag-one')
           elem.classList.add('v-item-x')
           return elem
         },
         updateRow: (elem, data) => {
           elem.updateModel(data)
-        }
+        }*/
       })
       console.log('update 1')
     }, 2000)
