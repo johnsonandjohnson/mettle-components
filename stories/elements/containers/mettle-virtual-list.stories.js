@@ -1,6 +1,6 @@
 import '../../../src/containers/mettle-virtual-list.js'
 
-import { Constants, generateHTMLParagraphs, getRandomInt } from '../../helper/index.js'
+import { Constants } from '../../helper/index.js'
 
 import './virtual-list.css'
 
@@ -22,6 +22,86 @@ this process will slow down the browser and is not recommend.
 
 <img src="./virtual-list.svg" alt="Virtual List" />
 
+### How to use
+
+The virtual list while is a custom element can only be updated by JavaScript. Once
+you have the element selected you can render your items like so
+
+<pre>
+<code>
+const $component = globalThis.document.querySelector('mettle-virtual-list')
+
+$component.render({
+  listItems: getListItemsSet(500),
+  renderRow: () => document.createElement('div'),
+  updateRow: (elem, data) => {
+    elem.innerHTML = data
+  }
+})
+</code>
+</pre>
+
+
+| param | Type | Description |
+|:---------|:---------|
+| listItems | Array | The large array of data to display for each row |
+| renderRow | Function | The function used to clone each row |
+| updateRow(elem, data) | Function | The function used to update each row. The Row and data for that row will be passed in. |
+
+
+The render and update function can also leverage custom elements, add a class, etc.
+
+
+<pre>
+<code>
+const $component = globalThis.document.querySelector('mettle-virtual-list')
+
+$component.render({
+  listItems: getListItemsSet(500),
+  renderRow: () => {
+    const elem = document.createElement('custom-tag')
+    elem.classList.add('product-row')
+    return elem
+  },
+  updateRow: (elem, data) => {
+    elem.updateModel(data)
+  }
+})
+</code>
+</pre>
+
+
+> Once rendered you have two options to update.
+
+**Continue to use <code>render()</code>**
+
+The render function can take in a single parameter like so as long as the
+<code>renderRow</code> and <code>updateRow</code> functions have been previously defined.
+It is important to note that when using the dynamic mode it will attempt to
+calculate the height of rows where the data is different.
+
+<pre>
+<code>
+let productsSearch = updatedResultsArray()
+
+$component.render({
+  listItems: productsSearch
+})
+</code>
+</pre>
+
+**appendItems() option**
+While we recommend to just use the <code>render</code> function, in the case you
+only need to append a new item to the current list use the <code>appendItems</code>
+function like so
+
+<pre>
+<code>
+const newItems = getNewListSet()
+
+$component.appendItems(newItems)
+</code>
+</pre>
 
 **No observed Attributes on data-dynamic**
 
