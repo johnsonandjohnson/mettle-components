@@ -13,9 +13,34 @@
  if (!window.customElements.get(TAG_NAME)) {
    window.customElements.define(TAG_NAME, class extends BASE {
 
+    constructor() {
+      super()
+    }
+
+    connectedCallback() {
+      this.__attachShadowRoot()
+      if (this.shadowRoot instanceof ShadowRoot) {
+        this.btnClose = this.shadowRoot.querySelector('div.close')
+        this.modal = this.shadowRoot.querySelector('div.modal')
+        this.modalPopup = this.shadowRoot.querySelector('div.popup')
+        this.modalBG = this.shadowRoot.querySelector('div.background')
+        this.closePopupBind = this.closePopup.bind(this)
+        this.btnClose.addEventListener('click', this.closePopupBind)
+        this.modalBG.addEventListener('click', this.closePopupBind)
+        this.render()
+      }
+    }
+
+    __attachShadowRoot() {
+      if (null === this.shadowRoot) {
+        this.attachShadow({ mode: 'open' })
+          .appendChild(this._generateTemplate().content.cloneNode(true))
+        document.body.appendChild(this)
+      }
+    }
 
 
-  generateTemplate() {
+  _generateTemplate() {
 
     const template = document.createElement('template')
 
@@ -186,23 +211,7 @@
     return template
   }
 
-  constructor() {
-    super()
-    const shadowRoot = this.attachShadow({ mode: 'open' })
-    shadowRoot.appendChild(this.generateTemplate().content.cloneNode(true))
-    this.btnClose = this.shadowRoot.querySelector('div.close')
-    this.modal = this.shadowRoot.querySelector('div.modal')
-    this.modalPopup = this.shadowRoot.querySelector('div.popup')
-    this.modalBG = this.shadowRoot.querySelector('div.background')
-    this.modalBlur = document.querySelector('modal-blur')
-    this.closePopupBind = this.closePopup.bind(this)
-  }
 
-  connectedCallback() {
-    this.btnClose.addEventListener('click', this.closePopupBind)
-    this.modalBG.addEventListener('click', this.closePopupBind)
-    this.render()
-  }
 
   resetScroll() {
     this.modalPopup.scroll({
@@ -253,9 +262,7 @@
       position = this.dataset.position.toLowerCase()
     }
 
-    if (this.modalBlur) {
-      this.modalBlur.dataset.blur = 'false'
-    }
+
     // reset Modal
     this.modal.classList.remove('is-active', 'side', 'right', 'left')
     this.modal.classList.add('bg-is-active')
@@ -267,7 +274,6 @@
     }
 
     if (hideBG) {
-      this.modalBlur.dataset.blur = 'false'
       this.modal.classList.remove('bg-is-active')
     }
 
@@ -278,9 +284,6 @@
 
     if (showModal) {
       this.modal.classList.add('is-active')
-      if (this.modalBlur) {
-        this.modalBlur.dataset.blur = 'true'
-      }
     }
   }
 
