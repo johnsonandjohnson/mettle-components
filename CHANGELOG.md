@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.9.1](https://www.github.com/johnsonandjohnson/mettle-components/compare/v1.9.0...v1.9.1) (2022-03-04)
+
+
+### Bug Fixes
+
+* allow for empty array in virtual list ([#61](https://www.github.com/johnsonandjohnson/mettle-components/issues/61)) ([3a7463a](https://www.github.com/johnsonandjohnson/mettle-components/commit/3a7463a928fcfaab6d913129cf58c4931b1e7e26))
+
 ## [1.9.0](https://www.github.com/johnsonandjohnson/mettle-components/compare/v1.8.0...v1.9.0) (2022-03-03)
 
 
