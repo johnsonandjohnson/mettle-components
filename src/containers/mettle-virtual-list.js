@@ -99,6 +99,10 @@ if (!window.customElements.get(TAG_NAME)) {
       return ROW_STATE
     }
 
+    get fixedRows() {
+      return ~~this.getAttribute('data-fixed-rows')
+    }
+
     get listItemsLength() {
       return this.listItems.length
     }
@@ -121,6 +125,11 @@ if (!window.customElements.get(TAG_NAME)) {
     }
 
     get displayAmt() {
+      const rowAmount = this.fixedRows
+      if(rowAmount > 0) {
+        console.log('fixed rows', rowAmount)
+        this.$container.style.height = `${this.largestItemHeight * rowAmount}px`
+      }
       const containerHeight = Math.ceil(this.$container.getBoundingClientRect().height)
       return Math.ceil(containerHeight / this.smallestItemHeight)
     }
@@ -224,6 +233,7 @@ if (!window.customElements.get(TAG_NAME)) {
 
     async setListItemsHeights(isAppended = false) {
       if (this.isReady()) {
+        this.style.display = 'initial'
         const tag = this.renderRow()
         let itemHeights = []
         if (this.isDynamic()) {
@@ -244,6 +254,7 @@ if (!window.customElements.get(TAG_NAME)) {
           })
         await this.adjustResize()
         this.updateViewPortList()
+        this.style.removeProperty('display')
       }
     }
 
@@ -355,6 +366,23 @@ if (!window.customElements.get(TAG_NAME)) {
 
     isDynamic() {
       return this.hasAttribute('data-dynamic')
+    }
+
+    async setFixedRows() {
+      if(this.isReady()) {
+        await this.adjustResize()
+        this.updateViewPortList()
+      }
+    }
+
+    static get observedAttributes() {
+      return ['data-fixed-rows']
+    }
+
+    attributeChangedCallback(attr, oldValue, newValue) {
+      if (oldValue !== newValue) {
+        this.setFixedRows()
+      }
     }
 
   })

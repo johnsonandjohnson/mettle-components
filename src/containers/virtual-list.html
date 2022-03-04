@@ -36,9 +36,9 @@
       background-color: hsl(233, 72%, 89%);
     }
 
-    mettle-virtual-list::part(container) {
+    /*mettle-virtual-list::part(container) {
       height: 100%;
-    }
+    }*/
 
 
   </style>
@@ -46,10 +46,11 @@
 
 <body>
 
-  <mettle-virtual-list data-dynamic></mettle-virtual-list>
+  <mettle-virtual-list  hidden style="display: none;" data-fixed-rows="4"></mettle-virtual-list>
 <p> this goes below</p>
   <script type="module">
     //data-dynamic
+    //data-fixed-rows="2"
     import './mettle-virtual-list.js'
 
 
@@ -167,7 +168,7 @@
       itemsList = itemsList.concat(getListItemsSet(5))
       //itemsList = getListItemsSet(100)
       $viewTableBody.render({
-        listItems: [],
+        listItems: itemsList,
         /*renderRow: () => {
           const elem = document.createElement('tag-one')
           elem.classList.add('v-item-x')
