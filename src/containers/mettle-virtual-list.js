@@ -127,7 +127,6 @@ if (!window.customElements.get(TAG_NAME)) {
     get displayAmt() {
       const rowAmount = this.fixedRows
       if(rowAmount > 0) {
-        console.log('fixed rows', rowAmount)
         this.$container.style.height = `${this.largestItemHeight * rowAmount}px`
       }
       const containerHeight = Math.ceil(this.$container.getBoundingClientRect().height)
