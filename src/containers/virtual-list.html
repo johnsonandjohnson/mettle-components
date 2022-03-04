@@ -24,27 +24,33 @@
       word-break: break-all;
     }
 
-    .hovered {
+    mettle-virtual-list::part(row):hover {
       background-color: hsl(24, 100%, 50%);
     }
 
-    .selected {
+    mettle-virtual-list::part(selected) {
       background-color: hsl(60, 100%, 50%);
     }
 
-    .hovered.selected {
+    mettle-virtual-list::part(selected):hover {
       background-color: hsl(233, 72%, 89%);
     }
+
+    /*mettle-virtual-list::part(container) {
+      height: 100%;
+    }*/
+
 
   </style>
 </head>
 
 <body>
 
-  <mettle-virtual-list data-dynamic></mettle-virtual-list>
-
+  <mettle-virtual-list style="height: 0;"></mettle-virtual-list>
+<p> this goes below</p>
   <script type="module">
     //data-dynamic
+    //data-fixed-rows="2"
     import './mettle-virtual-list.js'
 
 
@@ -95,6 +101,7 @@
           itemData: Util.safeCopy(this.listItems[rowIndex]),
         }*/
         console.log(evt.detail)
+        console.log(evt.detail.elem.part)
     })
 
 
@@ -173,6 +180,24 @@
       })
       console.log('update 1')
     }, 2000)
+
+
+    setTimeout(() => {
+      itemsList = itemsList.concat(getListItemsSet(5))
+      //itemsList = getListItemsSet(100)
+      $viewTableBody.render({
+        listItems: itemsList,
+        /*renderRow: () => {
+          const elem = document.createElement('tag-one')
+          elem.classList.add('v-item-x')
+          return elem
+        },
+        updateRow: (elem, data) => {
+          elem.updateModel(data)
+        }*/
+      })
+      console.log('update 2')
+    }, 4000000)
 
     setInterval(() => {
       //$viewTableBody.vItemDown()

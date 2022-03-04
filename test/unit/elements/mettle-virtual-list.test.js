@@ -22,16 +22,21 @@ if (!window.customElements.get(ELEM_TAG_NAME_SUB)) {
 describe(ELEM_TAG_NAME, () => {
 
   let $el
+  let $parent
   const elemTag = ELEM_TAG_NAME
 
   const listItems = ['one', 'two', 'three', 'four', 'five', 'six']
 
 
   beforeEach(async () => {
+    $parent = globalThis.document.createElement('div')
+    $parent.style.height = `100vh`
+    $parent.style.display = 'block'
     $el = globalThis.document.createElement(elemTag)
-    globalThis.document.body.appendChild($el)
-    $el.style.height = `100vh`
-    $el.style.display = 'block'
+    //$el.dataset.fixedRows = '10'
+    $parent.appendChild($el)
+    globalThis.document.body.appendChild($parent)
+
     await $el.render({
       listItems,
       renderRow: () => document.createElement(`${ELEM_TAG_NAME_SUB}`),
@@ -42,6 +47,8 @@ describe(ELEM_TAG_NAME, () => {
   afterEach(() => {
     $el.remove()
     $el = null
+    $parent.remove()
+    $parent = null
   })
 
   describe('interface', () => {
@@ -59,36 +66,15 @@ describe(ELEM_TAG_NAME, () => {
 
   describe('component', () => {
 
-    it('should be able to indicate hover on the mouseover of an item', async () => {
-      const event = new UIEvent('mouseover')
-      $el.viewPortItems[1].dispatchEvent(event)
-      const hasClass = $el.viewPortItems[1].classList.contains($el.CLASS_STATE.HOVERED)
-      expect(hasClass).toBeTrue()
-    })
-
     it('should be able select on click', async () => {
       $el.viewPortItems[0].click()
-      let hasClass = $el.viewPortItems[0].classList.contains($el.CLASS_STATE.SELECTED)
+      let hasClass = $el.viewPortItems[0].part.contains($el.ROW_STATE.SELECTED)
       expect(hasClass).toBeTrue()
       $el.clearSelectedRows()
-      hasClass = $el.viewPortItems[0].classList.contains($el.CLASS_STATE.SELECTED)
+      hasClass = $el.viewPortItems[0].part.contains($el.ROW_STATE.SELECTED)
       expect(hasClass).toBeFalse()
     })
 
-    it('should be able to indicate hover on mouse over', async () => {
-      const $row = $el.viewPortItems[0]
-      let event = new UIEvent('mouseover')
-      $row.dispatchEvent(event)
-
-      let hasClass = $row.classList.contains($el.CLASS_STATE.HOVERED)
-      expect(hasClass).toBeTrue()
-
-      event = new UIEvent('mouseout')
-      $row.dispatchEvent(event)
-
-      hasClass = $row.classList.contains($el.CLASS_STATE.HOVERED)
-      expect(hasClass).toBeFalse()
-    })
 
     it('should be able to append to the current list', async () => {
       let listCount = listItems.length
@@ -109,7 +95,7 @@ describe(ELEM_TAG_NAME, () => {
 
     it('should be able to stop scroll at max', async () => {
       const rowHeight = $el.smallestItemHeight
-      $el.style.height = `${rowHeight*2}px`
+      $parent.style.height = `${rowHeight*2}px`
       $el.$container.scrollTop = $el.totalHeight * 2
       $el.adjustScroll()
       expect($el.$container.scrollTop).toBeLessThanOrEqual($el.scrollMax)
@@ -172,6 +158,12 @@ describe(ELEM_TAG_NAME, () => {
     })
 
 
+    it('should allow fixed rows to be updated', async () => {
+      const currentFixedRows = $el.fixedRows
+      $el.dataset.fixedRows = '5'
+      const newFixedRows = $el.fixedRows
+      expect(currentFixedRows).toBeLessThan(newFixedRows)
+    })
 
 
   })
