@@ -2,9 +2,10 @@
 
 <head>
 <style>
-.transition-display-content {
+mettle-transition-display::part(container) {
   border: 1px solid black;
   background-color: wheat;
+  height: 50vh;
 }
 
 p {
@@ -24,7 +25,8 @@ p {
 data-type="transform"
 data-start="scale(.5)"
 data-end="scale(1)"
-></mettle-transition-display>
+>
+</mettle-transition-display>
 
 
   <script type="module">
@@ -44,9 +46,13 @@ data-end="rotateY(0deg)"
     const $btn2 = document.querySelector('.page2')
 
     const HtmlCache = new Map()
-    HtmlCache.set('page1.html', '<template><p>Page 1</p></template><style>p { color: red; }</style>')
-    HtmlCache.set('page2.html', '<template><p>Page 2</p></template><style>p { color: blue; }</style>')
+    HtmlCache.set('page1.html', '<template><p>Page 1</p><h1>testing</h1></template><style>::slotted(p) { color: red; }</style>')
+    HtmlCache.set('page2.html', '<template><p>Page 2</p><h1 class="test">testing</h1></template><style>p { color: blue; }  .test {background-color: silver;}</style>')
 
+
+    window.addEventListener('DOMContentLoaded', () => {
+      $component.insertContent(HtmlCache.get('page1.html'))
+    })
 
     $btn1.addEventListener('click', () => {
       $component.insertContent(HtmlCache.get('page1.html'))

@@ -4,13 +4,49 @@ if (!window.customElements.get(TAG_NAME)) {
 
     constructor() {
       super()
+      this.attachShadow({ mode: 'open' })
+        .appendChild(this.generateTemplate().content.cloneNode(true))
+    }
+
+    generateTemplate() {
+      const template = document.createElement('template')
+      template.innerHTML = `
+        <style>
+          .transition-display-content {
+            transform-style: preserve-3d;
+            transition: all 0.2s;
+          }
+        </style>
+        <style title="slotted"></style>
+        <div class="transition-display-content" part="container"><slot></slot></div>
+      `.trim()
+      return template
     }
 
     connectedCallback() {
-      this.innerHTML = '<div class="transition-display-content"></div>'
-      this.$content = this.querySelector('.transition-display-content')
-      this.$content.style.transition = 'all 0.2s'
-      this.$content.style.transformStyle = 'preserve-3d'
+      this.$content = this.shadowRoot.querySelector('.transition-display-content')
+      this.$style = this.shadowRoot.querySelector('style[title="slotted"]')
+      this.ignoreSelectors = ['.transition-display-content']
+    }
+
+    updateCSSSelectors() {
+      const newCSSRules = []
+      const sheets = [...this.shadowRoot.styleSheets]
+      sheets.forEach(sheet => {
+        Array.from(sheet.cssRules)
+          .filter(rule => !this.ignoreSelectors.includes(rule.selectorText))
+          .forEach(rule => {
+            const selectorString = rule.selectorText.toString().toLowerCase()
+            const cssString = rule.cssText.toString().toLowerCase()
+            if(!selectorString.includes('::slotted')) {
+              const newSelector = `::slotted(${selectorString})`
+              newCSSRules.push(cssString.replace(selectorString, newSelector))
+            } else {
+              newCSSRules.push(cssString)
+            }
+          })
+      })
+      this.$style.innerHTML = newCSSRules.join(' ')
     }
 
     async insertContent(content) {
@@ -22,19 +58,20 @@ if (!window.customElements.get(TAG_NAME)) {
       const transitionStart = this.getAttribute('data-start') || '0'
       const transitionEnd = this.getAttribute('data-end') || '1'
       let transitionDisable = this.getAttribute('data-enable')
-      transitionDisable = (transitionDisable && transitionDisable.toLowerCase() === 'false')
+      transitionDisable = (transitionDisable && transitionDisable.toLowerCase() === 'false') || document.readyState !== 'complete'
       if (!transitionDisable) {
         await this._transitionToPromise(this.$content, transitionType, transitionStart)
       }
       const doc = new DOMParser().parseFromString(content, 'text/html')
       const template = doc.querySelector('template')
       const style = doc.querySelector('style')
-      console.log(template)
+
       if(template) {
-        this.$content.innerHTML = template.innerHTML.toString()
+        this.innerHTML = template.innerHTML.toString()
       }
       if (style) {
-        this.$content.insertAdjacentHTML('afterbegin', style.outerHTML)
+        this.$style.innerHTML = style.innerHTML
+        this.updateCSSSelectors()
       }
       return transitionDisable ?
         Promise.resolve() :
@@ -52,10 +89,9 @@ if (!window.customElements.get(TAG_NAME)) {
           if (evt.propertyName !== pascalCaseProperty) {
             return
           }
-          el.removeEventListener('transitionend', transitionEnded)
           resolve()
         }
-        el.addEventListener('transitionend', transitionEnded)
+        el.addEventListener('transitionend', transitionEnded, { once : true })
         el.style[property] = value
       })
     }
