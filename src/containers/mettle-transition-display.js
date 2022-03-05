@@ -58,7 +58,7 @@ if (!window.customElements.get(TAG_NAME)) {
       const transitionStart = this.getAttribute('data-start') || '0'
       const transitionEnd = this.getAttribute('data-end') || '1'
       let transitionDisable = this.getAttribute('data-enable')
-      transitionDisable = (transitionDisable && transitionDisable.toLowerCase() === 'false') || document.readyState !== 'complete'
+      transitionDisable = (transitionDisable && transitionDisable.toLowerCase() === 'false')
       if (!transitionDisable) {
         await this._transitionToPromise(this.$content, transitionType, transitionStart)
       }
@@ -79,7 +79,7 @@ if (!window.customElements.get(TAG_NAME)) {
     }
 
     addElementToContent(element, position = 'beforeend') {
-      this.$content.insertAdjacentElement(position, element)
+      this.insertAdjacentElement(position, element)
     }
 
     _transitionToPromise(el, property, value) {
@@ -93,6 +93,9 @@ if (!window.customElements.get(TAG_NAME)) {
         }
         el.addEventListener('transitionend', transitionEnded, { once : true })
         el.style[property] = value
+        if(document.readyState !== 'complete') {
+          resolve()
+        }
       })
     }
 
