@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.0](https://www.github.com/johnsonandjohnson/mettle-components/compare/v1.9.1...v1.10.0) (2022-03-06)
+
+
+### Features
+
+* Transition display with scoped CSS ([#64](https://www.github.com/johnsonandjohnson/mettle-components/issues/64)) ([c685fe8](https://www.github.com/johnsonandjohnson/mettle-components/commit/c685fe876f84442dd564606be7afdda9844cc3a6))
+
 ### [1.9.1](https://www.github.com/johnsonandjohnson/mettle-components/compare/v1.9.0...v1.9.1) (2022-03-04)
 
 
