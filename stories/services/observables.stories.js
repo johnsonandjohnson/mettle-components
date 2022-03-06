@@ -13,7 +13,7 @@ This is for interface(UI) developers using web technologies who want to implemen
 ### How does it work
 
 The idea here is we use the Observable class to create a Subject. Components can subscribe to the Subject(often a Service) and wait to be notified of changes to the subject. All components can stay in sync with the most current data.
-<img src="./observables_diagram.png" alt="Observable" height="400" />
+<img src="./observable.svg" alt="Observable" />
 
 ### How to use
 Subscribe to the observable and define the complete, error and next functions.

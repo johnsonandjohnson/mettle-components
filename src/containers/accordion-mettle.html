@@ -106,6 +106,16 @@ summary + * {
   padding: 0.5rem;
 }
 
+summary::marker,
+summary::-webkit-details-marker {
+  display:none;
+  content: "";
+}
+
+
+details > summary {
+  list-style: none;
+}
 
 @keyframes dots {
   0% {

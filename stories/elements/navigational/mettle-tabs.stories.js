@@ -93,6 +93,23 @@ export default {
         category: Constants.CATEGORIES.ATTRIBUTES,
       },
     },
+    selected: {
+      control: {
+        type: null
+      },
+      description: 'Set a tab to the active tab. Note this will trigger the TAB selected event.',
+      name: '$selector.selected',
+      table: {
+        category: Constants.CATEGORIES.GET_SET,
+        type: {
+          detail: 'Tab Index starting from 0',
+          summary: 'Number'
+        }
+      },
+      type: {
+        required: false
+      },
+    },
     TAB: {
       description: 'The main event when a tab is clicked on',
       name: 'TAB',
@@ -101,8 +118,11 @@ export default {
         defaultValue: {
           detail: 'Constants with all Event types.',
           summary: '$selector.EVENT_TYPES.TAB',
+        },
+        type: {
+          detail: 'Event String',
+          summary: 'Const'
         }
-
       },
     },
   },
@@ -150,7 +170,7 @@ const TemplateStyle = (args) => {
 
   <style>
     mettle-tabs.styled::part(panel-container) {
-      width: 50rem;
+      width: 100%;
       height: 200px;
       background: rgba(0, 0, 0, 1);
       color: var(--on-surface, white);
@@ -210,7 +230,7 @@ const TemplateStyle2 = (args) => {
 
   <style>
     mettle-tabs.styled::part(panel-container) {
-      width: 50rem;
+      width: 100%;
       height: 200px;
       background: rgba(0, 0, 0, 1);
       color: var(--on-surface, white);
@@ -372,7 +392,7 @@ const TemplateTabIgnored = ({Class = ''}) => {
     }
 
     mettle-tabs.ignore::part(navigation) {
-      width: 50rem;
+      width: 100%;
     }
 
     mettle-tabs.ignore::part(navigation-tab-group) {

@@ -23,6 +23,14 @@ class Util {
     return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i]
   }
 
+  debounceAnimation(func) {
+    let timer
+    return () => {
+      window.cancelAnimationFrame(timer)
+      timer = window.requestAnimationFrame(func)
+    }
+  }
+
   download({ filename, text, type = 'text/plain' }) {
     const dataForDownload = new Blob([text], { type })
     this.downloadBlob({
@@ -116,6 +124,10 @@ class Util {
     const doc = new DOMParser().parseFromString(input, 'text/html')
     const docEnsure = new DOMParser().parseFromString(doc.documentElement.textContent, 'text/html')
     return docEnsure.documentElement.textContent
+  }
+
+  safeCopy(obj) {
+    return obj ? JSON.parse(JSON.stringify(obj)) : obj
   }
 
   safeInnerHTML(html = '') {

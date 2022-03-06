@@ -2,6 +2,41 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.0](https://www.github.com/johnsonandjohnson/mettle-components/compare/v1.9.1...v1.10.0) (2022-03-06)
+
+
+### Features
+
+* Transition display with scoped CSS ([#64](https://www.github.com/johnsonandjohnson/mettle-components/issues/64)) ([c685fe8](https://www.github.com/johnsonandjohnson/mettle-components/commit/c685fe876f84442dd564606be7afdda9844cc3a6))
+
+### [1.9.1](https://www.github.com/johnsonandjohnson/mettle-components/compare/v1.9.0...v1.9.1) (2022-03-04)
+
+
+### Bug Fixes
+
+* allow for empty array in virtual list ([#61](https://www.github.com/johnsonandjohnson/mettle-components/issues/61)) ([3a7463a](https://www.github.com/johnsonandjohnson/mettle-components/commit/3a7463a928fcfaab6d913129cf58c4931b1e7e26))
+
+## [1.9.0](https://www.github.com/johnsonandjohnson/mettle-components/compare/v1.8.0...v1.9.0) (2022-03-03)
+
+
+### Features
+
+* increase virtual list performance ([#58](https://www.github.com/johnsonandjohnson/mettle-components/issues/58)) ([1962c27](https://www.github.com/johnsonandjohnson/mettle-components/commit/1962c27fb111e100e94fd4d0a1be6564d18d949a))
+
+## [1.8.0](https://www.github.com/johnsonandjohnson/mettle-components/compare/v1.7.1...v1.8.0) (2022-03-02)
+
+
+### Features
+
+* virtual list to display large data sets ([#55](https://www.github.com/johnsonandjohnson/mettle-components/issues/55)) ([d8ea903](https://www.github.com/johnsonandjohnson/mettle-components/commit/d8ea903deeb9aed7942f50c5932fa2f03fc6c058))
+
+### [1.7.1](https://www.github.com/johnsonandjohnson/mettle-components/compare/v1.7.0...v1.7.1) (2022-02-15)
+
+
+### Bug Fixes
+
+* Initial tabs selected will set correct selected attribute ([5695c05](https://www.github.com/johnsonandjohnson/mettle-components/commit/5695c054e41f7e268e585c2c499ac45c876ebe3b))
+
 ## [1.7.0](https://www.github.com/johnsonandjohnson/mettle-components/compare/v1.6.0...v1.7.0) (2022-02-04)
 
 

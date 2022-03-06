@@ -121,9 +121,9 @@ mettle-paginate-controller::part(next) {
 </div>
 
 ```js
-const modalElement = document.querySelector('mettle-modal')
+const $modalElement = document.querySelector('mettle-modal')
 
-modalElement.addEventListener('modal-close', () => {
+$modalElement.addEventListener('modal-close', () => {
   // Modal was closed by user
 })
 ```
@@ -140,10 +140,10 @@ modalElement.addEventListener('modal-close', () => {
 </div>
 
 ```js
-const modalElement = document.querySelector('mettle-modal')
+const $modalElement = document.querySelector('mettle-modal')
 
-modalElement.open()
-modalElement.close()
+$modalElement.open()
+$modalElement.close()
 ```
 
 <div className="tip-wrapper">
@@ -154,13 +154,15 @@ modalElement.close()
 <mettle-virtual-list></mettle-virtual-list>
 
 <script>
-const virtualListElement = document.querySelector('mettle-virtual-list')
+const $virtualListElement = document.querySelector('mettle-virtual-list')
 const listItems = ['one', 'two', 'three', 'four', 'five']
 
-virtualListElement.render({
-  displayAmt: 4,
+$virtualListElement.render({
   listItems,
-  tag: 'list-row'
+  renderRow: () => document.createElement('div'),
+  updateRow: (elem, data) => {
+    elem.innerHTML = data
+  }
 })
 </script>
 ```
