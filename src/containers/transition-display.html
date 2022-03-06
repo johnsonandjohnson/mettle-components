@@ -50,9 +50,9 @@ data-end="rotateY(0deg)"
     HtmlCache.set('page2.html', '<template><p>Page 2</p><h1 class="test">testing</h1></template><style>p { color: blue; }  .test {background-color: silver;}</style>')
 
 
-    window.addEventListener('DOMContentLoaded', () => {
+   //window.addEventListener('DOMContentLoaded', () => {
       $component.insertContent(HtmlCache.get('page1.html'))
-    })
+   //})
 
     $btn1.addEventListener('click', () => {
       $component.insertContent(HtmlCache.get('page1.html'))

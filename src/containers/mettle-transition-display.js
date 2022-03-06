@@ -82,19 +82,21 @@ if (!window.customElements.get(TAG_NAME)) {
       this.insertAdjacentElement(position, element)
     }
 
-    _transitionToPromise(el, property, value) {
+    _transitionToPromise($el, property, value) {
+      let failSafe
       return new Promise(resolve => {
-        const pascalCaseProperty = property.split(/(?=[A-Z])/g).map(prop => prop.charAt(0).toLowerCase() + prop.substring(1)).join('-')
-        const transitionEnded = evt => {
-          if (evt.propertyName !== pascalCaseProperty) {
-            return
-          }
+        const transitionEnded = () => {
+          clearTimeout(failSafe)
           resolve()
         }
-        el.addEventListener('transitionend', transitionEnded, { once : true })
-        el.style[property] = value
-        if(document.readyState !== 'complete') {
+        $el.addEventListener('transitionend', transitionEnded, { once : true })
+        $el.style[property] = value
+        const duration = parseFloat(window.getComputedStyle($el).transitionDuration) * 1000
+        if(document.readyState !== 'complete' || duration <= 0) {
           resolve()
+        } else {
+          const FIFTY_MS = 50
+          failSafe = setTimeout(transitionEnded, duration+FIFTY_MS)
         }
       })
     }

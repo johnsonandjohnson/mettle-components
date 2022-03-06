@@ -269,6 +269,29 @@ export default {
         }
       },
     },
+
+    partContainer: {
+      description: 'Selector for the rows container that determines the view port',
+      name: '::part(container)',
+      table: {
+        category: Constants.CATEGORIES.CSS,
+      },
+    },
+    partRow: {
+      description: 'Selector for the rows',
+      name: '::part(row)',
+      table: {
+        category: Constants.CATEGORIES.CSS,
+      },
+    },
+    partSelected: {
+      description: 'Selector for the selected row, only applied after it is clicked',
+      name: '::part(selected)',
+      table: {
+        category: Constants.CATEGORIES.CSS,
+      },
+    },
+
   },
   parameters: {
     docs: {
@@ -281,7 +304,6 @@ export default {
 
 const Template = ({dataDynamic = false}) => {
   const isDynamic = dataDynamic ? 'data-dynamic' : ''
-  console.log(dataDynamic)
   return `
     <div class="v-flex">
       <mettle-virtual-list ${isDynamic}></mettle-virtual-list>
