@@ -25,6 +25,11 @@ this process will slow down the browser and is not recommend.
 The virtual list while is a custom element can only be updated by JavaScript. Once
 you have the element selected you can render your items like so
 
+> Note that the rows are rendered as a slot and not in the shadow root
+
+> In order for rows to be rendered properly they must not have a <code>hidden</code> attribute or <code>display: none</code> style
+
+
 <pre>
 <code>
 const $component = globalThis.document.querySelector('mettle-virtual-list')
@@ -109,21 +114,42 @@ render function.
 
 ### Class States
 
-When hovering over the rows, a CSS part can be applied.  When a row is clicked,
-the CSS part attribute will add <code>selected</code>.
+When hovering over the rows, a CSS <code>:hover</code> state can be applied.
+When a row is clicked, the CSS attribute will add
+<code>aria-selected</code> to the selected row.
 
 <pre>
 <code>
-mettle-virtual-list::part(row):hover  {
+/*Using a rendered row with the class .product-row*/
+.product-row:hover  {
   background-color: hsl(24, 100%, 50%);
   cursor: pointer;
 }
 
-mettle-virtual-list::part(selected) {
+.product-row[aria-selected] {
   background-color: hsl(60, 100%, 50%);
 }
 
-mettle-virtual-list::part(selected):hover  {
+.product-row[aria-selected]:hover {
+  background-color: hsl(233, 72%, 89%);
+}
+</code>
+</pre>
+
+
+<pre>
+<code>
+/*Using a rendered row custom element with the class .product-row*/
+.product-row:hover  {
+  background-color: hsl(24, 100%, 50%);
+  cursor: pointer;
+}
+
+custom-tag[aria-selected] .product-row {
+  background-color: hsl(60, 100%, 50%);
+}
+
+custom-tag[aria-selected] .product-row:hover {
   background-color: hsl(233, 72%, 89%);
 }
 </code>
@@ -209,18 +235,20 @@ export default {
       table: {
         category: Constants.CATEGORIES.ATTRIBUTES,
         defaultValue: {
+          detail: 'Boolean',
           summary: 'false',
         }
       }
     },
     dataFixedRows: {
       control: { type: 'null' },
-      description: 'Set if you want to display a fixed number of rows.',
+      description: 'Set if you want to display a fixed number of rows. Must be greater than zero(0).',
       name: 'data-fixed-rows',
       table: {
         category: Constants.CATEGORIES.ATTRIBUTES,
         defaultValue: {
-          summary: 'false',
+          detail: 'Number',
+          summary: '0',
         }
       }
     },
@@ -273,20 +301,6 @@ export default {
     partContainer: {
       description: 'Selector for the rows container that determines the view port',
       name: '::part(container)',
-      table: {
-        category: Constants.CATEGORIES.CSS,
-      },
-    },
-    partRow: {
-      description: 'Selector for the rows',
-      name: '::part(row)',
-      table: {
-        category: Constants.CATEGORIES.CSS,
-      },
-    },
-    partSelected: {
-      description: 'Selector for the selected row, only applied after it is clicked',
-      name: '::part(selected)',
       table: {
         category: Constants.CATEGORIES.CSS,
       },
@@ -350,21 +364,21 @@ const Template = ({dataDynamic = false}) => {
       width: 100%;
     }
 
-    mettle-virtual-list::part(row)  {
+    .v-row  {
       border-bottom: 1px solid blue;
       padding: 0.4rem;
     }
 
-    mettle-virtual-list::part(row):hover  {
+    .v-row:hover  {
       background-color: hsl(24, 100%, 50%);
       cursor: pointer;
     }
 
-    mettle-virtual-list::part(selected) {
+    .v-row[aria-selected] {
       background-color: hsl(60, 100%, 50%);
     }
 
-    mettle-virtual-list::part(selected):hover  {
+    .v-row[aria-selected]:hover  {
       background-color: hsl(233, 72%, 89%);
     }
   </style>
@@ -372,6 +386,7 @@ const Template = ({dataDynamic = false}) => {
 }
 
 const args = {
+  dataFixedRows : 0,
   dataDynamic: true,
 }
 
