@@ -127,7 +127,8 @@ if (!window.customElements.get(TAG_NAME)) {
         this.$container.style.height = `${this.largestItemHeight * rowAmount}px`
       }
       const containerHeight = Math.ceil(this.$container.getBoundingClientRect().height)
-      return Math.ceil(containerHeight / this.smallestItemHeight)
+      /* make sure not to divide by zero */
+      return this.smallestItemHeight === 0 ? this.smallestItemHeight : Math.ceil(containerHeight / this.smallestItemHeight)
     }
 
     get listViewAmt() {
@@ -344,10 +345,11 @@ if (!window.customElements.get(TAG_NAME)) {
 
     async _discoverElementHeight(tag, rowData) {
       this.appendChild(tag)
-      tag.style.visibility = 'hidden'
       if(window.getComputedStyle(tag).display === 'none') {
+        tag.removeAttribute('hidden')
         tag.style.removeProperty('display')
       }
+      tag.style.visibility = 'hidden'
       await this.updateRow(tag, rowData)
       const height = Math.ceil(tag.getBoundingClientRect().height)
       tag.remove()

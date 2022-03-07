@@ -169,8 +169,10 @@
       listItems: itemsList,
       renderRow: () => {
         const elem = document.createElement('div')
-        elem.classList.add('v-item-x')
+        //elem.classList.add('v-item-x')
         //elem.style.display = 'none'
+        //elem.setAttribute('hidden', 'hidden')
+        //elem.hidden = true
         return elem
       },
       updateRow: (elem, data) => {
