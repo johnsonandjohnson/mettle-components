@@ -68,10 +68,10 @@ describe(ELEM_TAG_NAME, () => {
 
     it('should be able select on click', async () => {
       $el.viewPortItems[0].click()
-      let hasClass = $el.viewPortItems[0].part.contains($el.ROW_STATE.SELECTED)
+      let hasClass = $el.viewPortItems[0].hasAttribute($el.ROW_STATE.SELECTED)
       expect(hasClass).toBeTrue()
       $el.clearSelectedRows()
-      hasClass = $el.viewPortItems[0].part.contains($el.ROW_STATE.SELECTED)
+      hasClass = $el.viewPortItems[0].hasAttribute($el.ROW_STATE.SELECTED)
       expect(hasClass).toBeFalse()
     })
 
@@ -163,6 +163,13 @@ describe(ELEM_TAG_NAME, () => {
       $el.dataset.fixedRows = '5'
       const newFixedRows = $el.fixedRows
       expect(currentFixedRows).toBeLessThan(newFixedRows)
+    })
+
+    it('should get the height of a row with display none', async () => {
+      const $tag = $el.renderRow()
+      $tag.style.display = 'none'
+      const height = await $el._discoverElementHeight($tag, listItems[0])
+      expect(height).toBeGreaterThan(0)
     })
 
 

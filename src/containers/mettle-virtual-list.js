@@ -11,7 +11,7 @@ const EVENT_TYPES = {
 }
 
 const ROW_STATE = {
-  SELECTED: 'selected',
+  SELECTED: 'aria-selected',
 }
 
 const TAG_NAME = 'mettle-virtual-list'
@@ -44,9 +44,6 @@ if (!window.customElements.get(TAG_NAME)) {
         top: 0;
         width: 100%;
       }
-      .v-item {
-        display: inherit;
-      }
       .v-push {
         box-sizing: border-box;
         opacity: 0;
@@ -55,7 +52,7 @@ if (!window.customElements.get(TAG_NAME)) {
       </style>
       <div class="v-container" part="container">
         <div class="v-push" part="push"></div>
-        <div class="v-list" part"list"></div>
+        <div class="v-list" part"list"><slot></slot></div>
       </div>
     `.trim()
       return template
@@ -173,9 +170,10 @@ if (!window.customElements.get(TAG_NAME)) {
       if ($selectedElement) {
         rowIndex = this.offsetItem + rowIndex
         this.clearSelectedRows($selectedElement)
-        $selectedElement.part.toggle(ROW_STATE.SELECTED)
-        this.currentSelectedIndex = $selectedElement.part.contains(ROW_STATE.SELECTED) ? rowIndex : null
-        const eventName = $selectedElement.part.contains(ROW_STATE.SELECTED) ? EVENT_TYPES.SELECTED : EVENT_TYPES.UNSELECTED
+        $selectedElement.toggleAttribute(ROW_STATE.SELECTED)
+        const isElementSelected = $selectedElement.hasAttribute(ROW_STATE.SELECTED)
+        this.currentSelectedIndex = isElementSelected ? rowIndex : null
+        const eventName = isElementSelected ? EVENT_TYPES.SELECTED : EVENT_TYPES.UNSELECTED
         const detail = {
           elem: $selectedElement,
           index: rowIndex,
@@ -186,7 +184,7 @@ if (!window.customElements.get(TAG_NAME)) {
     }
 
     clearSelectedRows($filterRow = null) {
-      this.viewPortItems.filter(row => row !== $filterRow).forEach($viewDiv => { $viewDiv.part.remove(ROW_STATE.SELECTED) })
+      this.viewPortItems.filter(row => row !== $filterRow).forEach($viewDiv => { $viewDiv.removeAttribute(ROW_STATE.SELECTED) })
       return this
     }
 
@@ -207,7 +205,7 @@ if (!window.customElements.get(TAG_NAME)) {
 
       if (Util.isFunction(renderRow)) {
         if (Util.isFunction(this.renderRow) && renderRow.toString() !== this.renderRow.toString()) {
-          this.$list.innerHTML = ''
+          this.innerHTML = ''
           this.viewPortItems = []
           this.listItemsHeight = []
         }
@@ -267,8 +265,7 @@ if (!window.customElements.get(TAG_NAME)) {
         const offsetRowIndex = topItem + viewRowIndex
         tag.style.display = (typeof this.listItems[offsetRowIndex] === 'undefined') ? DISPLAY_STATE.HIDE : DISPLAY_STATE.SHOW
         tag.style.height = `${this.listItemsHeight[offsetRowIndex] || 0}px`
-        tag.part.toggle(ROW_STATE.SELECTED, offsetRowIndex === this.currentSelectedIndex)
-        tag.part.add('row')
+        tag.toggleAttribute(ROW_STATE.SELECTED, offsetRowIndex === this.currentSelectedIndex)
         this.updateRow(tag, this.listItems[offsetRowIndex])
       })
     }
@@ -288,7 +285,7 @@ if (!window.customElements.get(TAG_NAME)) {
             const viewPortRowElement = this.generateRow({
               defaultHeight, rowElement, rowIndex: offsetRowIndex
             })
-            this.$list.appendChild(viewPortRowElement)
+            this.appendChild(viewPortRowElement)
             this.updateRow(viewPortRowElement, this.listItems[offsetRowIndex])
             this.viewPortItems.push(viewPortRowElement)
           }
@@ -301,7 +298,6 @@ if (!window.customElements.get(TAG_NAME)) {
       const tag = rowElement.cloneNode(true)
       tag.style.height = `${this.listItemsHeight[rowIndex] || defaultHeight}px`
       tag.style.display = (typeof this.listItems[rowIndex] === 'undefined') ? DISPLAY_STATE.HIDE : DISPLAY_STATE.SHOW
-      tag.classList.add('v-item')
       tag.addEventListener('click', this.triggerSelected.bind(this, tag, rowIndex))
       return tag
     }
@@ -347,9 +343,11 @@ if (!window.customElements.get(TAG_NAME)) {
     }
 
     async _discoverElementHeight(tag, rowData) {
-      this.$list.appendChild(tag)
+      this.appendChild(tag)
       tag.style.visibility = 'hidden'
-      tag.classList.add('v-item')
+      if(window.getComputedStyle(tag).display === 'none') {
+        tag.style.removeProperty('display')
+      }
       await this.updateRow(tag, rowData)
       const height = Math.ceil(tag.getBoundingClientRect().height)
       tag.remove()
