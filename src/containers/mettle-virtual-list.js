@@ -10,8 +10,7 @@ const EVENT_TYPES = {
   UNSELECTED: 'unselected',
 }
 
-const CLASS_STATE = {
-  HOVERED: 'hovered',
+const ROW_STATE = {
   SELECTED: 'selected',
 }
 
@@ -21,19 +20,23 @@ if (!window.customElements.get(TAG_NAME)) {
 
     constructor() {
       super()
+      this.attachShadow({ mode: 'open' })
+        .appendChild(this.generateTemplate().content.cloneNode(true))
     }
 
-    _generateTemplate() {
-      return `
+    generateTemplate() {
+      const template = document.createElement('template')
+
+      template.innerHTML = `
       <style>
-      ${TAG_NAME} .v-container {
+      .v-container {
         contain: strict;
         height: 100%;
         overflow-y: auto;
         position: relative;
         will-change: scroll-position;
       }
-      ${TAG_NAME} .v-list {
+      .v-list {
         height: 100%;
         left: 0;
         max-height: 100vh;
@@ -41,25 +44,25 @@ if (!window.customElements.get(TAG_NAME)) {
         top: 0;
         width: 100%;
       }
-      ${TAG_NAME} .v-item {
+      .v-item {
         display: inherit;
       }
-      ${TAG_NAME} .v-push {
+      .v-push {
         box-sizing: border-box;
         opacity: 0;
         width: 1px;
       }
       </style>
-      <div class="v-container">
-        <div class="v-push"></div>
-        <div class="v-list"></div>
+      <div class="v-container" part="container">
+        <div class="v-push" part="push"></div>
+        <div class="v-list" part"list"></div>
       </div>
     `.trim()
+      return template
     }
 
     connectedCallback() {
-      this.innerHTML = this._generateTemplate()
-      this.$container = this.querySelector('div.v-container')
+      this.$container = this.shadowRoot.querySelector('div.v-container')
       this.$list = this.$container.querySelector('div.v-list')
       this.$push = this.$container.querySelector('div.v-push')
       this.oldListItems = []
@@ -92,8 +95,12 @@ if (!window.customElements.get(TAG_NAME)) {
       return EVENT_TYPES
     }
 
-    get CLASS_STATE() {
-      return CLASS_STATE
+    get ROW_STATE() {
+      return ROW_STATE
+    }
+
+    get fixedRows() {
+      return ~~this.getAttribute('data-fixed-rows')
     }
 
     get listItemsLength() {
@@ -118,6 +125,10 @@ if (!window.customElements.get(TAG_NAME)) {
     }
 
     get displayAmt() {
+      const rowAmount = this.fixedRows
+      if(rowAmount > 0) {
+        this.$container.style.height = `${this.largestItemHeight * rowAmount}px`
+      }
       const containerHeight = Math.ceil(this.$container.getBoundingClientRect().height)
       return Math.ceil(containerHeight / this.smallestItemHeight)
     }
@@ -162,9 +173,9 @@ if (!window.customElements.get(TAG_NAME)) {
       if ($selectedElement) {
         rowIndex = this.offsetItem + rowIndex
         this.clearSelectedRows($selectedElement)
-        $selectedElement.classList.toggle(CLASS_STATE.SELECTED)
-        this.currentSelectedIndex = $selectedElement.classList.contains(CLASS_STATE.SELECTED) ? rowIndex : null
-        const eventName = $selectedElement.classList.contains(CLASS_STATE.SELECTED) ? EVENT_TYPES.SELECTED : EVENT_TYPES.UNSELECTED
+        $selectedElement.part.toggle(ROW_STATE.SELECTED)
+        this.currentSelectedIndex = $selectedElement.part.contains(ROW_STATE.SELECTED) ? rowIndex : null
+        const eventName = $selectedElement.part.contains(ROW_STATE.SELECTED) ? EVENT_TYPES.SELECTED : EVENT_TYPES.UNSELECTED
         const detail = {
           elem: $selectedElement,
           index: rowIndex,
@@ -175,20 +186,18 @@ if (!window.customElements.get(TAG_NAME)) {
     }
 
     clearSelectedRows($filterRow = null) {
-      this.viewPortItems.filter(row => row !== $filterRow).forEach(viewDiv => { viewDiv.classList.remove(CLASS_STATE.SELECTED) })
+      this.viewPortItems.filter(row => row !== $filterRow).forEach($viewDiv => { $viewDiv.part.remove(ROW_STATE.SELECTED) })
       return this
     }
 
     isReady() {
       return Array.isArray(this.listItems) &&
-        this.listItemsLength &&
         Util.isFunction(this.renderRow) &&
         Util.isFunction(this.updateRow)
     }
 
     async render({ listItems, renderRow = null, updateRow = null }) {
       if (!Array.isArray(listItems) ||
-        !listItems.length ||
         JSON.stringify(listItems) === JSON.stringify(this.listItems)) {
         return
       }
@@ -223,6 +232,7 @@ if (!window.customElements.get(TAG_NAME)) {
 
     async setListItemsHeights(isAppended = false) {
       if (this.isReady()) {
+        this.style.display = 'initial'
         const tag = this.renderRow()
         let itemHeights = []
         if (this.isDynamic()) {
@@ -243,6 +253,7 @@ if (!window.customElements.get(TAG_NAME)) {
           })
         await this.adjustResize()
         this.updateViewPortList()
+        this.style.removeProperty('display')
       }
     }
 
@@ -256,7 +267,8 @@ if (!window.customElements.get(TAG_NAME)) {
         const offsetRowIndex = topItem + viewRowIndex
         tag.style.display = (typeof this.listItems[offsetRowIndex] === 'undefined') ? DISPLAY_STATE.HIDE : DISPLAY_STATE.SHOW
         tag.style.height = `${this.listItemsHeight[offsetRowIndex] || 0}px`
-        tag.classList.toggle(CLASS_STATE.SELECTED, offsetRowIndex === this.currentSelectedIndex)
+        tag.part.toggle(ROW_STATE.SELECTED, offsetRowIndex === this.currentSelectedIndex)
+        tag.part.add('row')
         this.updateRow(tag, this.listItems[offsetRowIndex])
       })
     }
@@ -291,13 +303,6 @@ if (!window.customElements.get(TAG_NAME)) {
       tag.style.display = (typeof this.listItems[rowIndex] === 'undefined') ? DISPLAY_STATE.HIDE : DISPLAY_STATE.SHOW
       tag.classList.add('v-item')
       tag.addEventListener('click', this.triggerSelected.bind(this, tag, rowIndex))
-      tag.addEventListener('mouseover', () => {
-        this.viewPortItems.forEach(viewDiv => { viewDiv.classList.remove(CLASS_STATE.HOVERED) })
-        tag.classList.add(CLASS_STATE.HOVERED)
-      })
-      tag.addEventListener('mouseout', () => {
-        tag.classList.remove(CLASS_STATE.HOVERED)
-      })
       return tag
     }
 
@@ -360,6 +365,23 @@ if (!window.customElements.get(TAG_NAME)) {
 
     isDynamic() {
       return this.hasAttribute('data-dynamic')
+    }
+
+    async setFixedRows() {
+      if(this.isReady()) {
+        await this.adjustResize()
+        this.updateViewPortList()
+      }
+    }
+
+    static get observedAttributes() {
+      return ['data-fixed-rows']
+    }
+
+    attributeChangedCallback(attr, oldValue, newValue) {
+      if (oldValue !== newValue) {
+        this.setFixedRows()
+      }
     }
 
   })

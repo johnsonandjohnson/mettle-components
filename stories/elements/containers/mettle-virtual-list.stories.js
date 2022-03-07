@@ -2,8 +2,6 @@ import '../../../src/containers/mettle-virtual-list.js'
 
 import { Constants } from '../../helper/index.js'
 
-import './virtual-list.css'
-
 const DocsDescriptionMDX = `
 Mettle virtual list is used to display a large list of items.  Only items in
 the view port will be rendered.
@@ -103,34 +101,35 @@ $component.appendItems(newItems)
 </code>
 </pre>
 
-**No observed Attributes on data-dynamic**
+### No observed Attributes on <code>data-dynamic</code>
 
 The choice was made to not observe the <code>data-dynamic</code> due to the nature
 of the rendering process.  This attribute must be present before using the
 render function.
 
-**Class States**
+### Class States
 
-When hovering over the rows, a CSS class is applied on mouse and click events.
+When hovering over the rows, a CSS part can be applied.  When a row is clicked,
+the CSS part attribute will add <code>selected</code>.
 
 <pre>
 <code>
-mettle-virtual-list .hovered {
+mettle-virtual-list::part(row):hover  {
   background-color: hsl(24, 100%, 50%);
   cursor: pointer;
 }
 
-mettle-virtual-list .selected {
+mettle-virtual-list::part(selected) {
   background-color: hsl(60, 100%, 50%);
 }
 
-mettle-virtual-list .hovered.selected {
+mettle-virtual-list::part(selected):hover  {
   background-color: hsl(233, 72%, 89%);
 }
 </code>
 </pre>
 
-**Event Dispatches**
+### Event Dispatches
 
 Clicking a row will cause the <code>SELECTED</code> and <code>UNSELECTED</code> events to trigger.
 
@@ -156,7 +155,7 @@ $component.addEventListener($component.EVENT_TYPES.UNSELECTED, evt => {
 </code>
 </pre>
 
-**Selected Row Event Bubbling**
+### Selected Row Event Bubbling
 
 If you have a row with a clickable element, be sure to prevent the event from bubbling
 so the row is not being selected and un-selected.
@@ -173,6 +172,30 @@ $rowBtn.addEventListener('click', evt => {
 
 > Use the <code>stopPropagation()</code> to prevent this.
 
+### Virtual List Height
+
+The default behavior is that the virtual list will extend with <code>height: 100%;</code>
+based on the parent height.  You can use CSS to override the container height.
+
+<pre>
+<code>
+/* Override virtual list height of 100% */
+mettle-virtual-list::part(container) {
+  height: 50vh;
+}
+</code>
+</pre>
+
+> If the parent height is set to zero by default, the virtual list will not appear.
+
+**Using <code>data-fixed-rows</code>**
+
+If there is a number of fixed rows to display use the <code>data-fixed-rows="[number]"<code>
+attribute.  It will set the container height to the rows largest height multiped by
+the rows set.
+
+> Recommended to not use <code>data-dynamic</code> with <code>data-fixed-rows</code>
+
 ##See code samples below
 `
 
@@ -183,6 +206,17 @@ export default {
       control: { type: 'null' },
       description: 'Set if you want to display the rows with variable heights.',
       name: 'data-dynamic',
+      table: {
+        category: Constants.CATEGORIES.ATTRIBUTES,
+        defaultValue: {
+          summary: 'false',
+        }
+      }
+    },
+    dataFixedRows: {
+      control: { type: 'null' },
+      description: 'Set if you want to display a fixed number of rows.',
+      name: 'data-fixed-rows',
       table: {
         category: Constants.CATEGORIES.ATTRIBUTES,
         defaultValue: {
@@ -235,6 +269,29 @@ export default {
         }
       },
     },
+
+    partContainer: {
+      description: 'Selector for the rows container that determines the view port',
+      name: '::part(container)',
+      table: {
+        category: Constants.CATEGORIES.CSS,
+      },
+    },
+    partRow: {
+      description: 'Selector for the rows',
+      name: '::part(row)',
+      table: {
+        category: Constants.CATEGORIES.CSS,
+      },
+    },
+    partSelected: {
+      description: 'Selector for the selected row, only applied after it is clicked',
+      name: '::part(selected)',
+      table: {
+        category: Constants.CATEGORIES.CSS,
+      },
+    },
+
   },
   parameters: {
     docs: {
@@ -247,7 +304,6 @@ export default {
 
 const Template = ({dataDynamic = false}) => {
   const isDynamic = dataDynamic ? 'data-dynamic' : ''
-  console.log(dataDynamic)
   return `
     <div class="v-flex">
       <mettle-virtual-list ${isDynamic}></mettle-virtual-list>
@@ -289,26 +345,26 @@ const Template = ({dataDynamic = false}) => {
       height: 100vh;
     }
 
-    .v-row {
-      border-bottom: 1px solid blue;
-      padding: 0.4rem;
-    }
-
     mettle-virtual-list {
       height: 100%;
       width: 100%;
     }
 
-    mettle-virtual-list .hovered {
+    mettle-virtual-list::part(row)  {
+      border-bottom: 1px solid blue;
+      padding: 0.4rem;
+    }
+
+    mettle-virtual-list::part(row):hover  {
       background-color: hsl(24, 100%, 50%);
       cursor: pointer;
     }
 
-    mettle-virtual-list .selected {
+    mettle-virtual-list::part(selected) {
       background-color: hsl(60, 100%, 50%);
     }
 
-    mettle-virtual-list .hovered.selected {
+    mettle-virtual-list::part(selected):hover  {
       background-color: hsl(233, 72%, 89%);
     }
   </style>

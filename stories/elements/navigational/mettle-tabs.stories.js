@@ -170,7 +170,7 @@ const TemplateStyle = (args) => {
 
   <style>
     mettle-tabs.styled::part(panel-container) {
-      width: 50rem;
+      width: 100%;
       height: 200px;
       background: rgba(0, 0, 0, 1);
       color: var(--on-surface, white);
@@ -230,7 +230,7 @@ const TemplateStyle2 = (args) => {
 
   <style>
     mettle-tabs.styled::part(panel-container) {
-      width: 50rem;
+      width: 100%;
       height: 200px;
       background: rgba(0, 0, 0, 1);
       color: var(--on-surface, white);
@@ -392,7 +392,7 @@ const TemplateTabIgnored = ({Class = ''}) => {
     }
 
     mettle-tabs.ignore::part(navigation) {
-      width: 50rem;
+      width: 100%;
     }
 
     mettle-tabs.ignore::part(navigation-tab-group) {
