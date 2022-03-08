@@ -148,7 +148,7 @@ if (!window.customElements.get(TAG_NAME)) {
       let offsetRow = 0
       for (let row = 0; row < listHeightLen; row++) {
         addedHeight += this.listItemsHeight[row]
-        if (addedHeight > scrollTop) {
+        if (addedHeight >= scrollTop) {
           offsetRow = row
           break
         }
@@ -232,6 +232,7 @@ if (!window.customElements.get(TAG_NAME)) {
     async setListItemsHeights(isAppended = false) {
       if (this.isReady()) {
         this.style.display = 'initial'
+        this.removeAttribute('hidden')
         const tag = this.renderRow()
         let itemHeights = []
         if (this.isDynamic()) {
@@ -351,9 +352,22 @@ if (!window.customElements.get(TAG_NAME)) {
       }
       tag.style.visibility = 'hidden'
       await this.updateRow(tag, rowData)
-      const height = Math.ceil(tag.getBoundingClientRect().height)
-      tag.remove()
+      const height = await new Promise(resolve => {
+        window.requestAnimationFrame(() => {
+          const height = this.getHeight(tag)
+          tag.remove()
+          resolve(height)
+        })
+      })
       return height
+    }
+
+    getHeight(target) {
+      const style = window.getComputedStyle(target)
+      const height = Math.ceil(target.getBoundingClientRect().height)
+      return ~~['padding-top', 'padding-bottom', 'margin-top', 'margin-bottom']
+        .map(key => parseInt(style.getPropertyValue(key), 10))
+        .reduce((prev, cur) => prev + cur, height)
     }
 
     _discoverLargestElementHeight(tag) {
