@@ -20,14 +20,16 @@ this process will slow down the browser and is not recommend.
 
 <img src="./virtual-list.svg" alt="Virtual List" />
 
+### Note:
+> **<big>In order for rows to be rendered properly the virtual list must not have a <code>hidden</code> attribute or <code>display: none</code> style including any parent elements.</big>**
+
+
 ### How to use
 
 The virtual list while is a custom element can only be updated by JavaScript. Once
 you have the element selected you can render your items like so
 
 > Note that the rows are rendered as a slot and not in the shadow root
-
-> In order for rows to be rendered properly they must not have a <code>hidden</code> attribute or <code>display: none</code> style
 
 
 <pre>
@@ -39,6 +41,7 @@ $component.render({
   renderRow: () => document.createElement('div'),
   updateRow: (elem, data) => {
     elem.innerHTML = data
+    return true
   }
 })
 </code>
@@ -66,9 +69,48 @@ $component.render({
     elem.classList.add('product-row')
     return elem
   },
+  updateRow: (elem, data) => elem.updateModel(data)
+})
+</code>
+</pre>
+
+**About updateRow()**
+
+If the <code>updateRow()</code> takes a while to render, consider returning a Promise
+or using async.  Calculating the row height is dependent on this function being
+complete.
+
+<pre>
+<code>
+const $component = globalThis.document.querySelector('mettle-virtual-list')
+
+$component.render({
+  listItems: getListItemsSet(500),
+  renderRow: () => document.createElement('div'),
   updateRow: (elem, data) => {
-    elem.updateModel(data)
+    return new Promise(resolve => {
+      elem.innerHTML = data
+      resolve()
+    })
   }
+})
+</code>
+</pre>
+
+**OR**
+
+<pre>
+<code>
+const $component = globalThis.document.querySelector('mettle-virtual-list')
+
+$component.render({
+  listItems: getListItemsSet(500),
+  renderRow: () => {
+    const elem = document.createElement('custom-tag')
+    elem.classList.add('product-row')
+    return elem
+  },
+  updateRow: async(elem, data) => await elem.updateModel(data)
 })
 </code>
 </pre>
@@ -108,9 +150,14 @@ $component.appendItems(newItems)
 
 ### No observed Attributes on <code>data-dynamic</code>
 
+The <code>data-dynamic</code> attribute will calculate the height of each row.
+This will display each row with the correct height for the content.
+
 The choice was made to not observe the <code>data-dynamic</code> due to the nature
 of the rendering process.  This attribute must be present before using the
 render function.
+
+> Recommended to not use <code>data-dynamic</code> if the list is very large.
 
 ### Class States
 
@@ -218,9 +265,8 @@ mettle-virtual-list::part(container) {
 
 If there is a number of fixed rows to display use the <code>data-fixed-rows="[number]"<code>
 attribute.  It will set the container height to the rows largest height multiped by
-the rows set.
+the rows set. This attribute is observed and will adjust if changed.
 
-> Recommended to not use <code>data-dynamic</code> with <code>data-fixed-rows</code>
 
 ##See code samples below
 `
