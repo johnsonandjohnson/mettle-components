@@ -19,22 +19,34 @@
       border: 0px solid black;
     }
 
-    .v-item-x-1 {
+    .v-item-x {
       display: flex;
       word-break: break-all;
     }
-
-    mettle-virtual-list::part(row):hover {
+/*
+    .blue:hover {
       background-color: hsl(24, 100%, 50%);
     }
 
-    mettle-virtual-list::part(selected) {
+    tag-one[aria-selected] .blue {
       background-color: hsl(60, 100%, 50%);
     }
 
-    mettle-virtual-list::part(selected):hover {
+    tag-one[aria-selected] .blue:hover {
       background-color: hsl(233, 72%, 89%);
     }
+
+    .v-item-x:hover {
+      background-color: hsl(24, 100%, 50%);
+    }
+
+    .v-item-x[aria-selected] {
+      background-color: hsl(60, 100%, 50%);
+    }
+
+    .v-item-x[aria-selected]:hover {
+      background-color: hsl(233, 72%, 89%);
+    }*/
 
     /*mettle-virtual-list::part(container) {
       height: 100%;
@@ -46,7 +58,7 @@
 
 <body>
 
-  <mettle-virtual-list style="height: 0;"></mettle-virtual-list>
+  <mettle-virtual-list data-dynamic data-fixed-rows="4"></mettle-virtual-list>
 <p> this goes below</p>
   <script type="module">
     //data-dynamic
@@ -156,11 +168,17 @@
     $viewTableBody.render({
       listItems: itemsList,
       renderRow: () => {
-        const elem = document.createElement('div')
+        //const elem = document.createElement('div')
+        const elem = document.createElement('tag-one')
+        elem.classList.add('v-item-x')
+        //elem.style.display = 'none'
+        //elem.setAttribute('hidden', 'hidden')
+        //elem.hidden = true
         return elem
       },
       updateRow: (elem, data) => {
-        elem.innerHTML = data
+        elem.updateModel(data)
+        //elem.innerHTML = data
       }
     })
 
