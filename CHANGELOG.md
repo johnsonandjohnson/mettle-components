@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.10.3](https://www.github.com/johnsonandjohnson/mettle-components/compare/v1.10.2...v1.10.3) (2022-03-12)
+
+
+### Bug Fixes
+
+* update current state with url change ([#74](https://www.github.com/johnsonandjohnson/mettle-components/issues/74)) ([d87e398](https://www.github.com/johnsonandjohnson/mettle-components/commit/d87e39862766849e8d62ee1e9eba35f0994e721b))
+
+### [1.10.2](https://www.github.com/johnsonandjohnson/mettle-components/compare/v1.10.1...v1.10.2) (2022-03-08)
+
+
+### Bug Fixes
+
+* virtual list height to adjust for padding and margin ([#70](https://www.github.com/johnsonandjohnson/mettle-components/issues/70)) ([fcedeeb](https://www.github.com/johnsonandjohnson/mettle-components/commit/fcedeeb2a72cfd95bd3c40d3b4ed9bd4b2ea3861))
+
+### [1.10.1](https://www.github.com/johnsonandjohnson/mettle-components/compare/v1.10.0...v1.10.1) (2022-03-07)
+
+
+### Bug Fixes
+
+* Virtual list rows should be slotted ([#67](https://www.github.com/johnsonandjohnson/mettle-components/issues/67)) ([acc3036](https://www.github.com/johnsonandjohnson/mettle-components/commit/acc3036c76e954366ab1484cb31bd5dbaf0360eb))
+
 ## [1.10.0](https://www.github.com/johnsonandjohnson/mettle-components/compare/v1.9.1...v1.10.0) (2022-03-06)
 
 

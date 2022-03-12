@@ -16,11 +16,12 @@ describe('RouterService', () => {
       })
       const pathChange = () => {
         expect(true).toBeTrue()
+        expect(document.title).toEqual('title')
         window.removeEventListener(RouterService.routeChangeEventName, pathChange)
         done()
       }
       window.addEventListener(RouterService.routeChangeEventName, pathChange)
-      RouterService.goto('test')
+      RouterService.goto('test', 'title')
     })
 
     it('should execute the exit function', (done) => {

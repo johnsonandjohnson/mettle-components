@@ -20,10 +20,17 @@ this process will slow down the browser and is not recommend.
 
 <img src="./virtual-list.svg" alt="Virtual List" />
 
+### Note:
+> **<big>In order for rows to be rendered properly the virtual list must not have a <code>hidden</code> attribute or <code>display: none</code> style including any parent elements.</big>**
+
+
 ### How to use
 
 The virtual list while is a custom element can only be updated by JavaScript. Once
 you have the element selected you can render your items like so
+
+> Note that the rows are rendered as a slot and not in the shadow root
+
 
 <pre>
 <code>
@@ -34,6 +41,7 @@ $component.render({
   renderRow: () => document.createElement('div'),
   updateRow: (elem, data) => {
     elem.innerHTML = data
+    return true
   }
 })
 </code>
@@ -61,9 +69,48 @@ $component.render({
     elem.classList.add('product-row')
     return elem
   },
+  updateRow: (elem, data) => elem.updateModel(data)
+})
+</code>
+</pre>
+
+**About updateRow()**
+
+If the <code>updateRow()</code> takes a while to render, consider returning a Promise
+or using async.  Calculating the row height is dependent on this function being
+complete.
+
+<pre>
+<code>
+const $component = globalThis.document.querySelector('mettle-virtual-list')
+
+$component.render({
+  listItems: getListItemsSet(500),
+  renderRow: () => document.createElement('div'),
   updateRow: (elem, data) => {
-    elem.updateModel(data)
+    return new Promise(resolve => {
+      elem.innerHTML = data
+      resolve()
+    })
   }
+})
+</code>
+</pre>
+
+**OR**
+
+<pre>
+<code>
+const $component = globalThis.document.querySelector('mettle-virtual-list')
+
+$component.render({
+  listItems: getListItemsSet(500),
+  renderRow: () => {
+    const elem = document.createElement('custom-tag')
+    elem.classList.add('product-row')
+    return elem
+  },
+  updateRow: async(elem, data) => await elem.updateModel(data)
 })
 </code>
 </pre>
@@ -103,27 +150,53 @@ $component.appendItems(newItems)
 
 ### No observed Attributes on <code>data-dynamic</code>
 
+The <code>data-dynamic</code> attribute will calculate the height of each row.
+This will display each row with the correct height for the content.
+
 The choice was made to not observe the <code>data-dynamic</code> due to the nature
 of the rendering process.  This attribute must be present before using the
 render function.
 
+> Recommended to not use <code>data-dynamic</code> if the list is very large.
+
 ### Class States
 
-When hovering over the rows, a CSS part can be applied.  When a row is clicked,
-the CSS part attribute will add <code>selected</code>.
+When hovering over the rows, a CSS <code>:hover</code> state can be applied.
+When a row is clicked, the CSS attribute will add
+<code>aria-selected</code> to the selected row.
 
 <pre>
 <code>
-mettle-virtual-list::part(row):hover  {
+/*Using a rendered row with the class .product-row*/
+.product-row:hover  {
   background-color: hsl(24, 100%, 50%);
   cursor: pointer;
 }
 
-mettle-virtual-list::part(selected) {
+.product-row[aria-selected] {
   background-color: hsl(60, 100%, 50%);
 }
 
-mettle-virtual-list::part(selected):hover  {
+.product-row[aria-selected]:hover {
+  background-color: hsl(233, 72%, 89%);
+}
+</code>
+</pre>
+
+
+<pre>
+<code>
+/*Using a rendered row custom element with the class .product-row*/
+.product-row:hover  {
+  background-color: hsl(24, 100%, 50%);
+  cursor: pointer;
+}
+
+custom-tag[aria-selected] .product-row {
+  background-color: hsl(60, 100%, 50%);
+}
+
+custom-tag[aria-selected] .product-row:hover {
   background-color: hsl(233, 72%, 89%);
 }
 </code>
@@ -192,9 +265,8 @@ mettle-virtual-list::part(container) {
 
 If there is a number of fixed rows to display use the <code>data-fixed-rows="[number]"<code>
 attribute.  It will set the container height to the rows largest height multiped by
-the rows set.
+the rows set. This attribute is observed and will adjust if changed.
 
-> Recommended to not use <code>data-dynamic</code> with <code>data-fixed-rows</code>
 
 ##See code samples below
 `
@@ -209,18 +281,20 @@ export default {
       table: {
         category: Constants.CATEGORIES.ATTRIBUTES,
         defaultValue: {
+          detail: 'Boolean',
           summary: 'false',
         }
       }
     },
     dataFixedRows: {
       control: { type: 'null' },
-      description: 'Set if you want to display a fixed number of rows.',
+      description: 'Set if you want to display a fixed number of rows. Must be greater than zero(0).',
       name: 'data-fixed-rows',
       table: {
         category: Constants.CATEGORIES.ATTRIBUTES,
         defaultValue: {
-          summary: 'false',
+          detail: 'Number',
+          summary: '0',
         }
       }
     },
@@ -273,20 +347,6 @@ export default {
     partContainer: {
       description: 'Selector for the rows container that determines the view port',
       name: '::part(container)',
-      table: {
-        category: Constants.CATEGORIES.CSS,
-      },
-    },
-    partRow: {
-      description: 'Selector for the rows',
-      name: '::part(row)',
-      table: {
-        category: Constants.CATEGORIES.CSS,
-      },
-    },
-    partSelected: {
-      description: 'Selector for the selected row, only applied after it is clicked',
-      name: '::part(selected)',
       table: {
         category: Constants.CATEGORIES.CSS,
       },
@@ -350,21 +410,21 @@ const Template = ({dataDynamic = false}) => {
       width: 100%;
     }
 
-    mettle-virtual-list::part(row)  {
+    .v-row  {
       border-bottom: 1px solid blue;
       padding: 0.4rem;
     }
 
-    mettle-virtual-list::part(row):hover  {
+    .v-row:hover  {
       background-color: hsl(24, 100%, 50%);
       cursor: pointer;
     }
 
-    mettle-virtual-list::part(selected) {
+    .v-row[aria-selected] {
       background-color: hsl(60, 100%, 50%);
     }
 
-    mettle-virtual-list::part(selected):hover  {
+    .v-row[aria-selected]:hover  {
       background-color: hsl(233, 72%, 89%);
     }
   </style>
@@ -372,6 +432,7 @@ const Template = ({dataDynamic = false}) => {
 }
 
 const args = {
+  dataFixedRows : 0,
   dataDynamic: true,
 }
 
