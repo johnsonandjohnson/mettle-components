@@ -40,6 +40,14 @@ class Router {
     }
   }
 
+  get currentHistoryState() {
+    return this._currentHistoryState
+  }
+
+  saveCurrentHistoryState() {
+    this._currentHistoryState = window.history.state
+  }
+
   getCurrentPath() {
     return window.decodeURIComponent(window.location.pathname)
   }
@@ -83,8 +91,8 @@ class Router {
       const canExit = await this._canExitFn()
 
       if (!canExit) {
-        if (window.history.state !== this._currentHistoryState) {
-          window.history.pushState(this._currentHistoryState, document.title, this._currentHistoryState)
+        if (window.history.state !== this.currentHistoryState) {
+          window.history.pushState(this.currentHistoryState, document.title, this.currentHistoryState)
         }
         return
       } else {
@@ -130,7 +138,7 @@ class Router {
       pipeNext(allHandlers.slice())
     }
 
-    this._currentHistoryState = window.history.state
+    this.saveCurrentHistoryState()
     /* Delay to ensure the route is not being over called */
     setTimeout(() => {
       this._canRoute = true
@@ -272,12 +280,16 @@ class Router {
       .join('/') : ''
 
     const searchParams = this.getCurrentSearchParams().toString()
-    window.history.pushState(Object.create(null), document.title, `${routePath}${searchParams.length ? `?${searchParams}` : ''}`)
+    const newURL = `${routePath}${searchParams.length ? `?${searchParams}` : ''}`
+    window.history.pushState(newURL, document.title, `${routePath}${searchParams.length ? `?${searchParams}` : ''}`)
+    this.saveCurrentHistoryState()
     return this
   }
 
   removeURLSearchParams() {
-    window.history.replaceState(Object.create(null), document.title, this.getCurrentPath())
+    const newURL = this.getCurrentPath()
+    window.history.pushState(newURL, document.title, newURL)
+    this.saveCurrentHistoryState()
   }
 
   updateURLSearchParams(params = Object.create(null)) {
@@ -292,7 +304,9 @@ class Router {
         searchParams.append(key, value)
       })
     const finalParams = searchParams.toString()
-    window.history.pushState(Object.create(null), document.title, `${this.getCurrentPath()}?${finalParams}`)
+    const newURL = `${this.getCurrentPath()}?${finalParams}`
+    window.history.pushState(newURL, document.title, newURL)
+    this.saveCurrentHistoryState()
     return this
   }
 
