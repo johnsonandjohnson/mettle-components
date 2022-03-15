@@ -12,7 +12,7 @@ if (!window.customElements.get(TAG_NAME)) {
       this.$navbar = this.shadowRoot.querySelector('.navbar-open')
       this.isShowing = false
       this.position = 'left'
-      this.width = this.hasAttribute('nav-width') ? this.getAttribute('nav-width') : '10rem'
+      this.width = this.hasAttribute('data-width') ? this.getAttribute('data-width') : '10rem'
       this.$navbarNav.style.width = this.width
       //see if there is a specified icon or if default one should be used
       this.shadowRoot.querySelector('.navbar-icon').src = this.hasAttribute('icon') ? this.getAttribute('icon') : 'https://freesvg.org/img/menu-icon.png'
@@ -64,29 +64,25 @@ if (!window.customElements.get(TAG_NAME)) {
       return template
     }
 
-    //make it so menu can have a set width DONE
-      //transition needs to take this in account when doing translate DONE
-      //don't have width hard coded in DONE
-    //option to choose if menu blocks scrolling 
-    //make it so it doesn't necessarily take an image for the nav icon and have the inside icon have the option of 
-      //being a close button instead of the nav icon again
-
-
     connectedCallback() {
+      //determine navbar positioning
       this._positionAt()
+      //hide navbar at start
       this._hide()
       //closeMenu
       this.shadowRoot.querySelector('.navbar-open').addEventListener('click', () => {
         this._toggleNav()
-        //this.$navbarNav.style.transform = 'translate(0rem)' //make class that adds and removes
-        //this.$navbar.setAttribute('hidden', 'hidden')
       })
       //openMenu
       this.shadowRoot.querySelector('.navbar-nav-close').addEventListener('click', () => {
         this._toggleNav()
-        //this.$navbarNav.style.transform = `translate(-${this.width})`
-        //this.$navbar.removeAttribute('hidden')
       })
+    }
+
+    disconnectedCallback() {
+      if (super.disconnectedCallback) {
+        super.disconnectedCallback()
+      }
     }
 
     _toggleNav() {
@@ -98,39 +94,36 @@ if (!window.customElements.get(TAG_NAME)) {
     }
 
     _show() {
+      //translate the navbar to be visible on page
       this.$navbarNav.style.transform = 'translate(0rem)'
-      //this.$navbar.removeAttribute('hidden')
-
-
-      
+      //add style properties from document.body that prevent scrolling when navbar is open
+      document.body.style.overflow = 'hidden'
+      document.body.style.height = '100%'
       this.isShowing = true
     }
 
     _hide() {
-      if (this.position === 'left') {
-        this.$navbarNav.style.transform = `translate(-${this.width})`
-      } else {
-        this.$navbarNav.style.transform = `translate(${this.width})`
-      }
-
-      //this.$navbar.setAttribute('hidden', 'hidden')
+      //determine which way the navbar should hide depending on navbar positioning
+      this.$navbarNav.style.transform = (this.position === 'left') ? `translate(-${this.width})` : `translate(${this.width})`
+      //remove style properties from document.body that prevent scrolling when navbar is open
+      document.body.style.removeProperty('overflow')
+      document.body.style.removeProperty('height')
       this.isShowing = false
     }
 
     _positionAt() {
+      //get position from attribute for navbar, if none detected, default to left
       const attrPosition = this.getAttribute('data-position')
       this.position = this._allowedPositions.has(attrPosition) ? attrPosition : 'left'
-
       if (this.position === 'left') {
         this.$navbarNav.style.left = '0'
       } else {
         this.$navbarNav.style.right = '0'
       }
-
     }
 
     static get observedAttributes() {
-      return ['navbar-position']
+      return ['data-position', 'icon', 'close-icon', 'data-width']
     }
 
   })
