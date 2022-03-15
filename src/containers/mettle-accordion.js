@@ -24,6 +24,7 @@ if (!window.customElements.get(TAG_NAME)) {
           height: var(--open);
         }
       </style>
+      <div> TEST </div>
       <slot></slot>`.trim()
       return template
     }

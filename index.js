@@ -1,4 +1,5 @@
 import './src/containers/mettle-accordion.js'
+import './src/containers/mettle-navbar.js'
 import './src/containers/mettle-loader.js'
 import './src/containers/mettle-transition-display.js'
 import './src/containers/mettle-virtual-list.js'
