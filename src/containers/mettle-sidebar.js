@@ -62,6 +62,7 @@ if (!window.customElements.get(TAG_NAME)) {
 
     connectedCallback() {
       //determine sidebar positioning
+      //test to see if I fixed everything
       this._positionAt()
       //hide sidebar at start
       this._hide()
