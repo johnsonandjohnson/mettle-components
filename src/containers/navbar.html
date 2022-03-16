@@ -5,44 +5,6 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title></title>
     <style>
-      /* body {
-        margin: 0;
-      }
-
-      mettle-navbar {
-        padding-left: 1rem;
-      }
-
-      .topbar-container {
-        height: 4rem;
-        background-color: lightgray;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-
-      .left-nav {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .topbar-title {
-        padding-left: 1rem;
-      }
-
-      .topbar-options {
-        list-style-type: none;
-        margin: 0;
-        padding: .5rem;
-        display: flex;
-        flex-direction: row;
-      }
-
-      li {
-        padding: .5rem;
-      } */
       ul {
           list-style-type: none;
           padding-inline-start: 0px;
@@ -53,7 +15,7 @@
         font-size: 25px;
         text-decoration: none;
       }
-      navbar-adam::part(nav) {
+      mettle-sidebar::part(nav) {
       }
       .topbar-container {
         height: 5rem;
@@ -72,14 +34,13 @@
   <body>
 
     <div class="topbar-container">
-      
-        <navbar-adam
+        <mettle-sidebar
           icon='https://cdn.iconscout.com/icon/free/png-256/nav-100524.png'
           close-icon='https://cdn4.iconfinder.com/data/icons/xbox-one-thin-line-set/64/ico-xbx-bttn-x-512.png'
           data-width='15rem'
           data-position='left'
         >
-          <div slot="navbar-content">
+          <div slot="sidebar-content">
             <ul>
               <li><a href="#">Home</a></li>
               <hr></hr>
@@ -109,7 +70,7 @@
               <li><a href="#">Profile</a></li>
             </ul>
           </div>
-        </navbar-adam>
+        </mettle-sidebar>
 
         <h2>About</h2>
     </div>
@@ -127,30 +88,8 @@
         Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Le`set sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
         Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Le`set sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
       </section>
-
     </div>
-    <!-- <div class="topbar-container">
-      <section class="left-nav">
-        <mettle-navbar 
-          icon="https://cdn.iconscout.com/icon/free/png-256/nav-100524.png"
-          item-count="4"
-        >
-          <li slot="navbar-items"><a href="#">Home</a></li>
-          <li slot="navbar-items"><a href="#">About</a></li>
-          <li slot="navbar-items"><a href="#">Another</a></li>
-        </mettle-navbar>
-        <h1 class="topbar-title">Mettle</h1>
-      </section>
-      <section>
-        <ul class="topbar-options">
-          <li>Home</li>
-          <li>About us</li>
-          <li>More</li>
-        </ul>
-      </section>
-    </div> -->
-
-    <script type="module" src="navbar.js"></script>
+    <script type="module" src="mettle-sidebar.js"></script>
 
   </body>
 
