@@ -13,6 +13,7 @@ if (!window.customElements.get(TAG_NAME)) {
       this.position = 'left'
       this.width = this.hasAttribute('data-width') ? this.getAttribute('data-width') : '10rem'
       this.$sideBarData.style.width = this.width
+      this.freezeScroll = this.hasAttribute('freeze-scroll') ? this.getAttribute('freeze-scroll') : false
       //see if there is a specified icon or if default one should be used
       this.shadowRoot.querySelector('.sidebar-expand-icon').src = this.hasAttribute('icon') ? this.getAttribute('icon') : 'https://freesvg.org/img/menu-icon.png'
       this.shadowRoot.querySelector('.sidebar-close-icon').src = this.hasAttribute('close-icon') ? this.getAttribute('close-icon') : 'https://freesvg.org/img/menu-icon.png'
@@ -31,12 +32,14 @@ if (!window.customElements.get(TAG_NAME)) {
           display: flex;
           align-items: center;
           justify-content: flex-end;
+          padding-right: 1rem;
         }
         .sidebar-data {
           position: fixed;
           top: 0;
           height: 100%;
-          background-color: lightgray;
+          z-index: 1;
+          background-color: white;
           overflow-x: hidden;
           transition: transform 150ms ease-in-out 25ms;
         }
@@ -94,8 +97,10 @@ if (!window.customElements.get(TAG_NAME)) {
       //translate the sidebar to be visible on page
       this.$sideBarData.style.transform = 'translate(0rem)'
       //add style properties from document.body that prevent scrolling when sidebar is open
-      document.body.style.overflow = 'hidden'
-      document.body.style.height = '100%'
+      if (this.freezeScroll === 'true') {
+        document.body.style.overflow = 'hidden'
+        document.body.style.height = '100%'
+      }
       this.isShowing = true
     }
 
@@ -103,8 +108,10 @@ if (!window.customElements.get(TAG_NAME)) {
       //determine which way the sidebar should hide depending on sidebar positioning
       this.$sideBarData.style.transform = (this.position === 'left') ? `translate(-${this.width})` : `translate(${this.width})`
       //remove style properties from document.body that prevent scrolling when sidebar is open
-      document.body.style.removeProperty('overflow')
-      document.body.style.removeProperty('height')
+      if (this.freezeScroll === 'true') {
+        document.body.style.removeProperty('overflow')
+        document.body.style.removeProperty('height')
+      }
       this.isShowing = false
     }
 

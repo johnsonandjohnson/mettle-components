@@ -14,8 +14,13 @@
         padding: 20px 30px;
         font-size: 25px;
         text-decoration: none;
+        color: black;
       }
-      mettle-sidebar::part(nav) {
+      li a:hover {
+        color: darkgray;
+      }
+      mettle-sidebar::part(nav sidebar-close) {
+        height: 50rem;
       }
       .topbar-container {
         height: 5rem;
@@ -39,10 +44,11 @@
           close-icon='https://cdn4.iconfinder.com/data/icons/xbox-one-thin-line-set/64/ico-xbx-bttn-x-512.png'
           data-width='15rem'
           data-position='left'
+          freeze-scroll='true'
         >
-          <div slot="sidebar-content">
+          <div slot="sidebar-content" name="sidebar-container">
             <ul>
-              <li><a href="#">Home</a></li>
+              <li><a href="#" class="home-menu">Home</a></li>
               <hr></hr>
               <li><a href="#">About</a></li>
               <li><a href="#">Contact Us</a></li>
@@ -89,7 +95,18 @@
         Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Le`set sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
       </section>
     </div>
-    <script type="module" src="mettle-sidebar.js"></script>
+    <script type="module">
+    import './mettle-sidebar.js';
+
+    //allows for making one of the menu items to hide or show the navbar
+    const $component = globalThis.document.querySelector('mettle-sidebar')
+    
+    globalThis.document.querySelector('.home-menu').addEventListener('click', () => {
+      $component._hide()
+
+    });
+
+    </script>
 
   </body>
 
