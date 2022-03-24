@@ -1,3 +1,8 @@
+const EVENT_TYPES = {
+  HIDE: 'sidebar-hidden',
+  SHOW: 'sidebar-shown'
+}
+
 const TAG_NAME = 'mettle-sidebar'
 
 if (!window.customElements.get(TAG_NAME)) {
@@ -68,7 +73,7 @@ if (!window.customElements.get(TAG_NAME)) {
       //test to see if I fixed everything
       this._positionAt()
       //hide sidebar at start
-      this._hide()
+      this.hide()
       //closeMenu
       this.shadowRoot.querySelector('.sidebar-expand').addEventListener('click', () => {
         this._toggleNav()
@@ -85,19 +90,23 @@ if (!window.customElements.get(TAG_NAME)) {
       }
     }
 
-    _toggleNav() {
+    _toggleNav(evt) {
       if (this.isShowing) {
-        this._hide()
+        this.hide(evt)
       } else {
-        this._show()
+        this.show(evt)
       }
     }
 
-    _isOpened() {
+    isOpened() {
       return this.isShowing
     }
 
-    _show() {
+    get EVENT_TYPES() {
+      return EVENT_TYPES
+    }
+
+    show() {
       //translate the sidebar to be visible on page
       this.$sideBarData.style.transform = 'translate(0rem)'
       //add style properties from document.body that prevent scrolling when sidebar is open
@@ -105,10 +114,11 @@ if (!window.customElements.get(TAG_NAME)) {
         document.body.style.overflow = 'hidden'
         document.body.style.height = '100%'
       }
+      this.dispatchEvent(new CustomEvent(EVENT_TYPES.SHOW))
       this.isShowing = true
     }
 
-    _hide() {
+    hide() {
       //determine which way the sidebar should hide depending on sidebar positioning
       this.$sideBarData.style.transform = (this.position === 'left') ? `translate(-${this.width})` : `translate(${this.width})`
       //remove style properties from document.body that prevent scrolling when sidebar is open
@@ -116,6 +126,7 @@ if (!window.customElements.get(TAG_NAME)) {
         document.body.style.removeProperty('overflow')
         document.body.style.removeProperty('height')
       }
+      this.dispatchEvent(new CustomEvent(EVENT_TYPES.HIDE))
       this.isShowing = false
     }
 
