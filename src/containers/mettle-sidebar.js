@@ -52,7 +52,7 @@ if (!window.customElements.get(TAG_NAME)) {
           <div class="sidebar-expand">
             <img class="sidebar-expand-icon">
           </div>
-          <nav class="sidebar-data" part="nav">
+          <nav class="sidebar-data" part="sidebar">
             <div class="sidebar-close">
               <img class="sidebar-close-icon">
             </div>
@@ -91,6 +91,10 @@ if (!window.customElements.get(TAG_NAME)) {
       } else {
         this._show()
       }
+    }
+
+    _isOpened() {
+      return this.isShowing
     }
 
     _show() {
