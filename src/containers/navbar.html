@@ -19,7 +19,9 @@
       li a:hover {
         color: darkgray;
       }
-      mettle-sidebar::part(sidebar) {
+      mettle-sidebar::part(open),
+      mettle-sidebar::part(close) {
+        width: 2rem;
       }
       .topbar-container {
         height: 5rem;
@@ -102,7 +104,6 @@
     
     globalThis.document.querySelector('.home-menu').addEventListener('click', () => {
       $component.hide()
-
     });
 
     $component.addEventListener("sidebar-hidden", () => {
@@ -112,6 +113,7 @@
     $component.addEventListener("sidebar-shown", () => {
       console.log("sidebar show event has fired")
     });
+
 
     </script>
 

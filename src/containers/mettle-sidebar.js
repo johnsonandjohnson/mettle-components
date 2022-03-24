@@ -12,24 +12,27 @@ if (!window.customElements.get(TAG_NAME)) {
       super('')
       this.attachShadow({ mode: 'open' })
         .appendChild(this._generateTemplate().content.cloneNode(true))
+      // for positioning sidebar
       this._allowedPositions = new Set(['left', 'right'])
-      this.$sideBarData = this.shadowRoot.querySelector('.sidebar-data')
-      this.isShowing = false
       this.position = 'left'
+      this.$sideBarData = this.shadowRoot.querySelector('.sidebar-data')
+      // determining and setting width for sidebar from attribute
       this.width = this.hasAttribute('data-width') ? this.getAttribute('data-width') : '10rem'
       this.$sideBarData.style.width = this.width
+      this.isShowing = false
+      // determining if page's scroll bar should be disabled if sidebar is open from attribute
       this.freezeScroll = this.hasAttribute('freeze-scroll') ? this.getAttribute('freeze-scroll') : false
-      //see if there is a specified icon or if default one should be used
-      this.shadowRoot.querySelector('.sidebar-expand-icon').src = this.hasAttribute('icon') ? this.getAttribute('icon') : 'https://freesvg.org/img/menu-icon.png'
-      this.shadowRoot.querySelector('.sidebar-close-icon').src = this.hasAttribute('close-icon') ? this.getAttribute('close-icon') : 'https://freesvg.org/img/menu-icon.png'
+      // see if there is a specified icon or if default one should be used
+      this.shadowRoot.querySelector('.expand-icon').src = this.hasAttribute('icon') ? this.getAttribute('icon') : 'https://freesvg.org/img/menu-icon.png'
+      this.shadowRoot.querySelector('.close-icon').src = this.hasAttribute('close-icon') ? this.getAttribute('close-icon') : 'https://freesvg.org/img/menu-icon.png'
     }
 
     _generateTemplate() {
       const template = document.createElement('template')
       template.innerHTML = `
         <style>
-        .sidebar-expand-icon,
-        .sidebar-close-icon {
+        .expand-icon,
+        .close-icon {
           width: 2rem;
           cursor: pointer;
         }
@@ -43,23 +46,19 @@ if (!window.customElements.get(TAG_NAME)) {
           position: fixed;
           top: 0;
           height: 100%;
-          z-index: 1;
+          z-index: 5;
           background-color: white;
           overflow-x: hidden;
           transition: transform 150ms ease-in-out 25ms;
         }
-        .nav-open {
-          overflow: hidden;
-          height: 100%;
-        }
         </style>
         <div class="sidebar-container">
           <div class="sidebar-expand">
-            <img class="sidebar-expand-icon">
+            <img class="expand-icon" part="open">
           </div>
           <nav class="sidebar-data" part="sidebar">
             <div class="sidebar-close">
-              <img class="sidebar-close-icon">
+              <img class="close-icon" part="close">
             </div>
             <slot name="sidebar-content"> </slot>
           </nav>
@@ -76,11 +75,11 @@ if (!window.customElements.get(TAG_NAME)) {
       this.hide()
       //closeMenu
       this.shadowRoot.querySelector('.sidebar-expand').addEventListener('click', () => {
-        this._toggleNav()
+        this.toggleNav()
       })
       //openMenu
-      this.shadowRoot.querySelector('.sidebar-close-icon').addEventListener('click', () => {
-        this._toggleNav()
+      this.shadowRoot.querySelector('.sidebar-close').addEventListener('click', () => {
+        this.toggleNav()
       })
     }
 
@@ -90,11 +89,11 @@ if (!window.customElements.get(TAG_NAME)) {
       }
     }
 
-    _toggleNav(evt) {
+    toggleNav() {
       if (this.isShowing) {
-        this.hide(evt)
+        this.hide()
       } else {
-        this.show(evt)
+        this.show()
       }
     }
 
