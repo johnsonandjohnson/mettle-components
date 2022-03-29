@@ -12,36 +12,21 @@ if (!window.customElements.get(TAG_NAME)) {
       super('')
       this.attachShadow({ mode: 'open' })
         .appendChild(this._generateTemplate().content.cloneNode(true))
-      // for positioning sidebar
+      // determines positioning of sidebar
       this._allowedPositions = new Set(['left', 'right'])
       this.position = 'left'
       this.$sideBarData = this.shadowRoot.querySelector('.sidebar-data')
       // determining and setting width for sidebar from attribute
       this.width = this.hasAttribute('data-width') ? this.getAttribute('data-width') : '10rem'
+      //figure out better approach for width and not having to set one
       this.$sideBarData.style.width = this.width
-      this.isShowing = false
-      // determining if page's scroll bar should be disabled if sidebar is open from attribute
-      this.freezeScroll = this.hasAttribute('freeze-scroll') ? this.getAttribute('freeze-scroll') : false
-      // see if there is a specified icon or if default one should be used
-      this.shadowRoot.querySelector('.expand-icon').src = this.hasAttribute('icon') ? this.getAttribute('icon') : 'https://freesvg.org/img/menu-icon.png'
-      this.shadowRoot.querySelector('.close-icon').src = this.hasAttribute('close-icon') ? this.getAttribute('close-icon') : 'https://freesvg.org/img/menu-icon.png'
     }
 
     _generateTemplate() {
       const template = document.createElement('template')
       template.innerHTML = `
         <style>
-        .expand-icon,
-        .close-icon {
-          width: 2rem;
-          cursor: pointer;
-        }
-        .sidebar-close {
-          display: flex;
-          align-items: center;
-          justify-content: flex-end;
-          padding-right: 1rem;
-        }
+
         .sidebar-data {
           position: fixed;
           top: 0;
@@ -54,11 +39,11 @@ if (!window.customElements.get(TAG_NAME)) {
         </style>
         <div class="sidebar-container">
           <div class="sidebar-expand">
-            <img class="expand-icon" part="open">
+            <slot name="expand-icon"> </slot>
           </div>
           <nav class="sidebar-data" part="sidebar">
             <div class="sidebar-close">
-              <img class="close-icon" part="close">
+              <slot name="close-icon"> </slot>
             </div>
             <slot name="sidebar-content"> </slot>
           </nav>
@@ -66,21 +51,12 @@ if (!window.customElements.get(TAG_NAME)) {
       `
       return template
     }
-
+    //use named slots -> event for when slot changes
     connectedCallback() {
       //determine sidebar positioning
-      //test to see if I fixed everything
       this._positionAt()
       //hide sidebar at start
-      this.hide()
-      //closeMenu
-      this.shadowRoot.querySelector('.sidebar-expand').addEventListener('click', () => {
-        this.toggleNav()
-      })
-      //openMenu
-      this.shadowRoot.querySelector('.sidebar-close').addEventListener('click', () => {
-        this.toggleNav()
-      })
+      this.$sideBarData.style.transform = (this.position === 'left') ? `translate(-${this.width})` : `translate(${this.width})`
     }
 
     disconnectedCallback() {
@@ -89,44 +65,52 @@ if (!window.customElements.get(TAG_NAME)) {
       }
     }
 
-    toggleNav() {
-      if (this.isShowing) {
-        this.hide()
-      } else {
-        this.show()
+    open() {
+      if (!this.hasAttribute('open')) {
+        // add the open attribute to component
+        this.setAttribute('open', '')
       }
     }
 
-    isOpened() {
-      return this.isShowing
+    close() {
+      if (this.hasAttribute('open')) {
+        // remove the open attribute from component
+        this.removeAttribute('open')
+      }
+    }
+
+    toggleNav() {
+      if (this.hasAttribute('open')) {
+        this.close()
+      } else {
+        this.open()
+      }
+    }
+
+    get isOpened() {
+      return this.hasAttribute('open')
     }
 
     get EVENT_TYPES() {
       return EVENT_TYPES
     }
 
-    show() {
+    _show() {
       //translate the sidebar to be visible on page
       this.$sideBarData.style.transform = 'translate(0rem)'
-      //add style properties from document.body that prevent scrolling when sidebar is open
-      if (this.freezeScroll === 'true') {
-        document.body.style.overflow = 'hidden'
-        document.body.style.height = '100%'
-      }
+      // fire event for opening the sidebar
       this.dispatchEvent(new CustomEvent(EVENT_TYPES.SHOW))
-      this.isShowing = true
+      // add the open attribute to component
+      this.setAttribute('open', '')
     }
 
-    hide() {
+    _hide() {
       //determine which way the sidebar should hide depending on sidebar positioning
       this.$sideBarData.style.transform = (this.position === 'left') ? `translate(-${this.width})` : `translate(${this.width})`
-      //remove style properties from document.body that prevent scrolling when sidebar is open
-      if (this.freezeScroll === 'true') {
-        document.body.style.removeProperty('overflow')
-        document.body.style.removeProperty('height')
-      }
+      // fire event for closing the sidebar
       this.dispatchEvent(new CustomEvent(EVENT_TYPES.HIDE))
-      this.isShowing = false
+      // remove the open attribute from component
+      this.removeAttribute('open')
     }
 
     _positionAt() {
@@ -141,7 +125,17 @@ if (!window.customElements.get(TAG_NAME)) {
     }
 
     static get observedAttributes() {
-      return ['data-position', 'icon', 'close-icon', 'data-width']
+      return ['open']
+    }
+
+    attributeChangedCallback(attr, oldValue, newValue) {
+      if (oldValue !== newValue) {
+        if (this.isOpened) {
+          this._show()
+        } else {
+          this._hide()
+        }
+      }
     }
 
   })

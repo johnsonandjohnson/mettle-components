@@ -24,6 +24,10 @@
         width: 2rem;
       }
       .topbar-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
         height: 5rem;
         background-color: gray;
         display: flex;
@@ -34,6 +38,17 @@
         overflow: scroll;
         width: 25rem;
       }
+      .expand-icon {
+        width: 2rem;
+        cursor: pointer;
+      }
+      .close-icon {
+        width: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding-right: 1rem;
+      }
     </style>
   </head>
 
@@ -41,12 +56,11 @@
 
     <div class="topbar-container">
         <mettle-sidebar
-          icon='https://cdn.iconscout.com/icon/free/png-256/nav-100524.png'
-          close-icon='https://cdn4.iconfinder.com/data/icons/xbox-one-thin-line-set/64/ico-xbx-bttn-x-512.png'
-          data-width='15rem'
+          data-width='15rem' 
           data-position='left'
-          freeze-scroll='true'
         >
+          <img slot="expand-icon" class="expand-icon" src="https://cdn.iconscout.com/icon/free/png-256/nav-100524.png">
+          <img slot="close-icon" class="close-icon" src="https://cdn-icons-png.flaticon.com/512/106/106830.png">
           <div slot="sidebar-content" name="sidebar-container">
             <ul>
               <li><a href="#" class="home-menu">Home</a></li>
@@ -79,6 +93,8 @@
           </div>
         </mettle-sidebar>
 
+        <button class="sidebar-toggle">Toggle Menu</button>
+
         <h2>About</h2>
     </div>
     <div class="middlebar-container">
@@ -103,7 +119,21 @@
     const $component = globalThis.document.querySelector('mettle-sidebar')
     
     globalThis.document.querySelector('.home-menu').addEventListener('click', () => {
-      $component.hide()
+      $component.removeAttribute('open') //both options work
+      //$component.close()
+    });
+
+    globalThis.document.querySelector('.close-icon').addEventListener('click', () => {
+      $component.close()
+    });
+
+    globalThis.document.querySelector('.expand-icon').addEventListener('click', () => {
+      $component.setAttribute('open', '')
+      //$component.open()
+    });
+
+    globalThis.document.querySelector('.sidebar-toggle').addEventListener('click', () => {
+      $component.toggleNav()
     });
 
     $component.addEventListener("sidebar-hidden", () => {
