@@ -12,51 +12,37 @@ if (!window.customElements.get(TAG_NAME)) {
       super('')
       this.attachShadow({ mode: 'open' })
         .appendChild(this._generateTemplate().content.cloneNode(true))
-      // determines positioning of sidebar
-      this._allowedPositions = new Set(['left', 'right'])
-      this.position = 'left'
       this.$parentElem = document.getElementById(this.dataset.for)
       this.$sidebar = this.shadowRoot.querySelector('.sidebar')
-      this.$sideBarData = this.shadowRoot.querySelector('.sidebar-data')
-      // determining and setting width for sidebar from attribute
-      this.width = this.hasAttribute('data-width') ? this.getAttribute('data-width') : '10rem'
-      this.mainSidebar = this.hasAttribute('main-sidebar')
-      //console.log(this.width)
-      // figure out better approach for width and not having to set one
-      //this.$sideBarData.style.width = this.width
+      this._width = this.hasAttribute('data-width') ? this.getAttribute('data-width') : '10rem'
+      this._mainSidebar = this.hasAttribute('main-sidebar')
+      this._allowedPositions = new Set(['left', 'right'])
+      this._position = 'left'
     }
 
     _generateTemplate() {
       const template = document.createElement('template')
       template.innerHTML = `
         <style>
-        .sidebar {
-          background-color: orange;
-          position: relative;
-          transition: width .5s ease-in-out;
-          width: 0px;
-          overflow: hidden;
-          overflow-x: hidden;
-          overflow-y: scroll;
-
-        }
-        .sidebar-data {
-          position: absolute;
-        }
+          .sidebar {
+            background-color: orange;
+            position: absolute;
+            transition: width .5s ease-in-out;
+            width: 0px;
+            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: scroll;
+          }
         </style>
-        <div class="sidebar">
-          <slot name="content" class="sidebar-data"> </slot>
+        <div class="sidebar" part="container">
+          <slot name="content" part="content"> </slot>
         </div>
       `
-      // <div class="sidebar-data"> This is a test</div>
       return template
     }
-    //use named slots -> event for when slot changes
+
     connectedCallback() {
-      //determine sidebar positioning
       this._positionAt()
-      //hide sidebar at start TODO
-      //this.$sideBarData.style.transform = (this.position === 'left') ? `translate(-${this.width})` : `translate(${this.width})`
     }
 
     disconnectedCallback() {
@@ -66,17 +52,11 @@ if (!window.customElements.get(TAG_NAME)) {
     }
 
     open() {
-      if (!this.hasAttribute('open')) {
-        // add the open attribute to component
-        this.setAttribute('open', '')
-      }
+      if (!this.hasAttribute('open')) { this.setAttribute('open', '') }
     }
 
     close() {
-      if (this.hasAttribute('open')) {
-        // remove the open attribute from component
-        this.removeAttribute('open')
-      }
+      if (this.hasAttribute('open')) { this.removeAttribute('open') }
     }
 
     toggleNav() {
@@ -97,50 +77,38 @@ if (!window.customElements.get(TAG_NAME)) {
 
     _show() {
       this._positionAt()
-      this.$sidebar.style.width = this.width
-      //translate the sidebar to be visible on page
-      //this.$sideBarData.style.transform = 'translate(0rem)'
-      // fire event for opening the sidebar
+      this.$sidebar.style.width = this._width
       this.dispatchEvent(new CustomEvent(EVENT_TYPES.SHOW))
-      // add the open attribute to component
       this.setAttribute('open', '')
     }
 
     _hide() {
       this._positionAt()
       this.$sidebar.style.width = '0px'
-      //determine which way the sidebar should hide depending on sidebar positioning
-      //this.$sideBarData.style.transform = (this.position === 'left') ? `translate(-${this.width})` : `translate(${this.width})`
-      // fire event for closing the sidebar
       this.dispatchEvent(new CustomEvent(EVENT_TYPES.HIDE))
-      // remove the open attribute from component
       this.removeAttribute('open')
     }
 
     _positionAt() {
-      //get position from attribute for sidebar, if none detected, default to left
+      // get position from attribute for sidebar, if none detected, default to left
       const attrPosition = this.getAttribute('data-position')
-      this.position = this._allowedPositions.has(attrPosition) ? attrPosition : 'left'
+      this._position = this._allowedPositions.has(attrPosition) ? attrPosition : 'left'
 
-      if (!this.mainSidebar) {
+      if (!this._mainSidebar) {
         const parentCoords = this.$parentElem.getBoundingClientRect()
-        console.log(parentCoords)
-        console.log(parentCoords.top + window.scrollY)
-        //this.$sidebar.style.position = 'relative'
-        //this.$sideBarData.style.position = 'absolute'
-        this.$sidebar.style.top = `${parentCoords.top }px`
-        this.$sidebar.style.height = `${parentCoords.height }px`
-        if (this.position === 'left') {
-          this.$sidebar.style.left = `${parentCoords.left}px`
+        this.$sidebar.style.top = `${parentCoords.top + window.scrollY}px`
+        this.$sidebar.style.height = `${parentCoords.height}px`
+        if (this._position === 'left') {
+          this.$sidebar.style.left = `${parentCoords.left + window.scrollX}px`
         } else {
-          this.$sidebar.style.right = `${parentCoords.right}px`
+          this.$sidebar.style.right = `${window.innerWidth - (parentCoords.right + window.scrollX)}px`
         }
       } else {
         this.$sidebar.style.position = 'fixed'
         this.$sidebar.style.top = '0px'
         this.$sidebar.style.height = '100%'
         this.$sidebar.style.zIndex = '100'
-        if (this.position === 'left') {
+        if (this._position === 'left') {
           this.$sidebar.style.left = '0px'
         } else {
           this.$sidebar.style.right = '0px'
@@ -161,6 +129,5 @@ if (!window.customElements.get(TAG_NAME)) {
         }
       }
     }
-
   })
 }

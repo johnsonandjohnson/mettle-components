@@ -29,6 +29,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        z-index: 100;
       }
       .middlebar-columns {
         display: flex;
@@ -42,53 +43,25 @@
       .image-box-container {
         display: flex;
         flex-direction: row;
-        flex-wrap: wrap;
+        
+        height: 16rem;
       }
       .image-box {
+        flex-basis: 25%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         border-style: solid;
-        flex-basis: 0;
-        flex-grow: 1;
-        height: 20rem;
-        display: flex;
-        position: relative;
-        flex-direction: column;
-      }
-      .image-box-header {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-      }
-      .image-button {
-        width: 4rem;
-        cursor: pointer;
-      }
-      .image {
-        height: 15rem;
       }
       .middlebar-padding {
         padding-top: 5rem;
       }
-      .expand-icon {
-        width: 2rem;
-        cursor: pointer;
-      }
-      .cat-content {
-        width: 15rem;
-      }
+      .cat-content,
       .sidebar-content {
         width: 15rem;
       }
-      .close-icon {
-        width: 2rem;
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        padding-right: 1rem;
-      }
-      mettle-sidebar {
-        position: fixed;
-        top: 0px;
-        left: 0px;
+      .image {
+        height: 15rem;
       }
     </style>
   </head>
@@ -101,54 +74,101 @@
       <h1 class="middlebar-padding">
         This is the body
       </h1>
-      <div class="middlebar-columns">
-        <section class="middlebar-text middlebar-content">
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Le`set sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Le`set sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Le`set sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Le`set sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Le`set sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Le`set sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Le`set sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Le`set sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Le`set sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Le`set sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Le`set sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Le`set sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Le`set sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Le`set sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Le`set sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Le`set sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-        </section>
+      <div class="">
+
         <section class="image-box-container middlebar-content">
 
-          <div class="image-box" id="id-bd0c4c18-0614-48d7-88af-1748738b9de8">
-            <mettle-sidebar
-              data-width='15rem' 
-              data-position='left'
-              data-for='id-bd0c4c18-0614-48d7-88af-1748738b9de8'
-              class="sidebar-cat"
-            >
-              <div slot="content" class="cat-content">This is a block of text about a cat. Read all about the cat in this box.</div>
-            </mettle-sidebar>
-            <div class="image-box-header">
-              <h3>Cat</h3>
-              <img class="image-button button2" src="https://cdn0.iconfinder.com/data/icons/modern-ui-1/64/dots-horizontal-nav-more-512.png">
-            </div>
-            <img class="image" src="https://icatcare.org/app/uploads/2018/06/Layer-1704-1200x630.jpg">
-
+          <div class="image-box" id="image1">
+            <img class="image image1" src="https://icatcare.org/app/uploads/2018/06/Layer-1704-1200x630.jpg">
+          </div>
+          <div class="image-box" id="image2">
+            <img class="image image2" src="https://icatcare.org/app/uploads/2018/06/Layer-1704-1200x630.jpg">
+          </div>
+          <div class="image-box" id="image3">
+            <img class="image image3" src="https://icatcare.org/app/uploads/2018/06/Layer-1704-1200x630.jpg">
+          </div>
+          <div class="image-box" id="image4">
+            <img class="image image4" src="https://icatcare.org/app/uploads/2018/06/Layer-1704-1200x630.jpg">
+          </div>
+          <div class="image-box" id="image5">
+            <img class="image image5" src="https://icatcare.org/app/uploads/2018/06/Layer-1704-1200x630.jpg">
+          </div>
+          <div class="image-box" id="image6">
+            <img class="image image6" src="https://icatcare.org/app/uploads/2018/06/Layer-1704-1200x630.jpg">
           </div>
 
+        </section>
+
+        <section class="middlebar-text">
+          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Le`set sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Le`set sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Le`set sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Le`set sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Le`set sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Le`set sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Le`set sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Le`set sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
         </section>
       </div>
     </div>
 
+    <mettle-sidebar
+      data-width='15rem' 
+      data-position='left'
+      data-for='image1'
+      class="sidebar-cat1"
+    >
+      <div slot="content" class="cat-content">This is a block of text about a cat1. Read all about the cat in this box.</div>
+    </mettle-sidebar>
 
+    <mettle-sidebar
+      data-width='15rem' 
+      data-position='right'
+      data-for='image2'
+      class="sidebar-cat2"
+    >
+      <div slot="content" class="cat-content">This is a block of text about a cat2. Read all about the cat in this box.</div>
+    </mettle-sidebar>
 
     <mettle-sidebar
       data-width='15rem' 
       data-position='left'
-      data-for='test-id'
+      data-for='image3'
+      class="sidebar-cat3"
+    >
+      <div slot="content" class="cat-content">This is a block of text about a cat3. Read all about the cat in this box.</div>
+    </mettle-sidebar>
+
+    <mettle-sidebar
+      data-width='15rem' 
+      data-position='right'
+      data-for='image4'
+      class="sidebar-cat4"
+    >
+      <div slot="content" class="cat-content">This is a block of text about a cat4. Read all about the cat in this box.</div>
+    </mettle-sidebar>
+
+    <mettle-sidebar
+      data-width='15rem' 
+      data-position='left'
+      data-for='image5'
+      class="sidebar-cat5"
+      >
+      <div slot="content" class="cat-content">This is a block of text about a cat5. Read all about the cat in this box.</div>
+    </mettle-sidebar>
+
+    <mettle-sidebar
+      data-width='15rem' 
+      data-position='left'
+      data-for='image6'
+      class="sidebar-cat6"
+      >
+      <div slot="content" class="cat-content">This is a block of text about a cat6. Read all about the cat in this box.</div>
+    </mettle-sidebar>
+
+    <mettle-sidebar
+      data-width='15rem' 
+      data-position='right'
       main-sidebar
       class="sidebar"
     >
@@ -173,13 +193,42 @@
     <script type="module">
       import './mettle-sidebar.js';
 
-      const $componentCat = globalThis.document.querySelector('.sidebar-cat')
+      const $componentCat1 = globalThis.document.querySelector('.sidebar-cat1')
+      const $componentCat2 = globalThis.document.querySelector('.sidebar-cat2')
+      const $componentCat3 = globalThis.document.querySelector('.sidebar-cat3')
+      const $componentCat4 = globalThis.document.querySelector('.sidebar-cat4')
+      const $componentCat5 = globalThis.document.querySelector('.sidebar-cat5')
+      const $componentCat6 = globalThis.document.querySelector('.sidebar-cat6')
+
+
+
+
       const $componentSidebar = globalThis.document.querySelector('.sidebar')
 
-      globalThis.document.querySelector('.button2').addEventListener('click', () => {
-        $componentCat.toggleNav()
+      //cat sidebar toggle
+      globalThis.document.querySelector('.image1').addEventListener('click', () => {
+        $componentCat1.toggleNav()
+      });
+      globalThis.document.querySelector('.image2').addEventListener('click', () => {
+        $componentCat2.toggleNav()
+      });
+      globalThis.document.querySelector('.image3').addEventListener('click', () => {
+        $componentCat3.toggleNav()
+      });
+      globalThis.document.querySelector('.image4').addEventListener('click', () => {
+        $componentCat4.toggleNav()
+      });
+      globalThis.document.querySelector('.image5').addEventListener('click', () => {
+        $componentCat5.toggleNav()
+      });
+      globalThis.document.querySelector('.image6').addEventListener('click', () => {
+        $componentCat6.toggleNav()
       });
 
+
+
+
+      //main sidebar toggle
       globalThis.document.querySelector('.sidebar-toggle').addEventListener('click', () => {
 
         $componentSidebar.toggleNav()
