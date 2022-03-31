@@ -19,10 +19,6 @@
       li a:hover {
         color: darkgray;
       }
-      mettle-sidebar::part(open),
-      mettle-sidebar::part(close) {
-        width: 2rem;
-      }
       .topbar-container {
         position: fixed;
         top: 0;
@@ -32,7 +28,7 @@
         background-color: gray;
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: center;
       }
       .middlebar-columns {
         display: flex;
@@ -54,6 +50,7 @@
         flex-grow: 1;
         height: 20rem;
         display: flex;
+        position: relative;
         flex-direction: column;
       }
       .image-box-header {
@@ -71,12 +68,15 @@
       .middlebar-padding {
         padding-top: 5rem;
       }
-      mettle-sidebar.navbar-sidebar::part(sidebar) {
-        z-index: 10;
-      }
       .expand-icon {
         width: 2rem;
         cursor: pointer;
+      }
+      .cat-content {
+        width: 15rem;
+      }
+      .sidebar-content {
+        width: 15rem;
       }
       .close-icon {
         width: 2rem;
@@ -85,52 +85,17 @@
         justify-content: flex-end;
         padding-right: 1rem;
       }
+      mettle-sidebar {
+        position: fixed;
+        top: 0px;
+        left: 0px;
+      }
     </style>
   </head>
 
-  <body>
-
+  <body id="test-id">
     <div class="topbar-container">
-        <mettle-sidebar
-          data-width='15rem' 
-          data-position='left'
-          class="navbar-sidebar"
-        >
-          <div slot="sidebar-content" name="sidebar-container">
-            <ul>
-              <li><a href="#" class="home-menu">Home</a></li>
-              <hr></hr>
-              <li><a href="#">About</a></li>
-              <li><a href="#">Contact Us</a></li>
-              <li><a href="#">Profile</a></li>
-              <li><a href="#">Profile</a></li>
-              <li><a href="#">Profile</a></li>
-              <li><a href="#">Profile</a></li>
-              <li><a href="#">Profile</a></li>
-              <li><a href="#">Profile</a></li>
-              <li><a href="#">Profile</a></li>
-              <li><a href="#">Profile</a></li>
-              <li><a href="#">Profile</a></li>
-              <li><a href="#">Profile</a></li>
-              <li><a href="#">Profile</a></li>
-              <li><a href="#">Profile</a></li>
-              <li><a href="#">Profile</a></li>
-              <li><a href="#">Profile</a></li>
-              <li><a href="#">Profile</a></li>
-              <li><a href="#">Profile</a></li>
-              <li><a href="#">Profile</a></li>
-              <li><a href="#">Profile</a></li>
-              <li><a href="#">Profile</a></li>
-              <li><a href="#">Profile</a></li>
-              <li><a href="#">Profile</a></li>
-              <li><a href="#">Profile</a></li>
-            </ul>
-          </div>
-        </mettle-sidebar>
-
         <button class="sidebar-toggle">Toggle Menu</button>
-
-        <h2>About</h2>
     </div>
     <div class="middlebar-container">
       <h1 class="middlebar-padding">
@@ -157,38 +122,15 @@
         </section>
         <section class="image-box-container middlebar-content">
 
-          <div class="image-box">
+          <div class="image-box" id="id-bd0c4c18-0614-48d7-88af-1748738b9de8">
             <mettle-sidebar
               data-width='15rem' 
               data-position='left'
-              class="flower-sidebar"
+              data-for='id-bd0c4c18-0614-48d7-88af-1748738b9de8'
+              class="sidebar-cat"
             >
-              <div slot="sidebar-content" name="sidebar-container">
-                This is some additional information about this amazing flower. Read all about it here.
-                FLOWER PAGE.
-              </div>
+              <div slot="content" class="cat-content">This is a block of text about a cat. Read all about the cat in this box.</div>
             </mettle-sidebar>
-            <div class="image-box-header">
-              <h3>Flower</h3>
-              <img class="image-button button1" src="https://cdn0.iconfinder.com/data/icons/modern-ui-1/64/dots-horizontal-nav-more-512.png">
-            </div>
-            <img class="image" src="https://images.pexels.com/photos/60597/dahlia-red-blossom-bloom-60597.jpeg">
-
-          </div>
-
-          <div class="image-box">
-
-            <mettle-sidebar
-              data-width='15rem' 
-              data-position='left'
-              class="cat-sidebar"
-            >
-              <div slot="sidebar-content" name="sidebar-container">
-                This is some additional information about this amazing cat. Read all about it here.
-                CAT PAGE.
-              </div>
-            </mettle-sidebar>
-
             <div class="image-box-header">
               <h3>Cat</h3>
               <img class="image-button button2" src="https://cdn0.iconfinder.com/data/icons/modern-ui-1/64/dots-horizontal-nav-more-512.png">
@@ -200,40 +142,52 @@
         </section>
       </div>
     </div>
+
+
+
+    <mettle-sidebar
+      data-width='15rem' 
+      data-position='left'
+      data-for='test-id'
+      main-sidebar
+      class="sidebar"
+    >
+      <nav slot="content" class="sidebar-content">
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Profile</a></li>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Other</a></li>
+          <li><a href="#">Other</a></li>
+          <li><a href="#">Other</a></li>
+          <li><a href="#">Other</a></li>
+          <li><a href="#">Other</a></li>
+          <li><a href="#">Other</a></li>
+          <li><a href="#">Other</a></li>
+          <li><a href="#">Other</a></li>
+        </ul>
+      </nav>
+  </mettle-sidebar>
+
     <script type="module">
-    import './mettle-sidebar.js';
+      import './mettle-sidebar.js';
 
-    //allows for making one of the menu items to hide or show the navbar
-    const $component = globalThis.document.querySelector('mettle-sidebar')
-    const $flowerComponent = globalThis.document.querySelector('.flower-sidebar')
-    const $catComponent = globalThis.document.querySelector('.cat-sidebar')
-    
-    globalThis.document.querySelector('.home-menu').addEventListener('click', () => {
-      $component.removeAttribute('open') //both options work
-      //$component.close()
-    });
+      const $componentCat = globalThis.document.querySelector('.sidebar-cat')
+      const $componentSidebar = globalThis.document.querySelector('.sidebar')
 
-    globalThis.document.querySelector('.button1').addEventListener('click', () => {
-      $flowerComponent.toggleNav()
-    })
-    globalThis.document.querySelector('.button2').addEventListener('click', () => {
-      $catComponent.toggleNav()
-    })
+      globalThis.document.querySelector('.button2').addEventListener('click', () => {
+        $componentCat.toggleNav()
+      });
 
-    globalThis.document.querySelector('.sidebar-toggle').addEventListener('click', () => {
-      $component.toggleNav()
-    });
+      globalThis.document.querySelector('.sidebar-toggle').addEventListener('click', () => {
 
-    $component.addEventListener("sidebar-hidden", () => {
-      console.log("sidebar hide event has fired")
-    });
-
-    $component.addEventListener("sidebar-shown", () => {
-      console.log("sidebar show event has fired")
-    });
-
+        $componentSidebar.toggleNav()
+      });
 
     </script>
+
+
 
   </body>
 
