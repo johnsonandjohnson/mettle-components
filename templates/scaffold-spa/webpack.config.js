@@ -50,5 +50,13 @@ module.exports = (env, argv) => {
         scriptLoading: 'module'
       }),
     ],
+    resolve: {
+      alias: {
+        components: resolve(__dirname, 'src/components'),
+        features: resolve(__dirname, 'src/features'),
+        services: resolve(__dirname, 'src/services'),
+      },
+      extensions: ['.js']
+    },
   }
 }

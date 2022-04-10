@@ -4,6 +4,8 @@ import AdvanceLevel from '../assets/thermometer_full.svg';
 import ScaffoldStep1 from '../assets/scaffold-step1.png';
 import ScaffoldStep2 from '../assets/scaffold-step2.png';
 import ScaffoldStep21 from '../assets/scaffold-step2-1.png';
+import ScaffoldStep3 from '../assets/scaffold-step3.png';
+import ScaffoldStep31 from '../assets/scaffold-step3-1.png';
 
 import '../styles.css'
 
@@ -337,6 +339,12 @@ You guessed it also add the following files to **src/css/**
   --info: #4fd2fa;
   --success: #75dd0c;
   --warning: #f7f313;
+
+  --base-size: 1rem;
+  --base-size-xs: calc(var(--base-size) / 2);
+  --base-size-md: calc(var(--base-size) * 2);
+  --base-size-lg: calc(var(--base-size) * 4);
+  --base-border-radius: 0.25rem;
 }
 ```
 
@@ -351,14 +359,109 @@ body {
   padding: 0;
 }
 
-.row {
+/* Flex Grid */
+
+.row,
+.column {
+  box-sizing: border-box;
   display: flex;
-  flex-wrap: wrap;
+  flex: 0 1 auto;
+  flex-flow: row wrap;
+  word-break: break-all;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.flex-no-flow {
+  flex-flow: initial;
+}
+
+.flex-stretch {
+  align-items: stretch;
+  flex: 1;
+}
+
+.flex-end {
+  justify-content: flex-end;
+}
+
+.self-center {
+  align-self: center;
+  justify-self: center;
+}
+
+.col,
+.col-1,
+.col-2,
+.col-4,
+.col-6,
+.col-8,
+.col-10,
+.col-12 {
+  box-sizing: border-box;
+  flex: 0 0 auto;
 }
 
 .col {
-  flex: 1 0 0%;
-  padding: 0.4rem;
+  flex-grow: 1;
+  flex-basis: 0;
+  max-width: 100%;
+}
+
+.col-1 {
+  flex-basis: calc(100% * (1 / 12));
+}
+
+.col-2 {
+  flex-basis: calc(100% * (2 / 12));
+}
+
+.col-3 {
+  flex-basis: calc(100% * (3/12));
+}
+
+.col-4 {
+  flex-basis: calc(100% * (4 / 12));
+}
+
+.col-6 {
+  flex-basis: calc(100% * (6 / 12));
+}
+
+.col-8 {
+  flex-basis: calc(100% * (8 / 12));
+}
+
+.col-10 {
+  flex-basis: calc(100% * (10 / 12));
+}
+
+.col-12 {
+  flex-basis: calc(100% * (12 / 12));
+}
+
+.gap-xs {
+  gap: var(--base-size-xs);
+}
+
+.gap-sm {
+  gap: var(--base-size);
+}
+
+.gap-md {
+  gap: var(--base-size-md);
+}
+
+.gap-lg {
+  gap: var(--base-size-lg);
+}
+
+/* Special Cases */
+
+[hidden] {
+  display: none !important;
 }
 ```
 
@@ -524,3 +627,282 @@ The file structure should now look like this.
 ## Adding Components
 
 Component based development will be esscential to the development of the web app.
+
+Under `src` lets add a `components` folder.
+
+We need to create an `index.js` file and a `core-header.js` file.
+We will include any components within this folder.  It is recommended many to all
+parts of your app are built using web components for reusablility and encapuslation.
+
+In doing this, your HTML can act more like a place holder while your components will
+render the solution needed for that section or page.
+
+Before we create the component, lets create the HTML template for the component.
+This will be useful for component HTML that might be to large to inculde directly
+into the component.
+
+> Note that this is supported only by using webpack
+
+Add the `src/components/core-header.html`
+
+```html
+<h1><slot></slot></h1>
+```
+
+
+Add the  `src/components/core-header.js` file
+
+```js
+import CORE_HEADER_HTML from './core-header.html'
+
+const TAG_NAME = 'core-header'
+const BASE = window.HTMLElement
+
+if (!window.customElements.get(TAG_NAME)) {
+  window.customElements.define(TAG_NAME, class extends BASE {
+    constructor() {
+      super('')
+      this.attachShadow({ mode: 'open' })
+      .appendChild(this._generateTemplate().content.cloneNode(true))
+    }
+
+    _generateTemplate() {
+      const template = document.createElement('template')
+      template.innerHTML = CORE_HEADER_HTML
+      return template
+    }
+
+  })
+}
+```
+
+Create and add the `src/components/index.js`
+
+```js
+import './core-header.js'
+```
+
+
+We will need to update Webpack to ensure we can reslove the location for our components.
+We will also include the other folders that will be configured.
+
+```js
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const { resolve } = require('path')
+
+module.exports = (env, argv) => {
+  const IS_BUILD = env.WEBPACK_BUILD
+  return {
+    devServer: {
+      historyApiFallback: {
+        rewrites: [
+          { from: /.*\.html?/, to: '/' },
+          { from: /^[\w/]+$/, to: '/' },
+        ],
+        verbose: true
+      },
+      host: '0.0.0.0',
+      open: true,
+      port: 2022,
+    },
+    entry: './src/main.js',
+    module: {
+      rules: [
+        {
+          test: /\.css$/i,
+          use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        },
+        {
+          test: /\.(png|svg|jpg|jpeg|gif)$/i,
+          type: 'asset/resource',
+        },
+        {
+          test: /\.html$/i,
+          exclude: /index\.html$/i,
+          type: 'asset/source',
+        },
+      ],
+    },
+    output: {
+      assetModuleFilename: 'assets/[name][ext]',
+      clean: true,
+      filename: 'main.js',
+      path: resolve(__dirname, 'dist'),
+    },
+    plugins: [
+      new MiniCssExtractPlugin(),
+      new HtmlWebpackPlugin({
+        base: IS_BUILD ? false : '/',
+        inject: 'body',
+        template: './src/index.html',
+        scriptLoading: 'module'
+      }),
+    ],
+    resolve: {
+      alias: {
+        components: resolve(__dirname, 'src/components'),
+        features: resolve(__dirname, 'src/features'),
+        services: resolve(__dirname, 'src/services'),
+      },
+      extensions: ['.js']
+    },
+  }
+}
+```
+
+**Alias Imports**
+
+Using the webpack reslove will make it easier to not have to worry about import directories.
+
+The main folders that will be incudled next will be all the files needed for a
+single page application(SPA).
+
+
+| Folder | Purpose |
+|:---------|:---------|
+| components | All custom web components will be placed here to organize the site into widgets. |
+| features | All routes and controllers will be placed for each feature page here. |
+| services | All providers, API fetches and bussniess logic will be placed here.  Components and features will directly access these services. |
+
+Now we can update the `main.js` file like so
+
+```js
+import './css/index.css'
+import 'components'
+
+function component() {
+  const element = document.createElement('core-header')
+
+  element.innerHTML = 'Hello Mettle'
+
+  return element
+}
+
+document.body.appendChild(component())
+```
+
+
+The file structure should now look like this.
+
+```
+.
+├── node_modules
+├── src
+│   ├── components
+│   │    ├── core-header.html
+│   │    ├── core-header.js
+│   │    ├── index.js
+│   ├── css
+│   │    ├── custom.css
+│   │    ├── effects.css
+│   │    ├── index.css
+│   │    ├── structure.css
+│   │    └── variables.css
+│   ├── index.html
+│   └── main.js
+├── .editorconfig
+├── .gitignore
+├── package-lock.json
+├── package.json
+├── README.md
+└── webpack.config.js
+```
+
+
+## Importing 3rd party Components
+
+We will utilize Mettle components and a
+vanilla web component from <a href="https://github.com/vanillawc">vanillawc</a>
+
+
+Having already installed Mettle Components, we can add it to the `main.js` file.
+
+```js
+import './css/index.css'
+import '@johnsonandjohnson/mettle-components'
+import 'components'
+
+function component() {
+  const element = document.createElement('core-header')
+
+  element.innerHTML = 'Hello Mettle'
+
+  return element
+}
+
+document.body.appendChild(component())
+```
+
+To test that the import works update the `index.html` file to test the `mettle-tool-tip`
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Getting Started</title>
+  </head>
+  <body>
+    <span id="id-9cff94d5-b2d8-48ef-a615-bad86bb9924f">Hover or tap me for tip</span>
+    <mettle-tool-tip
+      data-position="bottom"
+      data-for="id-9cff94d5-b2d8-48ef-a615-bad86bb9924f"><p>Tool Tip Works!</p></mettle-tool-tip>
+    <noscript>
+      <!-- No JS alternative -->
+    </noscript>
+  </body>
+</html>
+```
+
+The site should now have the tool-tip.
+
+<img src={ScaffoldStep3} class="img-border" height="200" />
+
+**Importing another component**
+
+From the root directory where the `package.json` file is located run the following commands
+
+```sh
+npm install --save @vanillawc/wc-datepicker
+```
+
+Update the `main.js` to inculde the datepicker.
+
+```js
+import './css/index.css'
+import '@johnsonandjohnson/mettle-components'
+import '@vanillawc/wc-datepicker'
+import 'components'
+
+function component() {
+  const element = document.createElement('core-header')
+
+  element.innerHTML = 'Hello Mettle'
+
+  return element
+}
+
+function dateComponent() {
+  const picker = document.createElement('wc-datepicker')
+  const  input = document.createElement('input')
+  input.setAttribute('type', 'text')
+  picker.appendChild(input)
+  return picker
+}
+
+document.body.appendChild(component())
+document.body.appendChild(dateComponent())
+```
+
+The site should now have a datepicker.
+
+<img src={ScaffoldStep31} class="img-border" height="300" />
+
+> There are many more options for production ready web components.  Feel free to use and mix all that
+makes sense for your project.
+
+## Services
+
+

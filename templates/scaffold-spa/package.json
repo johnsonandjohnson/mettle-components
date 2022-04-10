@@ -17,6 +17,7 @@
     "webpack-dev-server": "^4.7.4"
   },
   "dependencies": {
-    "@johnsonandjohnson/mettle-components": "^1.7.0"
+    "@johnsonandjohnson/mettle-components": "^1.10.3",
+    "@vanillawc/wc-datepicker": "^0.0.6"
   }
 }
