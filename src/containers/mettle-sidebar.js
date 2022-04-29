@@ -44,7 +44,7 @@ if (!window.customElements.get(TAG_NAME)) {
       template.innerHTML = `
         <style>
           .sidebar {
-            background-color: lightgray;
+            background-color: #eee;
             position: absolute;
             transition: width .5s ease-in-out;
             width: 0px;

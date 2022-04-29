@@ -98,6 +98,10 @@ describe(ELEM_TAG_NAME, () => {
       expect($el.EVENT_TYPES).toEqual(jasmine.any(Object))
     })
 
+    it('should return an object of data type values', () => {
+      expect($el.DATA_TYPES).toEqual(jasmine.any(Object))
+    })
+
   })
 
 })
