@@ -4,6 +4,7 @@ import { Constants, uuid } from '../../helper/index.js'
 
 export default {
   title: 'Custom Elements/Containers/Mettle-Sidebar',
+  component: 'Mettle-Sidebar',
   argTypes: {
     slot: {
       control: { type: 'text' },
@@ -152,6 +153,31 @@ const Template = ({Class = '',  id = `id-${uuid()}`, position, width, slot = 'Sl
     `.trim()
 }
 
+const NonJSTemplate = ({Class = '',  id = `id-${uuid()}`, position, width, slot = 'Slot HTML/Text' }) => {
+  return `
+    <div class="elem" id="${id}">Click to open sidebar</div>
+    <mettle-sidebar
+      class="${Class}"
+      data-position="${position}"
+      data-width="${width}"
+      data-for="${id}"
+    >
+      <div class="slot">${slot}</div>
+    </mettle-sidebar>
+    
+    <style>
+      .slot {
+        width: 8rem;
+      }
+      .elem {
+        border-style: solid;
+        height: 6rem;
+        width: 15rem;
+      }
+    </style>
+    `.trim()
+}
+
 const args = {
   position: 'left',
   width: '8rem',
@@ -171,30 +197,85 @@ Default.parameters = {
   },
 }
 
-// const TemplateScript = (args) => {
-//   return `
-//   ${Template(args)}
+const TemplateScript = (args) => {
+  return `
+  <div class="contain">
+    <button class="open">open()</button>
+    <button class="close">close()</button>
+    <button class="toggle">toggle()</button>
 
-//   <script>
-//     console.log('this works')
-//   </script>
-  
-  
-//   `.trim()
-// }
+  </div>
+  ${NonJSTemplate(args)}
+  <style>
+    .contain {
+      padding-bottom: 1rem;
+    }
+  </style>
 
-// export const Script = TemplateScript.bind({})
-// Script.args = {
-//   ...args
-// }
-// Script.parameters = {
-//   docs: {
-//     inlineStories: false,
-//     description: {
-//       story: 'Javascript sample on how to use the methods',
-//     },
-//     source: {
-//       code: TemplateScript(Script.args)
-//     },
-//   },
-// }
+  <script>
+    const $JScomponent = globalThis.document.querySelector('mettle-sidebar')
+
+    globalThis.document.querySelector('button.open').addEventListener('click', () => {
+      $JScomponent.open()
+    })
+    globalThis.document.querySelector('button.close').addEventListener('click', () => {
+      $JScomponent.close()
+    })
+    globalThis.document.querySelector('button.toggle').addEventListener('click', () => {
+      $JScomponent.toggle()
+    })
+  </script>
+  `.trim()
+}
+
+export const Script = TemplateScript.bind({})
+Script.args = {
+  ...args
+}
+Script.parameters = {
+  docs: {
+    inlineStories: false,
+    description: {
+      story: 'Javascript sample on how to use the methods',
+    },
+    source: {
+      code: TemplateScript(Script.args)
+    },
+  },
+  layout: 'fullscreen',
+}
+
+const largeTemplate = (args) => {
+  return `
+  <body>
+    <button class="largeToggle">toggle()</button>
+
+    ${NonJSTemplate(args)}
+  </body>
+
+    <script>
+      const $largeComponent = globalThis.document.querySelector('mettle-sidebar')
+
+      globalThis.document.querySelector('button.largeToggle').addEventListener('click', () => {
+        $largeComponent.toggle()
+      })
+    </script>
+  `.trim()
+}
+
+export const mainSidebar = largeTemplate.bind({})
+mainSidebar.args = {
+  ...args
+}
+mainSidebar.parameters = {
+  docs: {
+    inlineStories: false,
+    description: {
+      story: 'Sample on sidebar attached to body tag and used as main sidebar',
+    },
+    source: {
+      code: largeTemplate(mainSidebar.args)
+    },
+  },
+  layout: 'fullscreen',
+}
