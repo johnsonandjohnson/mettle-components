@@ -38,8 +38,8 @@ describe(ELEM_TAG_NAME, () => {
   })
 
   describe('component', () => {
-    it('should return boolean for isOpened', () => {
-      const opened = $el.isOpened
+    it('should return boolean for isOpened()', () => {
+      const opened = $el.isOpened()
       expect(opened).toBeFalse()
     })
 
@@ -50,25 +50,24 @@ describe(ELEM_TAG_NAME, () => {
       expect($el.getAttribute('open')).toBeNull()
     })
 
-    it('should be able to change position to right', () => {
+    it('should be able to change position to right', async () => {
       const componentStyle = globalThis.getComputedStyle($el.$sidebar)
       const firstPosition = componentStyle.getPropertyValue('right')
       $el.setAttribute('data-position', 'right')
+      await wait(500)
       const secondPosition = componentStyle.getPropertyValue('right')
       expect(firstPosition).not.toEqual(secondPosition)
     })
 
     it('should be able to change position to right when attached to body tag', () => {
-      $el.remove()
       globalThis.document.body.setAttribute('id', 'test-id')
-      globalThis.document.body.insertAdjacentHTML('afterbegin', '<mettle-sidebar data-for="test-id"><div slot="content">Content Testing</div></mettle-sidebar>')
-      const $secondEl = globalThis.document.querySelector(elemTag)
-      const componentStyle = globalThis.getComputedStyle($secondEl.$sidebar)
+      $el.setAttribute('data-for', 'test-id')
+      const componentStyle = globalThis.getComputedStyle($el.$sidebar)
 
       const leftValue = componentStyle.getPropertyValue('left')
       const rightValue = componentStyle.getPropertyValue('right')
 
-      $secondEl.setAttribute('data-position', 'right')
+      $el.setAttribute('data-position', 'right')
 
       const secondLeftValue = componentStyle.getPropertyValue('left')
       const secondRightValue = componentStyle.getPropertyValue('right')
@@ -100,6 +99,16 @@ describe(ELEM_TAG_NAME, () => {
 
     it('should return an object of data type values', () => {
       expect($el.DATA_TYPES).toEqual(jasmine.any(Object))
+    })
+
+    it('should be able to toggle the sidebar to open and close', async () => {
+      const newTarget = document.createElement('div')
+      newTarget.id = 'newone'
+      globalThis.document.body.appendChild(newTarget)
+      $el.dataset.for = 'newone'
+      await wait(500)
+      expect($el.$targetElem).toEqual(newTarget)
+      newTarget.remove()
     })
 
   })

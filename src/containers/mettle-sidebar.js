@@ -20,12 +20,6 @@ if (!window.customElements.get(TAG_NAME)) {
 
     constructor () {
       super()
-      // this.attachShadow({ mode: 'open' })
-      //   .appendChild(this._generateTemplate().content.cloneNode(true))
-      // document.body.appendChild(this)
-      // this.$sidebar = this.shadowRoot.querySelector('.sidebar')
-      // this._allowedPositions = new Set(['left', 'right'])
-      // this._position = 'left'
     }
 
     __attachShadowRoot() {
@@ -77,6 +71,7 @@ if (!window.customElements.get(TAG_NAME)) {
         // if sidebar is not attached to body tag and it still has a target elem -> position sidebar based on target elem's position
         if (!(this.$targetElem.tagName == 'BODY') && this.$targetElem) {
           const targetCoords = this.$targetElem.getBoundingClientRect()
+          this.$sidebar.style.position = 'absolute'
           this.$sidebar.style.top = `${targetCoords.top + window.scrollY}px`
           this.$sidebar.style.height = `${targetCoords.height}px`
           if (this._position === 'left') {
@@ -103,7 +98,7 @@ if (!window.customElements.get(TAG_NAME)) {
 
     _updateWidth() {
       this._width = this.hasAttribute(DATA_TYPES.WIDTH) ? this.getAttribute(DATA_TYPES.WIDTH) : '10rem'
-      if (this.hasAttribute(DATA_TYPES.OPEN)) {
+      if (this.isOpened()) {
         this.$sidebar.style.width = this._width
       }
     }
@@ -132,16 +127,20 @@ if (!window.customElements.get(TAG_NAME)) {
     }
 
     open() {
-      if (!this.hasAttribute(DATA_TYPES.OPEN)) { this.setAttribute(DATA_TYPES.OPEN, '') }
+      if (!this.isOpened()) {
+        this.setAttribute(DATA_TYPES.OPEN, '')
+      }
     }
 
     close() {
-      if (this.hasAttribute(DATA_TYPES.OPEN)) { this.removeAttribute(DATA_TYPES.OPEN) }
+      if (this.isOpened()) {
+        this.removeAttribute(DATA_TYPES.OPEN)
+      }
     }
 
     toggle() {
       if (this.isConnected) {
-        if (this.hasAttribute(DATA_TYPES.OPEN)) {
+        if (this.isOpened()) {
           this.close()
         } else {
           this.open()
@@ -149,7 +148,7 @@ if (!window.customElements.get(TAG_NAME)) {
       }
     }
 
-    get isOpened() {
+    isOpened() {
       return this.hasAttribute(DATA_TYPES.OPEN)
     }
 
@@ -184,7 +183,7 @@ if (!window.customElements.get(TAG_NAME)) {
     attributeChangedCallback(attr, oldValue, newValue) {
       if (oldValue !== newValue) {
         if ([DATA_TYPES.OPEN].includes(attr)) {
-          if (this.isOpened) {
+          if (this.isOpened()) {
             this._show()
           } else {
             this._hide()
