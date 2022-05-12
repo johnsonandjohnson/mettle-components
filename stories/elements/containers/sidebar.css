@@ -1,0 +1,47 @@
+.elem {
+  border-style: solid;
+  height: 7rem;
+  width: 15rem;
+  padding: 0.25rem;
+}
+
+.slot {
+  padding: 0.2rem;
+}
+
+.elemScript,
+.elemStyle {
+  border-style: solid;
+  height: 6rem;
+  width: 15rem;
+  margin-left: 0.5rem;
+  padding: 0.25rem;
+}
+
+.elemAttribute {
+  border-style: solid;
+  height: 6rem;
+  width: 15rem;
+  margin-left: 0.5rem;
+  padding: 0rem;
+}
+
+.containerAttribute {
+  display: flex;
+  flex-direction: row;
+}
+
+.open,
+.close,
+.toggle,
+.switch,
+.toggleElem,
+.styleToggle {
+  margin: 0.5rem;
+}
+
+.container {
+  padding: 1rem;
+  display: flex;
+  flex-direction: row;
+}
