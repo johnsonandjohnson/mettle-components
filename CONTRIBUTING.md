@@ -87,6 +87,14 @@ chore: Add new action Github job (#69)
 feat: Updated Mettle-tool-tip component with auto placement (#696) 
 ```
 
+#### Release version number
+
+In order to create a release with a specified version add this description to your PR merge.
+
+```
+Release-As: 2.0.0
+```
+
 ## Addressing feedback
 
 Please review all feedback on a PR.  This is required for a merge.
