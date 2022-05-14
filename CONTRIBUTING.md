@@ -95,6 +95,28 @@ In order to create a release with a specified version add this description to yo
 Release-As: 2.0.0
 ```
 
+### Manual Release
+
+In the event that `please-release` is not functioning, the following procedure will
+generate the release notes
+
+Before running the release command, find the tagged release version with the following command
+
+```sh
+$ npm run release -- --dry-run
+```
+
+Create the branch in the following format `release-v*` e.g. `release-v1.10.3`
+
+Final step is to run the release and push to main.
+
+```sh
+$ npm run release
+```
+
+> Be sure to also push the follow tags but do not run `npm publish`
+
+
 ## Addressing feedback
 
 Please review all feedback on a PR.  This is required for a merge.
