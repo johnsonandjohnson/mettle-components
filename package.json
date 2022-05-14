@@ -11,7 +11,8 @@
     "test": "npm run unit",
     "unit": "./node_modules/.bin/karma start test/unit/karma.config.js",
     "storybook": "start-storybook -p 6006 --docs --no-manager-cache",
-    "build-storybook": "build-storybook --docs -o docs"
+    "build-storybook": "build-storybook --docs -o docs",
+    "release": "./node_modules/.bin/standard-version"
   },
   "keywords": [
     "custom elements",
@@ -57,6 +58,7 @@
     "karma-webpack": "^5.0.0",
     "markdown-it": "^13.0.1",
     "nyc": "^15.1.0",
+    "standard-version": "^9.3.2",
     "webpack": "^5.72.1",
     "webpack-cli": "^4.9.2"
   }
