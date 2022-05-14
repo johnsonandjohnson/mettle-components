@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.11.0](https://github.com/johnsonandjohnson/mettle-components/compare/v1.10.3...v1.11.0) (2022-05-14)
+
+
+### Features
+
+* mettle sidebar component ([#77](https://github.com/johnsonandjohnson/mettle-components/issues/77)) ([3be56aa](https://github.com/johnsonandjohnson/mettle-components/commit/3be56aa5162be320c8f49540cdc7bbea2fdd85dd))
+
+
+### Bug Fixes
+
+* update readme ([#82](https://github.com/johnsonandjohnson/mettle-components/issues/82)) ([ecb4b5c](https://github.com/johnsonandjohnson/mettle-components/commit/ecb4b5cb7acaaffde7b3c80d01c5121021cd692b))
+
+
+* update on how to update release version ([#83](https://github.com/johnsonandjohnson/mettle-components/issues/83)) ([3577451](https://github.com/johnsonandjohnson/mettle-components/commit/3577451961d0ca208a1df0b597450fe248c892a5))
+
 ### [1.10.3](https://www.github.com/johnsonandjohnson/mettle-components/compare/v1.10.2...v1.10.3) (2022-03-12)
 
 
