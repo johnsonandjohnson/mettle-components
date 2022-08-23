@@ -1,3 +1,4 @@
+const UI_ENV_VARS = require('./environment.build')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const { resolve } = require('path')
@@ -15,9 +16,12 @@ module.exports = (env, argv) => {
       },
       host: '0.0.0.0',
       open: true,
-      port: 2022,
+      port: UI_ENV_VARS.UI_APP_PORT,
     },
     entry: './src/main.js',
+    externals: {
+        Environment: JSON.stringify(UI_ENV_VARS)
+    },
     module: {
       rules: [
         {
