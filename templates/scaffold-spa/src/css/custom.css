@@ -4,7 +4,7 @@
 .secondary-button {
   background-color: var(--primary);
   border: none;
-  border-radius: .313rem;
+  border-radius: 0.313rem;
   color: var(--on-primary);
   cursor: pointer;
   font-size: 0.8rem;

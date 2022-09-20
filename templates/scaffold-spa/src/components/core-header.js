@@ -8,7 +8,7 @@ if (!window.customElements.get(TAG_NAME)) {
     constructor() {
       super('')
       this.attachShadow({ mode: 'open' })
-      .appendChild(this._generateTemplate().content.cloneNode(true))
+        .appendChild(this._generateTemplate().content.cloneNode(true))
     }
 
     _generateTemplate() {

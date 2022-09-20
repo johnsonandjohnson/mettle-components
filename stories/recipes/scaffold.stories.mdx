@@ -49,9 +49,9 @@ able to bundle the application so it can be served and hosted on the web.
 
 > The results of this tutorial can be found here:
 
-## Inital Files
+## Initial Files
 
-We need a set of inital files.  When creating your new repo there is likey a `README.md` file.
+We need a set of initial files.  When creating your new repo there is likely a `README.md` file.
 This will be important to update at the end.  If your project does not have one make sure to create one.
 
 Before We create each file lets understand why it is needed.
@@ -61,7 +61,7 @@ Before We create each file lets understand why it is needed.
 |:---------|:---------|
 | README.md | Vital documentation as to what the project is about and how to use it. |
 | .editorconfig | Helps your IDE(a.k.a Code editor) know how to format the code |
-| .gitignore | Required to inform Git what files to ingnore and not be checked in |
+| .gitignore | Required to inform Git what files to ignore and not be checked in |
 | package.json | Required to install dependencies, provide project information and execution scripts |
 | src/main.js | Our starting application JavaScript file |
 | src/index.html | Our Base application HTML file |
@@ -253,12 +253,12 @@ npm install html-webpack-plugin webpack webpack-cli webpack-dev-server --save-de
 npm install @johnsonandjohnson/mettle-components --save
 ```
 
-### Final Results for Inital Files setup
+### Final Results for Initial Files setup
 
 Once this is all configured we will be able to start our application.  Run the following
 command.  This was configured in the `package.json` file scripts section.
 
-> All scripts should be excuted where the `package.json` file is located.
+> All scripts should be executed where the `package.json` file is located.
 
 ```sh
 $ npm start
@@ -291,25 +291,25 @@ will shut down.
 
 ## CSS structure and bundle
 
-Right after HTML, CSS is nesscary for the web experince. Importing CSS files are ideal
-but not yet nativly supported(but getting there).  What we will setup is CSS bundling
+Right after HTML, CSS is necessary for the web experience. Importing CSS files are ideal
+but not yet natively supported(but getting there).  What we will setup is CSS bundling
 with webpack so it will include imported CSS files into the final HTML page.  This will
-allow us to seperate our CSS files if needed as it makes sense.
+allow us to separate our CSS files if needed as it makes sense.
 
 Create the folder and file structure like so **src/css/index.css** and include the following:
 
 ```css
-@import './variables.css';
-@import './structure.css';
-@import './custom.css';
-@import './effects.css';
+@import "./variables.css";
+@import "./structure.css";
+@import "./custom.css";
+@import "./effects.css";
 ```
 
 About these files
 
 | File | Purpose |
 |:---------|:---------|
-| variables.css | Using CSS variables will help organize your CSS resuable properties |
+| variables.css | Using CSS variables will help organize your CSS reusable properties |
 | structure.css | While many will use a CSS framework, reusable classes for structuring your application can be placed here |
 | custom.css | Most projects have custom CSS regardless of what CSS framework you use. They can be placed here |
 | effects.css | Using motion is not highly recommended, but there might be some transitions or animations that make sense. |
@@ -325,27 +325,24 @@ You guessed it also add the following files to **src/css/**
   --on-background: #3c3a36;
   --surface: #e8e7e3;
   --on-surface: #999;
-
   --header: #fcfcfc;
   --on-header: #494949;
   --nav: #fff;
   --on-nav: #000;
-
   --primary: #3d5a80;
   --on-primary: #fff;
   --primary-variant: #98c1d9;
   --secondary: #ee6c4d;
   --on-secondary: #fff;
-
-  --danger: #ff0011;
+  --danger: #f01;
   --info: #4fd2fa;
   --success: #75dd0c;
   --warning: #f7f313;
-
   --base-size: 1rem;
   --base-size-xs: calc(var(--base-size) / 2);
   --base-size-md: calc(var(--base-size) * 2);
   --base-size-lg: calc(var(--base-size) * 4);
+  --base-size-xl: calc(var(--base-size) * 6);
   --base-border-radius: 0.25rem;
 }
 ```
@@ -475,7 +472,7 @@ body {
 .secondary-button {
   background-color: var(--primary);
   border: none;
-  border-radius: .313rem;
+  border-radius: 0.313rem;
   color: var(--on-primary);
   cursor: pointer;
   font-size: 0.8rem;
@@ -634,13 +631,13 @@ Under `src` lets add a `components` folder.
 
 We need to create an `index.js` file and a `core-header.js` file.
 We will include any components within this folder.  It is recommended many to all
-parts of your app are built using web components for reusablility and encapuslation.
+parts of your app are built using web components for reusability and encapsulation.
 
 In doing this, your HTML can act more like a place holder while your components will
 render the solution needed for that section or page.
 
 Before we create the component, lets create the HTML template for the component.
-This will be useful for component HTML that might be to large to inculde directly
+This will be useful for component HTML that might be to large to include directly
 into the component.
 
 > Note that this is supported only by using webpack
@@ -765,7 +762,7 @@ single page application(SPA).
 |:---------|:---------|
 | components | All custom web components will be placed here to organize the site into widgets. |
 | features | All routes and controllers will be placed for each feature page here. |
-| services | All providers, API fetches and bussniess logic will be placed here.  Components and features will directly access these services. |
+| services | All providers, API fetches and business logic will be placed here.  Components and features will directly access these services. |
 
 Now we can update the `main.js` file like so
 
@@ -870,7 +867,7 @@ From the root directory where the `package.json` file is located run the followi
 npm install --save @vanillawc/wc-datepicker
 ```
 
-Update the `main.js` to inculde the datepicker.
+Update the `main.js` to include the date picker.
 
 ```js
 import './css/index.css'
@@ -898,7 +895,7 @@ document.body.appendChild(component())
 document.body.appendChild(dateComponent())
 ```
 
-The site should now have a datepicker.
+The site should now have a date picker.
 
 <img src={ScaffoldStep31} class="img-border" height="300" />
 
@@ -908,7 +905,7 @@ makes sense for your project.
 ## Services
 
 While we are not doing a deep dive into building services (a.k.a Providers)
-we will inculde some already
+we will include some already
 built services from Mettle along with a structure that will allow you to add your own
 custom services.
 
@@ -1352,6 +1349,117 @@ The file structure should now look like this.
 ├── .editorconfig
 ├── .env.defaults
 ├── .gitignore
+├── environment.build.js
+├── package-lock.json
+├── package.json
+├── README.md
+└── webpack.config.js
+```
+
+## Linting
+
+Linting will allow us to make sure the format of the CSS and Javascript will follow a standard.
+Linting has huge benefits and does not take long to run and setup.
+
+**devDependencies**
+```sh
+npm install eslint stylelint stylelint-config-standard --save-dev
+```
+
+Once these packages are installed we need to create the configuration files
+
+
+
+Create `.stylelintrc`
+```json
+{
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "color-hex-case": "lower",
+    "indentation": null,
+    "no-empty-source": null,
+    "selector-type-no-unknown": [
+      true,
+      {
+        "ignore": [
+          "custom-elements"
+        ]
+      }
+    ]
+  }
+}
+```
+
+Create `.eslintrc`
+```json
+{
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "rules": {
+  }
+}
+```
+
+finally to test this we will add new npm scripts to execute the linter.
+
+**package.json** update
+
+```json
+"scripts": {
+  "build": "./node_modules/.bin/webpack --mode production --config webpack.config.js",
+  "build:beta": "./node_modules/.bin/webpack --mode development --config webpack.config.js",
+  "lint:css": "./node_modules/.bin/stylelint './src/**/*.css' --config ./.stylelintrc",
+  "lint:js": "./node_modules/.bin/eslint --fix -c ./.eslintrc --ext .js ./src",
+  "lint": "npm run lint:css && npm run lint:js",
+  "pretest": "npm run lint",
+  "start": "./node_modules/.bin/webpack serve --mode development --config webpack.config.js",
+  "test": "echo \"Error: no test specified\" && exit 1"
+},
+```
+
+> Note that we added the `--fix` configuration for eslint.
+
+
+The file structure should now look like this.
+
+```
+.
+├── assets
+│   ├── locales
+│   │    └── en.json
+│   ├── compass.png
+│   ├── hamburger.png
+├── node_modules
+├── src
+│   ├── components
+│   │    ├── core-header.html
+│   │    ├── core-header.js
+│   │    └── index.js
+│   ├── css
+│   │    ├── custom.css
+│   │    ├── effects.css
+│   │    ├── index.css
+│   │    ├── structure.css
+│   │    └── variables.css
+│   ├── features
+│   │    ├── dashboard
+│   │    │    ├── about.html
+│   │    │    ├── about.js
+│   │    │    ├── home.html
+│   │    │    └── home.js
+│   ├── services
+│   │    ├── constants.js
+│   │    └── index.js
+│   ├── index.html
+│   └── main.js
+├── .editorconfig
+├── .env.defaults
+├── .eslintrc
+├── .gitignore
+├── .stylelintrc
 ├── environment.build.js
 ├── package-lock.json
 ├── package.json

@@ -11,7 +11,6 @@ import {
 
 Router.defaultPath(Constants.ROUTES.HOME)
 
-
 const $links = Array.from(document.querySelectorAll('a[rel*="/"]'))
 $links.map(a => {
   a.addEventListener('click', evt => {
