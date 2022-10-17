@@ -10,13 +10,20 @@
     "lint": "npm run lint:css && npm run lint:js",
     "pretest": "npm run lint",
     "start": "./node_modules/.bin/webpack serve --mode development --config webpack.config.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run unit",
+    "unit": "./node_modules/.bin/karma start test/unit/karma.config.js"
   },
   "devDependencies": {
+    "@jsdevtools/coverage-istanbul-loader": "^3.0.5",
     "css-loader": "^6.6.0",
     "dotenv-extended": "^2.9.0",
     "eslint": "^8.23.1",
     "html-webpack-plugin": "^5.5.0",
+    "karma": "^6.4.1",
+    "karma-chrome-launcher": "^3.1.1",
+    "karma-coverage-istanbul-reporter": "^3.0.3",
+    "karma-jasmine": "^5.1.0",
+    "karma-webpack": "^5.0.0",
     "mini-css-extract-plugin": "^2.5.3",
     "stylelint": "^14.11.0",
     "stylelint-config-standard": "^28.0.0",

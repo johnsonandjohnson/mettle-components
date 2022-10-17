@@ -59,6 +59,7 @@ module.exports = (env, argv) => {
         components: resolve(__dirname, 'src/components'),
         features: resolve(__dirname, 'src/features'),
         services: resolve(__dirname, 'src/services'),
+        templates: resolve(__dirname, 'src/templates'),
       },
       extensions: ['.js']
     },
