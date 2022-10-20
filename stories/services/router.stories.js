@@ -31,6 +31,7 @@ The request is an object with the following properties and methods
 | Property | Purpose |
 |:---------:|:---------:|
 | canExit | Function to invoke that returns a boolean indicating if the user is allowed to exit the route |
+| currentPath | Current url path name |
 | exit | Function to invoke when leaving the current route |
 | params | A Map() object of the current route params |
 | route | The route set for the controller |
@@ -39,8 +40,9 @@ The request is an object with the following properties and methods
 
 Assume the url: <code>products/45?filter=size</code> from Route: <code>products/:id</code>
 
-<pre><code>
-const RouteCtrlPage1 = async (req, next) => {
+<code>
+<pre>
+ const RouteCtrlPage1 = async (req, next) => {
 
   req.exit(() => {
     // Anything you want to do before this controller is complete
@@ -57,7 +59,7 @@ const RouteCtrlPage1 = async (req, next) => {
 
   next() // This is required to move to the next function
 }
-</code></pre>
+</pre></code>
 
 
 **Set the Route with the controller**
@@ -95,6 +97,41 @@ If the param is optional add a question mark(?) after.
 
 To change the path use the <code>Router.goto()</code> function.
 
+<pre>
+<code>
+Router.goto('/home, 'Home page title optional')
+</code>
+</pre>
+
+**Routing Errors**
+
+Configured for exceptions, this handler can be a strategy to purposely throw exceptions for
+different content to be displayed or to not show unreliable data to the user.  This can also
+be used to catch unexpected results and possibly log issues that were unforeseen.
+
+The handler function takes in the exception object and the request object passed down from each
+controller.
+
+<code>
+<pre>
+Router.setErrorHandler((e, req) => {
+  $routeDisplay.innerHTML = \`There was an error caught in \${req.currentPath}\`
+})
+</pre>
+</code>
+
+<br />
+<br />
+<br />
+<span className="tip">Work in Progress</span>
+In a future update we will be addressing this issue.
+
+**404 Page not found**
+
+Currently the function <code>Router.defaultPath()</code> will re-route any non existing path to
+this configure route.  The problem with is not informing the user about the non-existing route.
+It would be ideal to be able to redirect them to the proper
+route with a link and a message rather than to be redirected to the home page.
 
 
 ##See more code samples below
@@ -178,6 +215,16 @@ export default {
       },
       description: 'Set the default route path when a specified route path does not exist.',
       name: 'Router.defaultPath(path)',
+      table: {
+        category: Constants.CATEGORIES.METHODS,
+      }
+    },
+    setErrorHandler: {
+      control: {
+        type: null
+      },
+      description: 'Set the default route error controller when a route controller has an exception thrown.',
+      name: 'Router.setErrorHandler((exception, request) => {})',
       table: {
         category: Constants.CATEGORIES.METHODS,
       }
@@ -296,7 +343,7 @@ const Template = () => {
     Router.defaultPath('page1/')
 
     Router.use((req, next) => {
-      $urlDisplay.value = Router.getCurrentPath() // Router.urlFullPath()
+      $urlDisplay.value = $urlDisplay.value = req.currentPath //Router.getCurrentPath() or Router.urlFullPath()
       next()
     })
 
@@ -331,7 +378,7 @@ Default.parameters = {
   docs: {
     inlineStories: false,
     description: {
-      story: 'Sample use of HttpFetch class.',
+      story: 'Router sample',
     },
     source: {
       code: Template(Default.args)
@@ -340,3 +387,92 @@ Default.parameters = {
   layout: 'padded',
 }
 
+
+const TemplateErrorHandler = () => {
+  return `
+
+  <header class="role-story-header">
+    <input type="text" readonly="readonly" class="url-display" />
+    <nav>
+      <a href="#" rel="page1/" title="Main Page" class="active">Working Page</a>
+      <a href="#" rel="page2/" title="Page two">Error Thrown Page</a>
+    </nav>
+  </header>
+
+  <main class="role-story-main">
+    <div class="route-display"></div>
+  </main>
+
+  <script type="module">
+    import Router from './router.js'
+
+    const HtmlCache = new Map()
+    HtmlCache.set('page1.html', '<strong>Page 1</strong><section class="page1"><div>Header</div><div>Main</div><div>Footer</div></section>')
+    HtmlCache.set('page2.html', '<strong>Page 2</strong><section class="page2"><div>Header</div><div>Main</div><div>Footer</div></section>')
+
+    const $routeDisplay = document.querySelector('.route-display')
+    const $urlDisplay = document.querySelector('.url-display')
+
+    const RouteCtrlPage1 = async (req, next) => {
+      $routeDisplay.innerHTML = HtmlCache.get('page1.html')
+      next()
+    }
+
+    const RouteCtrlPage2 = async (req, next) => {
+      throw new Error('Error Thrown')
+      $routeDisplay.innerHTML = HtmlCache.get('page2.html')
+      next()
+    }
+
+
+    Router.setPath('page1/', RouteCtrlPage1)
+    Router.setPath('page2/', RouteCtrlPage2)
+
+    Router.defaultPath('page1/')
+
+    Router.setErrorHandler((e, req) => {
+      $routeDisplay.innerHTML = \`There was an error caught in \${req.currentPath}\`
+    })
+
+    Router.use((req, next) => {
+      $urlDisplay.value = req.currentPath //Router.getCurrentPath() or Router.urlFullPath()
+      next()
+    })
+
+    const $links = Array.from(document.querySelectorAll('a[rel$="/"]'))
+    $links.map(a => {
+      a.addEventListener('click', evt => {
+        evt.preventDefault()
+        removeActiveClass()
+        a.classList.add('active')
+        Router.goto(a.getAttribute('rel'), a.getAttribute('title'))
+      })
+    })
+
+    function removeActiveClass() {
+      $links.forEach(link => {
+        link.classList.remove('active')
+      })
+    }
+
+  </script>
+  `.trim()
+}
+
+export const ErrorHandler = TemplateErrorHandler.bind({})
+ErrorHandler.args = {
+  ...args
+}
+
+ErrorHandler.parameters = {
+  docs: {
+    inlineStories: false,
+    description: {
+      story: 'Sample use of Router.setErrorHandler() function to catch exceptions from the route controllers.',
+    },
+    source: {
+      code: TemplateErrorHandler(ErrorHandler.args)
+    },
+  },
+  layout: 'padded',
+}

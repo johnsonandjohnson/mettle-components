@@ -38,22 +38,22 @@ When you subscribe to an observable the subscription will return some methods
 
 **Use case for only getting data one time.**
 
-<pre><code>
+<code><pre>
     const subscription = observed.subscribe(()=>{
       // do something
     }).only(1)
 
-</code></pre>
+</pre></code>
 
 **Use case to unsubscribe.**
 
-<pre><code className="language-javascript">
+<code className="language-javascript"><pre>
     const subscription = observed.subscribe(()=>{
       // do something
     })
 
     subscription.unsubscribe()
-</code></pre>
+</pre></code>
 
 > More code samples below
 `

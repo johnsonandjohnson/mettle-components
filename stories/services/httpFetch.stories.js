@@ -34,7 +34,8 @@ Below are just a few samples of possible headers.
 
 **Options/Header Samples**
 
-<pre><code>
+<code>
+<pre>
   new HttpFetch({
     cache: 'no-cache',
     headers: {
@@ -42,7 +43,7 @@ Below are just a few samples of possible headers.
       Authorization: 'Basic ' + btoa(username + ":" + password),
     }
   })
-</code></pre>
+</pre></code>
 
 <br />
 
@@ -51,7 +52,7 @@ Below are just a few samples of possible headers.
 If you need to update the Fetch options for a single call, use the <code>nextRequestOptions()</code>
 function.
 
-
+<code>
 <pre>
 fetchInstance
   .nextRequestOptions({headers: {Accept: 'text/html'}, cache: 'no-cache'})
@@ -61,6 +62,7 @@ fetchInstance
     //handle results
   })
 </pre>
+</code>
 
 <br />
 
@@ -72,7 +74,8 @@ and fetch request options with all of the calls needed in your application.
 
 **Sample of an export file with a single instance**
 
-<pre><code>
+<code>
+<pre>
 import { HttpFetch } from '@johnsonandjohnson/mettle-components/services'
 
 const fetchInstance = new HttpFetch({
@@ -90,7 +93,7 @@ fetchInstance.setInterceptors({
 })
 
 export default fetchInstance
-</code></pre>
+</pre></code>
 
 <br />
 ###Static Functions
@@ -113,7 +116,8 @@ You can add as many interceptors, but most applications just need one as this wi
 fetch request.  Note that this is not a global request, just for an instance of an
 instantiated HttpFetch class.
 
-<pre><code>
+<code>
+<pre>
   const fetchInstance = new HttpFetch()
   const fetchInterceptorInstance = fetchInstance.setInterceptors({
     request: (url, config) => {
@@ -135,7 +139,8 @@ instantiated HttpFetch class.
 
   // Option to remove all fetch interceptors set on the HttpFetch instance
   fetchInstance.clearAllInterceptors()
-</code></pre>
+</pre>
+</code>
 
 
 <br />
@@ -148,8 +153,9 @@ instantiated HttpFetch class.
 
 **Interceptor Code Sample**
 
+<code>
 <pre>
-  <code>import ( AuthService ) from 'yourAppServices'
+  import ( AuthService ) from 'yourAppServices'
 
   const fetchInstance = new HttpFetch()
 
@@ -183,8 +189,9 @@ instantiated HttpFetch class.
       return Promise.reject(error)
     }
   })
-  export default fetchInstance</code>
+  export default fetchInstance
 </pre>
+</code>
 
 
 ##Post Body Data
