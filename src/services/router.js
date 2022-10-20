@@ -15,6 +15,7 @@ class Router {
     this._currentHistoryState = ''
     this._canExitFn = null
     this._exitFn = null
+    this._errorHandler = null
     this.lastRoutePath = window.sessionStorage.getItem('last-route-path') || ''
     this.historyChangeBind = this.historyChange.bind(this)
     this.routeChangeEventName = 'route-change'
@@ -33,7 +34,7 @@ class Router {
   }
 
   set routeChangeEventName(eventName) {
-    if(eventName.length) {
+    if (eventName.length) {
       window.removeEventListener(this._routeChangeEventName, this.historyChangeBind)
       this._routeChangeEventName = eventName
       window.addEventListener(this._routeChangeEventName, this.historyChangeBind)
@@ -119,17 +120,22 @@ class Router {
     const handlers = this.getPath(route)
     const req = {
       canExit: this._canExit.bind(this),
+      currentPath: this.getAdjustedPath(this.getCurrentPath()),
       exit: this._exit.bind(this),
       params: this._pathParams(route),
       route,
       search: this.getCurrentSearchParams()
     }
-    const pipeNext = callbacks => {
-      if (Array.isArray(callbacks) && callbacks.length) {
-        const next = callbacks.shift()
-        if (Util.isFunction(next)) {
-          next(req, pipeNext.bind(this, callbacks))
+    const pipeNext = async callbacks => {
+      try {
+        if (Array.isArray(callbacks) && callbacks.length) {
+          const next = callbacks.shift()
+          if (Util.isFunction(next)) {
+            await next(req, pipeNext.bind(this, callbacks))
+          }
         }
+      } catch (exception) {
+        this.executeErrorHandler(exception, req)
       }
     }
 
@@ -220,8 +226,7 @@ class Router {
   }
 
   hasPath(path) {
-    /* Note: A path should match without optional params
-     account for /path/:param? */
+    /* Note: A path should match without optional params account for /path/:param? */
     return [...this._paths.keys()]
       .map(this.fromBase64.bind(this))
       .some(route => this._pathToRegex(route).test(path) || route === path)
@@ -237,6 +242,17 @@ class Router {
 
   _canExit(fn) {
     this._canExitFn = fn
+  }
+
+  setErrorHandler(fn) {
+    if (Util.isFunction(fn)) {
+      this._errorHandler = fn
+    }
+  }
+  executeErrorHandler(exception, req) {
+    if (Util.isFunction(this._errorHandler)) {
+      this._errorHandler(exception, req)
+    }
   }
 
   _pathToRegex(path = '') {

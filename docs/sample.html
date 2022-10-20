@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <title>Mettle Services Example</title>
+  </head>
+  <body>
+    <div id="render"></div>
+
+    <script type="module">
+      import { HtmlMarker } from 'https://cdn.jsdelivr.net/npm/@johnsonandjohnson/mettle-components/services.js'
+
+      (async () => {
+        const htmlMarker = new HtmlMarker()
+        const htmlString = '<button disabled="${disabled}">Random Disabled</button>'
+        const div = document.querySelector('#render')
+
+        let model = {
+          disabled: 'disabled'
+        }
+        await htmlMarker.render(div, htmlString, model)
+
+        window.setInterval(() => {
+          model.disabled = (Math.random() >= 0.5) ? 'disabled' : ''
+          htmlMarker.updateModel(model)
+        }, 1000)
+      })()
+    </script>
+  </body>
+</html>

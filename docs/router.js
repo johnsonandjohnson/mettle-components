@@ -15,6 +15,7 @@ class Router {
     this._currentHistoryState = ''
     this._canExitFn = null
     this._exitFn = null
+    this._errorHandler = null
     this.lastRoutePath = window.sessionStorage.getItem('last-route-path') || ''
     this.historyChangeBind = this.historyChange.bind(this)
     this.routeChangeEventName = 'route-change'
@@ -33,11 +34,19 @@ class Router {
   }
 
   set routeChangeEventName(eventName) {
-    if(eventName.length) {
+    if (eventName.length) {
       window.removeEventListener(this._routeChangeEventName, this.historyChangeBind)
       this._routeChangeEventName = eventName
       window.addEventListener(this._routeChangeEventName, this.historyChangeBind)
     }
+  }
+
+  get currentHistoryState() {
+    return this._currentHistoryState
+  }
+
+  saveCurrentHistoryState() {
+    this._currentHistoryState = window.history.state
   }
 
   getCurrentPath() {
@@ -83,8 +92,8 @@ class Router {
       const canExit = await this._canExitFn()
 
       if (!canExit) {
-        if (window.history.state !== this._currentHistoryState) {
-          window.history.pushState(this._currentHistoryState, document.title, this._currentHistoryState)
+        if (window.history.state !== this.currentHistoryState) {
+          window.history.pushState(this.currentHistoryState, document.title, this.currentHistoryState)
         }
         return
       } else {
@@ -111,17 +120,22 @@ class Router {
     const handlers = this.getPath(route)
     const req = {
       canExit: this._canExit.bind(this),
+      currentPath: this.getAdjustedPath(this.getCurrentPath()),
       exit: this._exit.bind(this),
       params: this._pathParams(route),
       route,
       search: this.getCurrentSearchParams()
     }
-    const pipeNext = callbacks => {
-      if (Array.isArray(callbacks) && callbacks.length) {
-        const next = callbacks.shift()
-        if (Util.isFunction(next)) {
-          next(req, pipeNext.bind(this, callbacks))
+    const pipeNext = async callbacks => {
+      try {
+        if (Array.isArray(callbacks) && callbacks.length) {
+          const next = callbacks.shift()
+          if (Util.isFunction(next)) {
+            await next(req, pipeNext.bind(this, callbacks))
+          }
         }
+      } catch (exception) {
+        this.executeErrorHandler(exception, req)
       }
     }
 
@@ -130,7 +144,7 @@ class Router {
       pipeNext(allHandlers.slice())
     }
 
-    this._currentHistoryState = window.history.state
+    this.saveCurrentHistoryState()
     /* Delay to ensure the route is not being over called */
     setTimeout(() => {
       this._canRoute = true
@@ -212,8 +226,7 @@ class Router {
   }
 
   hasPath(path) {
-    /* Note: A path should match without optional params
-     account for /path/:param? */
+    /* Note: A path should match without optional params account for /path/:param? */
     return [...this._paths.keys()]
       .map(this.fromBase64.bind(this))
       .some(route => this._pathToRegex(route).test(path) || route === path)
@@ -229,6 +242,17 @@ class Router {
 
   _canExit(fn) {
     this._canExitFn = fn
+  }
+
+  setErrorHandler(fn) {
+    if (Util.isFunction(fn)) {
+      this._errorHandler = fn
+    }
+  }
+  executeErrorHandler(exception, req) {
+    if (Util.isFunction(this._errorHandler)) {
+      this._errorHandler(exception, req)
+    }
   }
 
   _pathToRegex(path = '') {
@@ -272,12 +296,16 @@ class Router {
       .join('/') : ''
 
     const searchParams = this.getCurrentSearchParams().toString()
-    window.history.pushState(Object.create(null), document.title, `${routePath}${searchParams.length ? `?${searchParams}` : ''}`)
+    const newURL = `${routePath}${searchParams.length ? `?${searchParams}` : ''}`
+    window.history.pushState(newURL, document.title, `${routePath}${searchParams.length ? `?${searchParams}` : ''}`)
+    this.saveCurrentHistoryState()
     return this
   }
 
   removeURLSearchParams() {
-    window.history.replaceState(Object.create(null), document.title, this.getCurrentPath())
+    const newURL = this.getCurrentPath()
+    window.history.pushState(newURL, document.title, newURL)
+    this.saveCurrentHistoryState()
   }
 
   updateURLSearchParams(params = Object.create(null)) {
@@ -292,7 +320,9 @@ class Router {
         searchParams.append(key, value)
       })
     const finalParams = searchParams.toString()
-    window.history.pushState(Object.create(null), document.title, `${this.getCurrentPath()}?${finalParams}`)
+    const newURL = `${this.getCurrentPath()}?${finalParams}`
+    window.history.pushState(newURL, document.title, newURL)
+    this.saveCurrentHistoryState()
     return this
   }
 
