@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.12.0](https://github.com/johnsonandjohnson/mettle-components/compare/v1.10.3...v1.12.0) (2022-10-20)
+
+
+### Features
+
+* handle code exceptions in routing ([#86](https://github.com/johnsonandjohnson/mettle-components/issues/86)) ([474b5f5](https://github.com/johnsonandjohnson/mettle-components/commit/474b5f596278437bd7cefb66e186ff55fe36128c))
+
+* update on how to update release version ([#83](https://github.com/johnsonandjohnson/mettle-components/issues/83)) ([3577451](https://github.com/johnsonandjohnson/mettle-components/commit/3577451961d0ca208a1df0b597450fe248c892a5))
+
+
 ## [1.11.0](https://github.com/johnsonandjohnson/mettle-components/compare/v1.10.3...v1.11.0) (2022-05-14)
 
 
