@@ -1,0 +1,225 @@
+<html>
+
+<head>
+  <title>Mettle Services Example</title>
+  <style>
+    :root {
+      --primary: #3F4EA1;
+      --on-primary: #fff;
+      --secondary: hsla(237, 52%, 35%, 0.515);
+      --on-secondary: #fff;
+    }
+
+    .url-display {
+      background-color: hsl(0deg 0% 94% / 49%);
+      border: 1px solid #ddd;
+      border-radius: 50px;
+      display: flex;
+      font-size: 1rem;
+      padding: 0.5rem;
+      padding-left: 1.2rem;
+      width: 80vw;
+    }
+
+    .role-story-header nav {
+      display: flex;
+      margin: 0.2rem 0;
+    }
+
+    .role-story-header nav a {
+      background-color: #1f1d1d;
+      color: var(--on-primary);
+      display: flex;
+      padding: 0.8rem;
+    }
+
+    .role-story-header nav a:hover {
+      background-color: var(--secondary);
+      display: flex;
+    }
+
+    .role-story-header nav a.active {
+      background-color: var(--primary);
+    }
+
+    .role-story-main {
+      display: flex;
+      flex-grow: 1;
+      margin-top: 0.2rem;
+      padding: 0.4rem;
+    }
+
+    .role-story-main .route-display {
+      flex-basis: 100%;
+      ;
+    }
+
+    .role-story-main section {
+      background-color: #eee;
+      border: 0.2em solid;
+      padding: 0.5em;
+      display: grid;
+      grid-gap: 1rem;
+    }
+
+    .page1 {
+      grid-template-rows: 4em 5em 1em;
+      grid-template-columns: 30% 2rem 1fr;
+      grid-template-areas:
+        "main main header"
+        "main main footer"
+        "main main footer";
+    }
+
+    .page2 {
+      grid-template-rows: 4em 4em 4em;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-areas:
+        "header header header"
+        "main footer footer"
+        "main footer footer";
+    }
+
+    .page3 {
+      grid-template-rows: minmax(4rem, auto) 8rem 5rem;
+      grid-template-columns: auto;
+      grid-template-areas:
+        "header"
+        "main"
+        "footer";
+    }
+
+    .role-story-main section :nth-child(1) {
+      background-color: #ffadad;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      grid-area: header;
+    }
+
+    .role-story-main section :nth-child(2) {
+      background-color: #caffbf;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      grid-area: main;
+    }
+
+    .role-story-main section :nth-child(3) {
+      background-color: #bdb2ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      grid-area: footer;
+    }
+
+    dialog::backdrop {
+      background: rgba(0, 0, 0, 0.5);
+    }
+  </style>
+</head>
+
+<body>
+  <header class="role-story-header">
+    <input type="text" readonly="readonly" class="url-display" />
+    <nav>
+      <a href="#" rel="page1/" title="Main Page" class="active">Page 1</a>
+      <a href="#" rel="page2/" title="Page two">Page 2</a>
+      <a href="#" rel="page3/" title="Page three">Page 3</a>
+      <a href="#" rel="page3/34/" title="Page three">Page 3 ID</a>
+      <a href="#" rel="fake/" title="Fake">Fake Path</a>
+    </nav>
+  </header>
+
+  <main class="role-story-main">
+    <div class="route-display"></div>
+  </main>
+
+  <dialog>
+    <form method="dialog">
+      <p class="message-dialog"></p>
+      <button value="close" class="close-dialog">Close</button>
+    </form>
+  </dialog>
+
+  <script type="module">
+    import Router from './router.js'
+
+    const HtmlCache = new Map()
+    HtmlCache.set('page1.html', '<strong>Page 1</strong><section class="page1"><div>Header</div><div>Main</div><div>Footer</div></section>')
+    HtmlCache.set('page2.html', '<strong>Page 2</strong><section class="page2"><div>Header</div><div>Main</div><div>Footer</div></section>')
+    HtmlCache.set('page3.html', '<strong>Page 3</strong><div>ID:<span id="idDisplay"></span></div><section class="page3"><div>Header</div><div>Main</div><div>Footer</div></section>')
+
+    const $routeDisplay = document.querySelector('.route-display')
+    const $urlDisplay = document.querySelector('.url-display')
+    const $dialog = document.querySelector('dialog')
+    const $messageDialog = document.querySelector('.message-dialog')
+
+    const RouteCtrlPage1 = async (req, next) => {
+      $routeDisplay.innerHTML = HtmlCache.get('page1.html')
+      next()
+    }
+
+    const RouteCtrlPage2 = async (req, next) => {
+      throw new Error('Error Thrown')
+      $routeDisplay.innerHTML = HtmlCache.get('page2.html')
+      next()
+    }
+
+    const RouteCtrlPage3 = async (req, next) => {
+      $routeDisplay.innerHTML = HtmlCache.get('page3.html')
+      document.querySelector('span#idDisplay').innerHTML = req.params.get('id')
+      next()
+    }
+
+    const finisher = async (req, next) => {
+      console.log('final middleware')
+    }
+
+    Router.setPath('page1/', RouteCtrlPage1, finisher)
+    Router.setPath('page2/', RouteCtrlPage2, finisher)
+    Router.setPath('page3/', RouteCtrlPage1, finisher)
+    Router.setPath('page3/:id?', RouteCtrlPage3, finisher)
+
+    Router.defaultPath('page1/')
+
+    window.addEventListener('load', () => {
+      Router.goto('page1/')
+    })
+
+    Router.use((req, next) => {
+      $urlDisplay.value = req.currentPath // Router.getCurrentPath() or Router.urlFullPath()
+      next()
+    })
+
+    Router.setErrorHandler((e, req) => {
+      console.log(e.message)
+      $messageDialog.innerHTML = `There was an error caught in ${req.currentPath}`
+      $routeDisplay.innerHTML = ''
+      $dialog.showModal()
+    })
+
+    /*Router.missingRouteHandler(async (req) => {
+      $routeDisplay.innerHTML = `page not found ${req.currentPath}`
+    })*/
+
+    const $links = Array.from(document.querySelectorAll('a[rel$="/"]'))
+    $links.map(a => {
+      a.addEventListener('click', evt => {
+        evt.preventDefault()
+        removeActiveClass()
+        a.classList.add('active')
+        Router.goto(a.getAttribute('rel'), a.getAttribute('title'))
+      })
+    })
+
+    function removeActiveClass() {
+      $links.forEach(link => {
+        link.classList.remove('active')
+      })
+    }
+
+  </script>
+</body>
+
+</html>
