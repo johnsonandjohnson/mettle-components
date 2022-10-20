@@ -3,7 +3,6 @@ import { wait } from 'helper'
 
 describe('RouterService', () => {
 
-
   describe('functions', () => {
 
     it('should be able to set a global middleware', () => {
@@ -112,6 +111,17 @@ describe('RouterService', () => {
     it('should be able to get the URL search params as a string', () => {
       const URLParams = RouterService.urlParams('http://example.com/get?test=tester')
       expect(URLParams).toEqual('?test=tester')
+    })
+
+    it('should be able to handle exceptions from a route controller', (done) => {
+      RouterService.setPath('/errorRoute', (req, next) => {
+        throw new Error()
+      })
+      RouterService.setErrorHandler((e, req) => {
+        expect(req.currentPath).toEqual('errorRoute')
+        done()
+      })
+      RouterService.goto('/errorRoute')
     })
 
   })
