@@ -14,14 +14,11 @@ describe('Utility', () => {
       $MettleTransitionDisplay.remove()
     })
 
-    it('should execute LoadHTML and continue routing', async () => {
+    it('should throw an error if not able to load HTML', async () => {
       const HTML = '<p>Testing</p>'
       const middleWare = Utility.LoadHTML(HTML)
       const noop = () => null
-      //expect(middleWare.bind(null, null, noop)).toThrow()
-     // console.log(middleWare)
-      expect(async () => { middleWare(null, noop) }).toThrow()
-      //await expectAsync(middleWare.bind(null, null, noop)).toBeRejected()
+      await expectAsync(middleWare(null, noop)).toBeRejectedWithError()
     })
 
   })

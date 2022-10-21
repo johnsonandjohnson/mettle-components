@@ -1,0 +1,141 @@
+import { linkTo } from '@storybook/addon-links';
+import { Meta } from '@storybook/addon-docs';
+import Code from '../../assets/code.svg';
+import AdvanceLevel from '../../assets/thermometer_full.svg';
+import ScaffoldStep1 from '../../assets/scaffold-step1.png';
+import ScaffoldStep2 from '../../assets/scaffold-step2.png';
+import ScaffoldStep21 from '../../assets/scaffold-step2-1.png';
+import ScaffoldStep3 from '../../assets/scaffold-step3.png';
+import ScaffoldStep31 from '../../assets/scaffold-step3-1.png';
+import ScaffoldStep4 from '../../assets/ScaffoldStep4.png';
+import ScaffoldStepFinal from '../../assets/scaffold-final.gif';
+
+import '../../styles.css'
+
+
+<Meta title="Welcome/Recipes/Scaffold a SPA/Step 8: Linting" />
+
+<div className="recipe">
+  <img src={Code} alt="Code" height="160" />
+  <div classNamw="flex-col">
+    <h1 className="heading">Scaffold a SPA with Web Components</h1>
+    <small className="flex"> <img src={AdvanceLevel} alt="Intermedite Level" height="20" /> Advance level</small>
+    <p>Step 8
+    </p>
+  </div>
+</div>
+
+## Linting
+
+Linting will allow us to make sure the format of the CSS and Javascript will follow a standard.
+Linting has huge benefits and does not take long to run and setup.
+
+**devDependencies**
+```sh
+npm install eslint stylelint stylelint-config-standard --save-dev
+```
+
+Once these packages are installed we need to create the configuration files
+
+
+
+Create `.stylelintrc`
+```json
+{
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "color-hex-case": "lower",
+    "indentation": null,
+    "no-empty-source": null,
+    "selector-type-no-unknown": [
+      true,
+      {
+        "ignore": [
+          "custom-elements"
+        ]
+      }
+    ]
+  }
+}
+```
+
+Create `.eslintrc`
+```json
+{
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "rules": {
+  }
+}
+```
+
+finally to test this we will add new npm scripts to execute the linter.
+
+**package.json** update
+
+```json
+"scripts": {
+  "build": "./node_modules/.bin/webpack --mode production --config webpack.config.js",
+  "build:beta": "./node_modules/.bin/webpack --mode development --config webpack.config.js",
+  "lint:css": "./node_modules/.bin/stylelint './src/**/*.css' --config ./.stylelintrc",
+  "lint:js": "./node_modules/.bin/eslint --fix -c ./.eslintrc --ext .js ./src",
+  "lint": "npm run lint:css && npm run lint:js",
+  "pretest": "npm run lint",
+  "start": "./node_modules/.bin/webpack serve --mode development --config webpack.config.js",
+  "test": "echo \"Error: no test specified\" && exit 1"
+},
+```
+
+> Note that we added the `--fix` configuration for eslint.
+
+
+The file structure should now look like this.
+
+```
+.
+├── assets
+│   ├── locales
+│   │    └── en.json
+│   ├── compass.png
+│   ├── hamburger.png
+├── node_modules
+├── src
+│   ├── components
+│   │    ├── core-header.html
+│   │    ├── core-header.js
+│   │    └── index.js
+│   ├── css
+│   │    ├── custom.css
+│   │    ├── effects.css
+│   │    ├── index.css
+│   │    ├── structure.css
+│   │    └── variables.css
+│   ├── features
+│   │    ├── dashboard
+│   │    │    ├── about.html
+│   │    │    ├── about.js
+│   │    │    ├── home.html
+│   │    │    └── home.js
+│   ├── services
+│   │    ├── constants.js
+│   │    └── index.js
+│   ├── index.html
+│   └── main.js
+├── .editorconfig
+├── .env.defaults
+├── .eslintrc
+├── .gitignore
+├── .stylelintrc
+├── environment.build.js
+├── package-lock.json
+├── package.json
+├── README.md
+└── webpack.config.js
+```
+
+
+| [&#8592; Step 7: Files and Assets](?path=/docs/welcome-recipes-scaffold-a-spa-step-7-files-and-assets--page) |  | [Step 9: Testing &#8594;](?path=/docs/welcome-recipes-scaffold-a-spa-step-9-testing--page)
+|:---------|:---------:|---------:|

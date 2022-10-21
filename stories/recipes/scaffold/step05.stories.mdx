@@ -1,0 +1,180 @@
+import { linkTo } from '@storybook/addon-links';
+import { Meta } from '@storybook/addon-docs';
+import Code from '../../assets/code.svg';
+import AdvanceLevel from '../../assets/thermometer_full.svg';
+import ScaffoldStep1 from '../../assets/scaffold-step1.png';
+import ScaffoldStep2 from '../../assets/scaffold-step2.png';
+import ScaffoldStep21 from '../../assets/scaffold-step2-1.png';
+import ScaffoldStep3 from '../../assets/scaffold-step3.png';
+import ScaffoldStep31 from '../../assets/scaffold-step3-1.png';
+import ScaffoldStep4 from '../../assets/ScaffoldStep4.png';
+import ScaffoldStepFinal from '../../assets/scaffold-final.gif';
+
+import '../../styles.css'
+
+
+<Meta title="Welcome/Recipes/Scaffold a SPA/Step 5: Features" />
+
+<div className="recipe">
+  <img src={Code} alt="Code" height="160" />
+  <div classNamw="flex-col">
+    <h1 className="heading">Scaffold a SPA with Web Components</h1>
+    <small className="flex"> <img src={AdvanceLevel} alt="Intermedite Level" height="20" /> Advance level</small>
+    <p>Step 5
+    </p>
+  </div>
+</div>
+
+
+## Features
+
+Feature pages will be our controllers for routing. We will handle
+any logic before and after a route along with what to display to the user.
+
+Under `src` lets add a `features/dashboard` folder.
+
+Create a `src/features/dashboard/home.js` file.
+
+```js
+import {
+  Constants,
+  Router
+} from 'services'
+
+import HTML from './home.html'
+
+const HomeCtrlLoader = async (req, next) => {
+  const $routeDisplay = document.querySelector('.route-display')
+  await $routeDisplay.insertContent(HTML)
+  next()
+}
+
+const HomeCtrl = async (req, next) => {
+
+  //After content is loaded any other logic
+
+  next()
+}
+
+Router
+  .setPath(Constants.ROUTES.HOME, HomeCtrlLoader, HomeCtrl)
+
+```
+
+create a `src/features/dashboard/home.html` file.
+
+```html
+<template>
+  <h1>Home Page</h1>
+</template>
+```
+
+We will need to make sure this feature page is available in the application.
+
+create a `src/features/index.js` file.
+
+```js
+import './dashboard/home.js'
+```
+
+We will update the `main.js` file
+
+```js
+import './css/index.css'
+import '@johnsonandjohnson/mettle-components'
+import '@vanillawc/wc-datepicker'
+import 'components'
+import 'features'
+
+import {
+  Constants,
+  Router,
+} from  'services'
+
+Router.defaultPath(Constants.ROUTES.HOME)
+
+
+const $links = Array.from(document.querySelectorAll('a[rel*="/"]'))
+$links.map(a => {
+  a.addEventListener('click', evt => {
+    evt.preventDefault()
+    removeActiveClass()
+    a.classList.add('active')
+    Router.goto(a.getAttribute('rel'), a.getAttribute('title'))
+  })
+})
+
+function removeActiveClass() {
+  $links.forEach(link => {
+    link.classList.remove('active')
+  })
+}
+```
+
+Last thing to to update the index.html page with the links and router display.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Getting Started</title>
+  </head>
+  <body>
+    <nav>
+      <a href="#" rel="home/" title="Main Page" class="active">Home</a>
+      <a href="#" rel="about/" title="About Page">About</a>
+    </nav>
+    <mettle-transition-display class="route-display"></mettle-transition-display>
+    <noscript>
+      <!-- No JS alternative -->
+    </noscript>
+  </body>
+</html>
+```
+
+The result with the about page will look something like this.
+
+<img src={ScaffoldStepFinal} class="img-border" height="200" />
+
+
+The file structure should now look like this.
+
+```
+.
+├── node_modules
+├── src
+│   ├── components
+│   │    ├── core-header.html
+│   │    ├── core-header.js
+│   │    └── index.js
+│   ├── css
+│   │    ├── custom.css
+│   │    ├── effects.css
+│   │    ├── index.css
+│   │    ├── structure.css
+│   │    └── variables.css
+│   ├── features
+│   │    ├── dashboard
+│   │    │    ├── about.html
+│   │    │    ├── about.js
+│   │    │    ├── home.html
+│   │    │    └── home.js
+│   │    └── index.js
+│   ├── services
+│   │    ├── constants.js
+│   │    └── index.js
+│   ├── index.html
+│   └── main.js
+├── .editorconfig
+├── .gitignore
+├── package-lock.json
+├── package.json
+├── README.md
+└── webpack.config.js
+```
+
+| [&#8592; Step 4: Services](?path=/docs/welcome-recipes-scaffold-a-spa-step-4-services--page) |  | [Step 6: Environment Variables &#8594;](?path=/docs/welcome-recipes-scaffold-a-spa-step-6-environment-variables--page)
+|:---------|:---------:|---------:|
+

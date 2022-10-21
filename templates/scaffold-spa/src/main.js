@@ -11,6 +11,16 @@ import {
 
 Router.defaultPath(Constants.ROUTES.HOME)
 
+const $notification = document.querySelector('mettle-notification')
+Router.setErrorHandler((e, req) => {
+  $notification.addNotification({
+    message: e.message,
+    time: 30,
+    title: 'Route Error',
+    type: 'error'
+  })
+})
+
 const $links = Array.from(document.querySelectorAll('a[rel*="/"]'))
 $links.map(a => {
   a.addEventListener('click', evt => {

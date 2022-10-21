@@ -5,6 +5,7 @@ import '@vanillawc/wc-datepicker'
 import 'components'
 import 'features'
 import 'services'
-/* Test Imports */
+/* Unit Test Imports */
 import './components/index.test.js'
+import './features/index.test.js'
 import './services/index.test.js'

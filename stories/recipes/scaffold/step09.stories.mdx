@@ -1,0 +1,318 @@
+import { linkTo } from '@storybook/addon-links';
+import { Meta } from '@storybook/addon-docs';
+import Code from '../../assets/code.svg';
+import AdvanceLevel from '../../assets/thermometer_full.svg';
+import ScaffoldStep1 from '../../assets/scaffold-step1.png';
+import ScaffoldStep2 from '../../assets/scaffold-step2.png';
+import ScaffoldStep21 from '../../assets/scaffold-step2-1.png';
+import ScaffoldStep3 from '../../assets/scaffold-step3.png';
+import ScaffoldStep31 from '../../assets/scaffold-step3-1.png';
+import ScaffoldStep4 from '../../assets/ScaffoldStep4.png';
+import ScaffoldStepFinal from '../../assets/scaffold-final.gif';
+
+import '../../styles.css'
+
+
+<Meta title="Welcome/Recipes/Scaffold a SPA/Step 9: Testing" />
+
+<div className="recipe">
+  <img src={Code} alt="Code" height="160" />
+  <div classNamw="flex-col">
+    <h1 className="heading">Scaffold a SPA with Web Components</h1>
+    <small className="flex"> <img src={AdvanceLevel} alt="Intermedite Level" height="20" /> Advance level</small>
+    <p>Step 9
+    </p>
+  </div>
+</div>
+
+## Unit Testing
+
+Testing can be done in two forms, unit testing and end-to-end(e2e) testing. We will focus on unit test
+and cover end-to-end at a later point.
+
+For the unit test we will setup Karma.  This will work in favor of being able to run the test on
+an actual browser.  Jasmine will be used to write the test along with istanbul as our coverage
+reporter.
+
+Lets install the necessary devDependencies needed for unit testing.
+
+**devDependencies**
+```sh
+npm install karma karma-chrome-launcher karma-coverage-istanbul-reporter karma-jasmine karma-webpack @jsdevtools/coverage-istanbul-loader --save-dev
+```
+
+Create a new folder `test/unit`.  We will add the following files.
+
+
+**test/unit/karma.config.js**
+```js
+// Karma configuration file, see link for more information
+// https://karma-runner.github.io/6.3/config/configuration-file.html
+
+const UI_ENV_VARS = require('../../environment.build')
+const { join, resolve } = require('path')
+
+module.exports = function (config) {
+  config.set({
+    autoWatch: false,
+    basePath: '',
+    browsers: ['ChromeHeadless'],
+    colors: true,
+    concurrency: Infinity,
+    coverageIstanbulReporter: {
+      dir: join(__dirname, 'coverage'),
+      fixWebpackSourcePaths: true,
+      reports: ['lcov', 'text-summary']
+    },
+    customLaunchers: {
+      ChromeCustom: {
+        base: 'ChromeHeadless',
+        flags: []
+      }
+    },
+    files: [
+      { included: true, pattern: 'index.test.js', type: 'module', watched: false },
+    ],
+    frameworks: ['jasmine', 'webpack'],
+    logLevel: config.LOG_INFO,
+    plugins: [
+      require('karma-chrome-launcher'),
+      require('karma-coverage-istanbul-reporter'),
+      require('karma-jasmine'),
+      require('karma-webpack'),
+    ],
+    port: 9876,
+    preprocessors: {
+      'index.test.js': ['webpack'],
+    },
+    reporters: ["dots", "coverage-istanbul"],
+    singleRun: true,
+    webpack: {
+      externals: {
+        environment: JSON.stringify(UI_ENV_VARS)
+      },
+      mode: 'production',
+      module: {
+        rules: [
+          {
+            enforce: 'post',
+            exclude: /(node_modules|index\.js|\.test\.js)$/,
+            test: /\.js/,
+            include: resolve(__dirname, '../..', 'src'),
+            use: '@jsdevtools/coverage-istanbul-loader'
+          },
+          {
+            test: /\.html$/i,
+            exclude: /index\.html$/i,
+            type: 'asset/source',
+          },
+        ]
+      },
+      resolve: {
+        alias: {
+          helper: resolve(__dirname, 'helper.js'),
+          components: resolve(__dirname, '../..', 'src/components'),
+          features: resolve(__dirname, '../..', 'src/features'),
+          services: resolve(__dirname, '../..', 'src/services'),
+          templates: resolve(__dirname, '../..', 'src/templates')
+        },
+        extensions: ['.js']
+      },
+      target: "web",
+    },
+    webpackMiddleware: {
+      noInfo: true
+    }
+  })
+}
+```
+
+> Note that if you adjust the webpack configuration, you might also need to adjust the webpack configuration in karma
+
+
+we can create a helper file to be used for our unit test
+
+**test/unit/helper.js**
+```js
+
+const wait = ms => new Promise(r => setTimeout(r, ms))
+
+function getRandomInt(min = 1, max = 10) {
+  min = Math.ceil(min)
+  max = Math.floor(max)
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
+function mockApiResponse(body = {}, status = 200, headers = { 'Content-type': 'application/json' }) {
+  return new globalThis.Response(JSON.stringify(body, null, 2), {
+    headers,
+    status
+  })
+}
+
+function mockApiResponseBlob(blobData, status = 200, headers = { 'Content-type': 'application/octet-stream' }) {
+  return new globalThis.Response(new Blob([blobData]), {
+    headers,
+    status
+  })
+}
+
+function uuid() {
+  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, b =>
+    (b ^ crypto.getRandomValues(new Uint16Array(1))[0] & 15 >> b / 4).toString(16))
+}
+
+export {
+  getRandomInt,
+  mockApiResponse,
+  mockApiResponseBlob,
+  uuid,
+  wait
+}
+```
+
+**test/unit/index.test.js**
+```js
+import 'components'
+import './components/index.test.js'
+import './services/index.test.js'
+```
+
+**test/unit/services/index.test.js**
+```js
+import './utility.test.js'
+```
+
+**test/unit/components/index.test.js**
+```js
+import './core-header.test.js'
+```
+
+**test/unit/components/core-header.test.js**
+```js
+const ELEM_TAG_NAME = 'core-header'
+
+describe(ELEM_TAG_NAME, () => {
+
+  let $el
+
+  beforeEach(() => {
+    $el = document.createElement(ELEM_TAG_NAME)
+    document.body.appendChild($el)
+  })
+
+  afterEach(() => {
+    $el.remove()
+    $el = null
+  })
+
+  describe('interface', () => {
+
+    it('should be defined', () => {
+      expect($el).toBeDefined()
+      expect(globalThis.customElements.get(ELEM_TAG_NAME)).toBeDefined()
+    })
+
+    it('should be an Element node', () => {
+      expect($el.nodeType).toEqual(Node.ELEMENT_NODE)
+    })
+
+  })
+  /*
+  describe('component', () => {
+
+  })
+  */
+})
+```
+
+finally we can update the npm scripts to be able to execute the unit test.
+
+**package.json** update
+```json
+"scripts": {
+  "build": "./node_modules/.bin/webpack --mode production --config webpack.config.js",
+  "build:beta": "./node_modules/.bin/webpack --mode development --config webpack.config.js",
+  "lint:css": "./node_modules/.bin/stylelint './src/**/*.css' --config ./.stylelintrc",
+  "lint:js": "./node_modules/.bin/eslint --fix -c ./.eslintrc --ext .js ./src",
+  "lint": "npm run lint:css && npm run lint:js",
+  "pretest": "npm run lint",
+  "start": "./node_modules/.bin/webpack serve --mode development --config webpack.config.js",
+  "test": "npm run unit",
+  "unit": "./node_modules/.bin/karma start test/unit/karma.config.js"
+},
+```
+
+We should be able to run the test in the command line
+
+```sh
+npm run test
+```
+
+> Note that before we test we have a `pretest` script to run the linter before the unit test
+
+The file structure should now look like this.
+
+```
+.
+├── assets
+│   ├── locales
+│   │    └── en.json
+│   ├── compass.png
+│   ├── hamburger.png
+├── node_modules
+├── src
+│   ├── components
+│   │    ├── core-header.html
+│   │    ├── core-header.js
+│   │    └── index.js
+│   ├── css
+│   │    ├── custom.css
+│   │    ├── effects.css
+│   │    ├── index.css
+│   │    ├── structure.css
+│   │    └── variables.css
+│   ├── features
+│   │    ├── dashboard
+│   │    │    ├── about.html
+│   │    │    ├── about.js
+│   │    │    ├── home.html
+│   │    │    └── home.js
+│   ├── services
+│   │    ├── constants.js
+│   │    └── index.js
+│   ├── index.html
+│   └── main.js
+├── test
+│   ├── unit
+│   │    ├── components
+│   │    │    ├── core-header.test.js
+│   │    │    └── index.test.js
+│   │    ├── coverage*
+│   │    │    └── (files generated from script)
+│   │    ├── services
+│   │    │    ├── index.test.js
+│   │    │    └── utility.test.js
+│   │    ├── helper.js
+│   │    ├── index.test.js
+│   │    └── karma.config.js
+├── .editorconfig
+├── .env.defaults
+├── .eslintrc
+├── .gitignore
+├── .stylelintrc
+├── environment.build.js
+├── package-lock.json
+├── package.json
+├── README.md
+└── webpack.config.js
+```
+
+**Coverage Folder**
+It is important to know that when you run the test script, a test coverage folder will be created.
+Feel free to use a the vscode plugin [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
+to view the `./test/unit/coverage/lcov-report/index.html` file.
+
+
+| [&#8592; Step 8: Linting](?path=/docs/welcome-recipes-scaffold-a-spa-step-8-linting--page) |  | [Step 10: Testing &#8594;](?path=/docs/welcome-recipes-scaffold-a-spa-step-4-services--page)
+|:---------|:---------:|---------:|

@@ -1,0 +1,363 @@
+import { linkTo } from '@storybook/addon-links';
+import { Meta } from '@storybook/addon-docs';
+import Code from '../../assets/code.svg';
+import AdvanceLevel from '../../assets/thermometer_full.svg';
+import ScaffoldStep1 from '../../assets/scaffold-step1.png';
+import ScaffoldStep2 from '../../assets/scaffold-step2.png';
+import ScaffoldStep21 from '../../assets/scaffold-step2-1.png';
+import ScaffoldStep3 from '../../assets/scaffold-step3.png';
+import ScaffoldStep31 from '../../assets/scaffold-step3-1.png';
+import ScaffoldStep4 from '../../assets/ScaffoldStep4.png';
+import ScaffoldStepFinal from '../../assets/scaffold-final.gif';
+
+import '../../styles.css'
+
+
+<Meta title="Welcome/Recipes/Scaffold a SPA/Step 2: CSS Structure" />
+
+<div className="recipe">
+  <img src={Code} alt="Code" height="160" />
+  <div classNamw="flex-col">
+    <h1 className="heading">Scaffold a SPA with Web Components</h1>
+    <small className="flex"> <img src={AdvanceLevel} alt="Intermedite Level" height="20" /> Advance level</small>
+    <p>Step 2</p>
+  </div>
+</div>
+
+
+## CSS structure and bundle
+
+Right after HTML, CSS is necessary for the web experience. Importing CSS files are ideal
+but not yet natively supported(but getting there).  What we will setup is CSS bundling
+with webpack so it will include imported CSS files into the final HTML page.  This will
+allow us to separate our CSS files if needed as it makes sense.
+
+Create the folder and file structure like so **src/css/index.css** and include the following:
+
+```css
+@import "./variables.css";
+@import "./structure.css";
+@import "./custom.css";
+@import "./effects.css";
+```
+
+About these files
+
+| File | Purpose |
+|:---------|:---------|
+| variables.css | Using CSS variables will help organize your CSS reusable properties |
+| structure.css | While many will use a CSS framework, reusable classes for structuring your application can be placed here |
+| custom.css | Most projects have custom CSS regardless of what CSS framework you use. They can be placed here |
+| effects.css | Using motion is not highly recommended, but there might be some transitions or animations that make sense. |
+
+You guessed it also add the following files to **src/css/**
+
+> Please Note that we recommend using `em` and `rem`.
+
+**variables.css**
+```css
+:root {
+  --background: #f5f5f5;
+  --on-background: #3c3a36;
+  --surface: #e8e7e3;
+  --on-surface: #999;
+  --header: #fcfcfc;
+  --on-header: #494949;
+  --nav: #fff;
+  --on-nav: #000;
+  --primary: #3d5a80;
+  --on-primary: #fff;
+  --primary-variant: #98c1d9;
+  --secondary: #ee6c4d;
+  --on-secondary: #fff;
+  --danger: #f01;
+  --info: #4fd2fa;
+  --success: #75dd0c;
+  --warning: #f7f313;
+  --base-size: 1rem;
+  --base-size-xs: calc(var(--base-size) / 2);
+  --base-size-md: calc(var(--base-size) * 2);
+  --base-size-lg: calc(var(--base-size) * 4);
+  --base-size-xl: calc(var(--base-size) * 6);
+  --base-border-radius: 0.25rem;
+}
+```
+
+**structure.css**
+```css
+html,
+body {
+  background-color: var(--background, #ddd);
+  font-family: sans-serif;
+  font-size: 0.94em;
+  margin: 0;
+  padding: 0;
+}
+
+/* Flex Grid */
+
+.row,
+.column {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 1 auto;
+  flex-flow: row wrap;
+  word-break: break-all;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.flex-no-flow {
+  flex-flow: initial;
+}
+
+.flex-stretch {
+  align-items: stretch;
+  flex: 1;
+}
+
+.flex-end {
+  justify-content: flex-end;
+}
+
+.self-center {
+  align-self: center;
+  justify-self: center;
+}
+
+.col,
+.col-1,
+.col-2,
+.col-4,
+.col-6,
+.col-8,
+.col-10,
+.col-12 {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+}
+
+.col {
+  flex-grow: 1;
+  flex-basis: 0;
+  max-width: 100%;
+}
+
+.col-1 {
+  flex-basis: calc(100% * (1 / 12));
+}
+
+.col-2 {
+  flex-basis: calc(100% * (2 / 12));
+}
+
+.col-3 {
+  flex-basis: calc(100% * (3/12));
+}
+
+.col-4 {
+  flex-basis: calc(100% * (4 / 12));
+}
+
+.col-6 {
+  flex-basis: calc(100% * (6 / 12));
+}
+
+.col-8 {
+  flex-basis: calc(100% * (8 / 12));
+}
+
+.col-10 {
+  flex-basis: calc(100% * (10 / 12));
+}
+
+.col-12 {
+  flex-basis: calc(100% * (12 / 12));
+}
+
+.gap-xs {
+  gap: var(--base-size-xs);
+}
+
+.gap-sm {
+  gap: var(--base-size);
+}
+
+.gap-md {
+  gap: var(--base-size-md);
+}
+
+.gap-lg {
+  gap: var(--base-size-lg);
+}
+
+/* Special Cases */
+
+[hidden] {
+  display: none !important;
+}
+```
+
+**custom.css**
+```css
+/* Buttons */
+
+.primary-button,
+.secondary-button {
+  background-color: var(--primary);
+  border: none;
+  border-radius: 0.313rem;
+  color: var(--on-primary);
+  cursor: pointer;
+  font-size: 0.8rem;
+  outline: none;
+  padding: 0.6rem 1rem;
+}
+
+.secondary-button {
+  background-color: var(--secondary);
+  color: var(--on-secondary);
+}
+```
+
+**effects.css**
+```css
+@media (prefers-reduced-motion: no-preference) {
+  /* Button push effect */
+  .push-button {
+    transition: transform 0.1s ease-in-out;
+  }
+
+  .push-button:active {
+    transform: scale(0.98);
+  }
+}
+```
+
+Add the following line to the **src/main.js** file. All imports should be placed at
+the top of the file.
+
+```js
+import './css/index.css'
+```
+
+
+Next we need to add dev dependencies and update webpack to identify the CSS import, bundle it and
+include it with the generated index.html page.
+
+**devDependencies**
+```sh
+npm install css-loader mini-css-extract-plugin --save-dev
+```
+
+
+Replace the **webpack.config.js** file with the following.
+
+```js
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const { resolve } = require('path')
+
+module.exports = (env, argv) => {
+  const IS_BUILD = env.WEBPACK_BUILD
+  return {
+    devServer: {
+      historyApiFallback: {
+        rewrites: [
+          { from: /.*\.html?/, to: '/' },
+          { from: /^[\w/]+$/, to: '/' },
+        ],
+        verbose: true
+      },
+      host: '0.0.0.0',
+      open: true,
+      port: 2022,
+    },
+    entry: './src/main.js',
+    module: {
+      rules: [
+        {
+          test: /\.css$/i,
+          use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        },
+        {
+          test: /\.(png|svg|jpg|jpeg|gif)$/i,
+          type: 'asset/resource',
+        },
+        {
+          test: /\.html$/i,
+          exclude: /index\.html$/i,
+          type: 'asset/source',
+        },
+      ],
+    },
+    output: {
+      assetModuleFilename: 'assets/[name][ext]',
+      clean: true,
+      filename: 'main.js',
+      path: resolve(__dirname, 'dist'),
+    },
+    plugins: [
+      new MiniCssExtractPlugin(),
+      new HtmlWebpackPlugin({
+        base: IS_BUILD ? false : '/',
+        inject: 'body',
+        template: './src/index.html',
+        scriptLoading: 'module'
+      }),
+    ],
+  }
+}
+```
+
+Now that everything is added and configured we can run the development server.
+
+```sh
+$ npm start
+```
+
+The page should now look like this.
+
+<img src={ScaffoldStep2} class="img-border" height="200" />
+
+To see our development changes with hot reloading go into the **custom.css** file
+and add the following.
+
+```css
+h1 {
+  color: red;
+}
+```
+
+The change will be applied and reloaded into the site. Feel free to remove the css
+after seeing the change.
+
+<img src={ScaffoldStep21} class="img-border" height="200" />
+
+The file structure should now look like this.
+
+```
+.
+├── node_modules
+├── src
+│   ├── css
+│   │    ├── custom.css
+│   │    ├── effects.css
+│   │    ├── index.css
+│   │    ├── structure.css
+│   │    └── variables.css
+│   ├── index.html
+│   └── main.js
+├── .editorconfig
+├── .gitignore
+├── package-lock.json
+├── package.json
+├── README.md
+└── webpack.config.js
+```
+
+
+| [&#8592; Step 1: Scaffold a SPA with Web Components](?path=/docs/welcome-recipes-scaffold-a-spa-step-1-initial-step-up--page) |  | [Step 3: Adding Components &#8594;](?path=/docs/welcome-recipes-scaffold-a-spa-step-3-adding-components--page)
+|:---------|:---------:|---------:|

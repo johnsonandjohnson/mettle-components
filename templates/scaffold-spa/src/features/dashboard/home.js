@@ -6,7 +6,7 @@ import {
 
 import HTML from './home.html'
 
-const MainCtrl = async (req, next) => {
+export const MainCtrl = async (req, next) => {
 
   //After content is loaded any other logic
 
