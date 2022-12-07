@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "./node_modules/.bin/webpack --mode production --config webpack.config.js",
-    "build:beta": "./node_modules/.bin/webpack --mode development --config webpack.config.js",
+    "build:dev": "./node_modules/.bin/webpack --mode development --config webpack.config.js",
     "lint:css": "./node_modules/.bin/stylelint './src/**/*.css' --config ./.stylelintrc",
     "lint:js": "./node_modules/.bin/eslint --fix -c ./.eslintrc --ext .js ./src",
     "lint": "npm run lint:css && npm run lint:js",

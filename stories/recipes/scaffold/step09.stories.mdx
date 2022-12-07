@@ -232,7 +232,7 @@ finally we can update the npm scripts to be able to execute the unit test.
 ```json
 "scripts": {
   "build": "./node_modules/.bin/webpack --mode production --config webpack.config.js",
-  "build:beta": "./node_modules/.bin/webpack --mode development --config webpack.config.js",
+  "build:dev": "./node_modules/.bin/webpack --mode development --config webpack.config.js",
   "lint:css": "./node_modules/.bin/stylelint './src/**/*.css' --config ./.stylelintrc",
   "lint:js": "./node_modules/.bin/eslint --fix -c ./.eslintrc --ext .js ./src",
   "lint": "npm run lint:css && npm run lint:js",
@@ -314,5 +314,5 @@ Feel free to use a the vscode plugin [Live Server](https://marketplace.visualstu
 to view the `./test/unit/coverage/lcov-report/index.html` file.
 
 
-| [&#8592; Step 8: Linting](?path=/docs/welcome-recipes-scaffold-a-spa-step-8-linting--page) |  | [Step 10: Testing &#8594;](?path=/docs/welcome-recipes-scaffold-a-spa-step-4-services--page)
+| [&#8592; Step 8: Linting](?path=/docs/welcome-recipes-scaffold-a-spa-step-8-linting--page) |  | [Step 10: Conclusion &#8594;](?path=/docs/welcome-recipes-scaffold-a-spa-conclusion--page)
 |:---------|:---------:|---------:|

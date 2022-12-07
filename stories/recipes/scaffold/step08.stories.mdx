@@ -62,6 +62,12 @@ Create `.stylelintrc`
 Create `.eslintrc`
 ```json
 {
+  "env": {
+    "browser": true,
+    "es2022": true,
+    "node": true,
+    "jasmine": true
+  },
   "extends": "eslint:recommended",
   "parserOptions": {
     "ecmaVersion": "latest",
@@ -70,6 +76,7 @@ Create `.eslintrc`
   "rules": {
   }
 }
+
 ```
 
 finally to test this we will add new npm scripts to execute the linter.
@@ -79,7 +86,7 @@ finally to test this we will add new npm scripts to execute the linter.
 ```json
 "scripts": {
   "build": "./node_modules/.bin/webpack --mode production --config webpack.config.js",
-  "build:beta": "./node_modules/.bin/webpack --mode development --config webpack.config.js",
+  "build:dev": "./node_modules/.bin/webpack --mode development --config webpack.config.js",
   "lint:css": "./node_modules/.bin/stylelint './src/**/*.css' --config ./.stylelintrc",
   "lint:js": "./node_modules/.bin/eslint --fix -c ./.eslintrc --ext .js ./src",
   "lint": "npm run lint:css && npm run lint:js",
