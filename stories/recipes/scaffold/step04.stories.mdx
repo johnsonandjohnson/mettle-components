@@ -1,0 +1,135 @@
+import { linkTo } from '@storybook/addon-links';
+import { Meta } from '@storybook/addon-docs';
+import Code from '../../assets/code.svg';
+import AdvanceLevel from '../../assets/thermometer_full.svg';
+import ScaffoldStep1 from '../../assets/scaffold-step1.png';
+import ScaffoldStep2 from '../../assets/scaffold-step2.png';
+import ScaffoldStep21 from '../../assets/scaffold-step2-1.png';
+import ScaffoldStep3 from '../../assets/scaffold-step3.png';
+import ScaffoldStep31 from '../../assets/scaffold-step3-1.png';
+import ScaffoldStep4 from '../../assets/ScaffoldStep4.png';
+import ScaffoldStepFinal from '../../assets/scaffold-final.gif';
+
+import '../../styles.css'
+
+
+<Meta title="Welcome/Recipes/Scaffold a SPA/Step 4: Services" />
+
+<div className="recipe">
+  <img src={Code} alt="Code" height="160" />
+  <div classNamw="flex-col">
+    <h1 className="heading">Scaffold a SPA with Web Components</h1>
+    <small className="flex"> <img src={AdvanceLevel} alt="Intermedite Level" height="20" /> Advance level</small>
+    <p>Step 4
+    </p>
+  </div>
+</div>
+
+
+
+## Services
+
+While we are not doing a deep dive into building services (a.k.a Providers)
+we will include some already
+built services from Mettle along with a structure that will allow you to add your own
+custom services.
+
+Under `src` lets add a `services` folder.
+
+create the following file `src/services/index.js`
+
+```js
+import {
+  Debounce,
+  HtmlMarker,
+  HttpFetch,
+  I18n,
+  Observable,
+  ReadyState,
+  Roles,
+  Router
+} from '@johnsonandjohnson/mettle-components/services'
+
+import { Constants } from './constants.js'
+import Utility from './utility.js'
+
+export {
+  Constants,
+  Debounce,
+  HtmlMarker,
+  HttpFetch,
+  I18n,
+  Observable,
+  ReadyState,
+  Roles,
+  Router,
+  Utility,
+}
+```
+
+create the following file `src/services/constants.js`
+
+```js
+export const Constants = {
+  ROUTES: {
+    ABOUT: '/about',
+    HOME: '/home',
+  },
+}
+```
+
+create the following file `src/services/utility.js`
+
+```js
+class Utility {
+
+  LoadHTML(HTML) {
+    return async (req, next) => {
+      const $routeDisplay = document.querySelector('.route-display')
+      if($routeDisplay) {
+        await $routeDisplay.insertContent(HTML)
+        next()
+      } else {
+        throw new Error('No HTML to load')
+      }
+    }
+  }
+
+}
+
+export default new Utility()
+```
+
+Services are imported on an as needed basis.  The file structure should now look like this.
+
+```
+.
+├── node_modules
+├── src
+│   ├── components
+│   │    ├── core-header.html
+│   │    ├── core-header.js
+│   │    └── index.js
+│   ├── css
+│   │    ├── custom.css
+│   │    ├── effects.css
+│   │    ├── index.css
+│   │    ├── structure.css
+│   │    └── variables.css
+│   ├── services
+│   │    ├── constants.js
+│   │    ├── index.js
+│   │    └── utility.js
+│   ├── index.html
+│   └── main.js
+├── .editorconfig
+├── .gitignore
+├── package-lock.json
+├── package.json
+├── README.md
+└── webpack.config.js
+```
+
+| [&#8592; Step 3: Adding Components](?path=/docs/welcome-recipes-scaffold-a-spa-step-3-adding-components--page) |  | [Step 5: Features &#8594;](?path=/docs/welcome-recipes-scaffold-a-spa-step-5-features--page)
+|:---------|:---------:|---------:|
+

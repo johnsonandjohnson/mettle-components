@@ -1,0 +1,83 @@
+import { linkTo } from '@storybook/addon-links';
+import { Meta } from '@storybook/addon-docs';
+import Code from '../../assets/code.svg';
+import AdvanceLevel from '../../assets/thermometer_full.svg';
+import ScaffoldStep1 from '../../assets/scaffold-step1.png';
+import ScaffoldStep2 from '../../assets/scaffold-step2.png';
+import ScaffoldStep21 from '../../assets/scaffold-step2-1.png';
+import ScaffoldStep3 from '../../assets/scaffold-step3.png';
+import ScaffoldStep31 from '../../assets/scaffold-step3-1.png';
+import ScaffoldStep4 from '../../assets/ScaffoldStep4.png';
+import ScaffoldStepFinal from '../../assets/scaffold-final.gif';
+
+import '../../styles.css'
+
+
+<Meta title="Welcome/Recipes/Scaffold a SPA/Step 7: Files and Assets" />
+
+<div className="recipe">
+  <img src={Code} alt="Code" height="160" />
+  <div classNamw="flex-col">
+    <h1 className="heading">Scaffold a SPA with Web Components</h1>
+    <small className="flex"> <img src={AdvanceLevel} alt="Intermedite Level" height="20" /> Advance level</small>
+    <p>Step 7
+    </p>
+  </div>
+</div>
+
+
+## Files and Assets
+
+More often than not, files such as JSON, images etc. will need a way to be included
+in the application.  Webpack has a setup to include these files.
+
+Create a folder called `assets`.  Feel free to include anything need for the application
+but know that webpack will copy all contents of this folder and to the application build.
+
+
+
+
+The file structure should now look like this.
+
+```
+.
+├── assets
+│   ├── locales
+│   │    └── en.json
+│   ├── compass.png
+│   ├── hamburger.png
+├── node_modules
+├── src
+│   ├── components
+│   │    ├── core-header.html
+│   │    ├── core-header.js
+│   │    └── index.js
+│   ├── css
+│   │    ├── custom.css
+│   │    ├── effects.css
+│   │    ├── index.css
+│   │    ├── structure.css
+│   │    └── variables.css
+│   ├── features
+│   │    ├── dashboard
+│   │    │    ├── about.html
+│   │    │    ├── about.js
+│   │    │    ├── home.html
+│   │    │    └── home.js
+│   ├── services
+│   │    ├── constants.js
+│   │    └── index.js
+│   ├── index.html
+│   └── main.js
+├── .editorconfig
+├── .env.defaults
+├── .gitignore
+├── environment.build.js
+├── package-lock.json
+├── package.json
+├── README.md
+└── webpack.config.js
+```
+
+| [&#8592; Step 6: Environment Variables](?path=/docs/welcome-recipes-scaffold-a-spa-step-6-environment-variables--page) |  | [Step 8: Linting &#8594;](?path=/docs/welcome-recipes-scaffold-a-spa-step-8-linting--page)
+|:---------|:---------:|---------:|

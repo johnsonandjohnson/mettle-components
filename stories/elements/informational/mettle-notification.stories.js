@@ -27,6 +27,13 @@ const generateTemplate = ({type = null, time = 10}) => {
   return fragment;
 }
 
+const DocsDescriptionMDX = `
+**Single Import**
+<pre class="coder">import '@johnsonandjohnson/mettle-components/src/informational/mettle-notification.js'</pre>
+
+Used to provide a message over the page content.
+`.trim()
+
 export default {
   title: 'Custom Elements/Informational/Mettle-Notification',
   argTypes: {
@@ -76,7 +83,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: 'Used to provide a message over the page content.',
+        component: DocsDescriptionMDX,
       },
     },
   },

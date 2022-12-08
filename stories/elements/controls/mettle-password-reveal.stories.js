@@ -3,6 +3,17 @@ import './passwordReveal.css'
 
 import { Constants, uuid } from '../../helper/index.js'
 
+
+const DocsDescriptionMDX = `
+**Single Import**
+<pre class="coder">import '@johnsonandjohnson/mettle-components/src/controls/mettle-password-reveal.js'</pre>
+
+
+Used to toggle the type of a input element from hidden and text.
+
+`.trim()
+
+
 export default {
   title: 'Custom Elements/Controls/Mettle-Password-Reveal',
   argTypes: {
@@ -49,7 +60,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: 'Used to toggle the type of a input element from hidden and text.',
+        component: DocsDescriptionMDX,
       },
     },
   },

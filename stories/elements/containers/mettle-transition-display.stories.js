@@ -3,6 +3,9 @@ import '../../../src/containers/mettle-transition-display.js'
 import { Constants } from '../../helper/index.js'
 
 const DocsDescriptionMDX = `
+**Single Import**
+<pre class="coder">import '@johnsonandjohnson/mettle-components/src/containers/mettle-transition-display.js'</pre>
+
 Mettle transition display is used to display a HTML with scoped CSS.  This pairs well
 as a route display for single page applications.
 
@@ -24,8 +27,7 @@ Is is recommended to use these these transitions that are not costly to the brow
 | Rotate | transform: translate(&lt;number&gt;deg) |
 | Scale | transform: scale(&lt;number&gt;) |
 
-<pre>
-<code>
+<pre class="coder">
 Sample to set other transitions
 
 &lt;mettle-transition-display
@@ -33,7 +35,6 @@ Sample to set other transitions
   data-start="scale(.5)"
   data-end="scale(1)"
   &gt;&lt;/mettle-transition-display&gt;
-</code>
 </pre>
 
 ## Adding HTML
@@ -44,13 +45,10 @@ string with a <code>&lt;template&gt;&lt;/template&gt;</code> tag and optionally 
 
 > Styles can still be applied from outside the component to the HTML
 
-<pre>
-<code>
+<pre class="coder">
 const $component = globalThis.document.querySelector('mettle-virtual-list')
 
 await $component.insertContent('&lt;template&gt;&lt;p&gt;Display 1&lt;/p&gt;&lt;/template&gt;&lt;style&gt;p { color: red; }&lt;/style&gt;')
-
-</code>
 </pre>
 
 The Scoped styled work by replacing all selectors with the <code>::slotted()</code>
@@ -60,19 +58,17 @@ CSS selector and placing the HTML as a <code>slot</code>
 
 You can style the shadow root container using CSS parts
 
-<pre>
-<code>
-/* shadowRoot container */
+<pre class="coder">
+/\\* shadowRoot container \\*/
 mettle-transition-display::part(container) {
   border: 1px solid black;
   background-color: wheat;
   height: 50vh;
 }
-</code>
 </pre>
 
 ##See code samples below
-`
+`.trim()
 
 export default {
   title: 'Custom Elements/Containers/Mettle-Transition-Display',

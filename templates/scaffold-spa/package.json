@@ -1,0 +1,38 @@
+{
+  "name": "my_app",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "./node_modules/.bin/webpack --mode production --config webpack.config.js",
+    "build:dev": "./node_modules/.bin/webpack --mode development --config webpack.config.js",
+    "lint:css": "./node_modules/.bin/stylelint './src/**/*.css' --config ./.stylelintrc",
+    "lint:js": "./node_modules/.bin/eslint --fix -c ./.eslintrc --ext .js ./src",
+    "lint": "npm run lint:css && npm run lint:js",
+    "pretest": "npm run lint",
+    "start": "./node_modules/.bin/webpack serve --mode development --config webpack.config.js",
+    "test": "npm run unit",
+    "unit": "./node_modules/.bin/karma start test/unit/karma.config.js"
+  },
+  "devDependencies": {
+    "@jsdevtools/coverage-istanbul-loader": "^3.0.5",
+    "css-loader": "^6.7.2",
+    "dotenv-extended": "^2.9.0",
+    "eslint": "^8.29.0",
+    "html-webpack-plugin": "^5.5.0",
+    "karma": "^6.4.1",
+    "karma-chrome-launcher": "^3.1.1",
+    "karma-coverage-istanbul-reporter": "^3.0.3",
+    "karma-jasmine": "^5.1.0",
+    "karma-webpack": "^5.0.0",
+    "mini-css-extract-plugin": "^2.7.2",
+    "stylelint": "^14.16.0",
+    "stylelint-config-standard": "^29.0.0",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.11.1"
+  },
+  "dependencies": {
+    "@johnsonandjohnson/mettle-components": "^1.12.0",
+    "@vanillawc/wc-datepicker": "^0.0.6"
+  }
+}

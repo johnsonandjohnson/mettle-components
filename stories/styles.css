@@ -282,3 +282,19 @@ textarea {
   justify-content:center;
   grid-area: footer;
 }
+
+.img-border {
+  border: 1px solid black;
+}
+
+pre.coder {
+  background: #333333 !important;
+  border: 1px solid #DFE1E6 !important;
+  color: white !important;
+  font-family: monospace;
+  padding: 0.5rem !important;
+}
+
+pre.coder > p {
+  color: white !important;
+}

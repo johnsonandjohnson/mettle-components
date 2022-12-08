@@ -3,6 +3,9 @@
 import { Constants } from '../helper/index.js'
 
 const DocsDescriptionMDX = `
+**Single Import**
+<pre class="coder">import { Observable } from '@johnsonandjohnson/mettle-components/services'</pre>
+
 The observer pattern is a software design pattern in which an object, called the subject, maintains a list of its dependents, called observers, and notifies them automatically of any state changes, usually by calling one of their methods.
 
 While JavaScript has support for dispatchEvent, observables can be considered much easier to maintain and implement when it comes to data distribution.  This solution is considered lightweight and does not use "named" events.
@@ -38,25 +41,26 @@ When you subscribe to an observable the subscription will return some methods
 
 **Use case for only getting data one time.**
 
-<code><pre>
+<pre class="coder">
     const subscription = observed.subscribe(()=>{
       // do something
     }).only(1)
 
-</pre></code>
+</pre>
 
 **Use case to unsubscribe.**
 
-<code className="language-javascript"><pre>
+<pre class="coder">
     const subscription = observed.subscribe(()=>{
       // do something
     })
 
     subscription.unsubscribe()
-</pre></code>
+</pre>
 
 > More code samples below
-`
+`.trim()
+
 export default {
   title: 'Services/Observables',
   argTypes: {

@@ -1,0 +1,201 @@
+import { linkTo } from '@storybook/addon-links';
+import { Meta } from '@storybook/addon-docs';
+import Code from '../../assets/code.svg';
+import AdvanceLevel from '../../assets/thermometer_full.svg';
+import ScaffoldStep1 from '../../assets/scaffold-step1.png';
+import ScaffoldStep2 from '../../assets/scaffold-step2.png';
+import ScaffoldStep21 from '../../assets/scaffold-step2-1.png';
+import ScaffoldStep3 from '../../assets/scaffold-step3.png';
+import ScaffoldStep31 from '../../assets/scaffold-step3-1.png';
+import ScaffoldStep4 from '../../assets/ScaffoldStep4.png';
+import ScaffoldStepFinal from '../../assets/scaffold-final.gif';
+
+import '../../styles.css'
+
+
+<Meta title="Welcome/Recipes/Scaffold a SPA/Step 6: Environment Variables" />
+
+<div className="recipe">
+  <img src={Code} alt="Code" height="160" />
+  <div classNamw="flex-col">
+    <h1 className="heading">Scaffold a SPA with Web Components</h1>
+    <small className="flex"> <img src={AdvanceLevel} alt="Intermedite Level" height="20" /> Advance level</small>
+    <p>Step 6
+    </p>
+  </div>
+</div>
+
+
+## Environment Variables
+
+> **It is important to note that you should never put any sensitive data
+in your application that can be viewed publicly.**
+
+Environment variables are vital to a web application. Reasons to use
+them:
+- Secret values
+- Configurable values
+
+Values like the application port or rest API urls can be added here.
+This is great to make sure each server or environment is setup as needed e.g.
+(dev, qa, beta, prod).
+
+> Note that the `.env` file should never be checked in by
+anyone and should be created and maintained only in the server that is hosting the
+application.
+
+We will be using `dotenv-extended` to import the variables from a `.env` file
+into webpack. Let's get it installed.
+
+**devDependencies**
+```sh
+npm install dotenv-extended --save-dev
+```
+
+Once installed we need to create the `.env.defaults` file.  While each developer
+is responsible for creating their own `.env` file(following the README.md file),
+the defaults can at least guide the developer with the expected values.
+
+create a `.env.defaults` file.
+
+```sh
+UI_APP_PORT=2022
+UI_API_HOST=
+```
+
+We can update the `webpack.config.js` file to inject these environment variables
+into the application. Note that this preference is in favor of treating environment
+variables like an import vs a global variable.  We will also filter out variables
+we do not want to expose to the UI.
+
+create a `environment.build.js` file
+```js
+const { resolve } = require('path')
+require('dotenv-extended').load({
+  errorOnMissing: true,
+  path: resolve(__dirname, '.env')
+})
+const UI_ENV_VARS = Object.entries(process.env)
+  .filter(([key]) => key.startsWith('UI_'))
+  .reduce((acc, [key, val]) =>
+    ({...acc, [key]:val})
+  ,{})
+module.exports = UI_ENV_VARS
+```
+
+replace `webpack.config.js`
+```js
+const UI_ENV_VARS = require('./environment.build')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const { resolve } = require('path')
+
+module.exports = (env, argv) => {
+  const IS_BUILD = env.WEBPACK_BUILD
+  return {
+    devServer: {
+      historyApiFallback: {
+        rewrites: [
+          { from: /.*\.html?/, to: '/' },
+          { from: /^[\w/]+$/, to: '/' },
+        ],
+        verbose: true
+      },
+      host: '0.0.0.0',
+      open: true,
+      port: UI_ENV_VARS.UI_APP_PORT,
+    },
+    entry: './src/main.js',
+    externals: {
+        Environment: JSON.stringify(UI_ENV_VARS)
+    },
+    module: {
+      rules: [
+        {
+          test: /\.css$/i,
+          use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        },
+        {
+          test: /\.(eot|ttf|woff|woff2|gif|jpeg|jpg|png|svg)$/i,
+          type: 'asset/resource',
+        },
+        {
+          test: /\.html$/i,
+          exclude: /index\.html$/i,
+          type: 'asset/source',
+        },
+      ],
+    },
+    output: {
+      assetModuleFilename: 'assets/[name][ext]',
+      clean: true,
+      filename: 'main.js',
+      path: resolve(__dirname, 'dist'),
+    },
+    plugins: [
+      new MiniCssExtractPlugin(),
+      new HtmlWebpackPlugin({
+        base: IS_BUILD ? false : '/',
+        inject: 'body',
+        template: './src/index.html',
+        scriptLoading: 'module'
+      }),
+    ],
+    resolve: {
+      alias: {
+        components: resolve(__dirname, 'src/components'),
+        features: resolve(__dirname, 'src/features'),
+        services: resolve(__dirname, 'src/services'),
+      },
+      extensions: ['.js']
+    },
+  }
+}
+```
+
+in your application, to access these variables you can import them to the file like so:
+
+```js
+import { UI_API_HOST } from 'Environment'
+```
+
+
+The file structure should now look like this.
+
+```
+.
+├── node_modules
+├── src
+│   ├── components
+│   │    ├── core-header.html
+│   │    ├── core-header.js
+│   │    └── index.js
+│   ├── css
+│   │    ├── custom.css
+│   │    ├── effects.css
+│   │    ├── index.css
+│   │    ├── structure.css
+│   │    └── variables.css
+│   ├── features
+│   │    ├── dashboard
+│   │    │    ├── about.html
+│   │    │    ├── about.js
+│   │    │    ├── home.html
+│   │    │    └── home.js
+│   ├── services
+│   │    ├── constants.js
+│   │    └── index.js
+│   ├── index.html
+│   └── main.js
+├── .editorconfig
+├── .env.defaults
+├── .gitignore
+├── environment.build.js
+├── package-lock.json
+├── package.json
+├── README.md
+└── webpack.config.js
+```
+
+| [&#8592; Step 5: Environment Variables](?path=/docs/welcome-recipes-scaffold-a-spa-step-5-features--page) |  | [Step 7: Files and Assets &#8594;](?path=/docs/welcome-recipes-scaffold-a-spa-step-7-files-and-assets--page)
+|:---------|:---------:|---------:|

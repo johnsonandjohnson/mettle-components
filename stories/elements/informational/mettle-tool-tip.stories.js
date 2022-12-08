@@ -4,6 +4,13 @@ import { Constants, uuid } from '../../helper/index.js'
 
 import './tool-tip.css'
 
+const DocsDescriptionMDX = `
+**Single Import**
+<pre class="coder">import '@johnsonandjohnson/mettle-components/src/informational/mettle-tool-tip.js'</pre>
+
+Used to provide context when hovering over an element.
+`.trim()
+
 export default {
   title: 'Custom Elements/Informational/Mettle-Tool-Tip',
   argTypes: {
@@ -87,7 +94,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: 'Used to provide context when hovering over an element.',
+        component: DocsDescriptionMDX,
       },
     },
   },

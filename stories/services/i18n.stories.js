@@ -3,6 +3,9 @@
 import { Constants } from '../helper/index.js'
 
 const DocsDescriptionMDX = `
+**Single Import**
+<pre class="coder">import { I18n } from '@johnsonandjohnson/mettle-components/services'</pre>
+
 Internationalization or Localization is made easy with the Mettle Service I18n.
 In order to translate text, a local JSON file is stored and loaded with the service.
 Under the hood I18n utilizes Mutation Observers to check when data-i18n attributes are updated.
@@ -23,7 +26,7 @@ I18n also will utilize browser and JavaScript built-in functionality.
 
 You will need a json file with the name the matches the locale code like so.
 
-<pre>
+<pre class="coder">
   en.json
   {
     "error-input": "This is a required field",
@@ -91,8 +94,8 @@ An Alternate way is to use the URL params.  This is executed when the
 
 Just append ?locale=(locale Id) to the url.
 
-<pre>
-  <code>example.com?locale=es</code>
+<pre class="coder">
+example.com?locale=es
 </pre>
 
 **Text Direction**
@@ -103,7 +106,8 @@ by the browser.
 
 
 ##See more code samples below
-`
+`.trim()
+
 export default {
   title: 'Services/I18n (Internationalization)',
   argTypes: {

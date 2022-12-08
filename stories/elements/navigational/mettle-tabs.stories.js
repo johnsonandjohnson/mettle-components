@@ -3,6 +3,12 @@ import './mettle-tabs.css'
 
 import { Constants, generateParagraph } from '../../helper/index.js'
 
+const DocsDescriptionMDX = `
+**Single Import**
+<pre class="coder">import '@johnsonandjohnson/mettle-components/src/navigational/mettle-tabs.js'</pre>
+
+Tabs are used to display different content in a compact section.
+`.trim()
 
 export default {
   title: 'Custom Elements/Navigational/Mettle-Tabs',
@@ -129,7 +135,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: 'Tabs are used to display different content in a compact section.',
+        component: DocsDescriptionMDX,
       },
     },
   },

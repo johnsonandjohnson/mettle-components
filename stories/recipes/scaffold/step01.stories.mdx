@@ -1,0 +1,295 @@
+import { linkTo } from '@storybook/addon-links';
+import { Meta } from '@storybook/addon-docs';
+import Code from '../../assets/code.svg';
+import AdvanceLevel from '../../assets/thermometer_full.svg';
+import ScaffoldStep1 from '../../assets/scaffold-step1.png';
+import ScaffoldStep2 from '../../assets/scaffold-step2.png';
+import ScaffoldStep21 from '../../assets/scaffold-step2-1.png';
+import ScaffoldStep3 from '../../assets/scaffold-step3.png';
+import ScaffoldStep31 from '../../assets/scaffold-step3-1.png';
+import ScaffoldStep4 from '../../assets/ScaffoldStep4.png';
+import ScaffoldStepFinal from '../../assets/scaffold-final.gif';
+
+import '../../styles.css'
+
+
+<Meta title="Welcome/Recipes/Scaffold a SPA/Step 1: Initial Step-up" />
+
+<div className="recipe">
+  <img src={Code} alt="Code" height="160" />
+  <div classNamw="flex-col">
+    <h1 className="heading">Scaffold a SPA with Web Components</h1>
+    <small className="flex"> <img src={AdvanceLevel} alt="Intermedite Level" height="20" /> Advance level</small>
+    <p>In this Recipe, we will create a full SPA with web components.
+      We will have all the fixings for a great meal. Routing, localization, bundling,
+      linting, unit testing, environment variables, file structure, architecture
+      and what ever else we can fit.
+    </p>
+  </div>
+</div>
+
+
+
+### Prequisite
+
+While no expert knowledge is needed there are numerous steps to scaffolding a
+site from the ground up.  Before each topic feel free to research a bit more about
+a tool or process we will be using.
+
+It is expected that you already have a perference of `IDE(a.k.a Code editor)` and
+knowledge of using a `console` and/or `shell terminal`, `Git`, `Node.js` and `NPM` which is required to continue.
+
+
+### Expected Results
+
+What we hope to appcomplish is a full front-end workspace for developers
+to add code, lint, test and bundle everything so it can be deployed. We should be
+able to bundle the application so it can be served and hosted on the web.
+
+>This starter can be used for projects of all sizes.
+
+> The results of this tutorial can be found here:
+
+## Initial Files
+
+We need a set of initial files.  When creating your new repo there is likely a `README.md` file.
+This will be important to update at the end.  If your project does not have one make sure to create one.
+
+Before We create each file lets understand why it is needed.
+
+
+| File | Reason |
+|:---------|:---------|
+| README.md | Vital documentation as to what the project is about and how to use it. |
+| .editorconfig | Helps your IDE(a.k.a Code editor) know how to format the code |
+| .gitignore | Required to inform Git what files to ignore and not be checked in |
+| package.json | Required to install dependencies, provide project information and execution scripts |
+| src/main.js | Our starting application JavaScript file |
+| src/index.html | Our Base application HTML file |
+| webpack.config.js | The config for bundling the application |
+
+
+Create a **.editorconfig** file and add the following:
+
+```
+# Editor configuration, see http://editorconfig.org
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.md]
+max_line_length = off
+trim_trailing_whitespace = false
+```
+
+This is a good starting **.gitignore** file.  Feel free to add any other folders/files
+needed.
+```
+# IDE
+._*
+.cache
+.DS_Store
+.env
+.envrc
+.idea
+.npmrc
+.project
+.settings
+.scannerwork
+.tmproj
+*.esproj
+*.sublime-project
+*.sublime-workspace
+nbproject/
+Thumbs.db
+.vscode/*
+.vs/*
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# extensions
+*.diff
+*.err
+*.log
+*.orig
+*.rej
+*.swo
+*.swp
+*.tgz
+*.vi
+*.zip
+*~
+
+# Folders
+node_modules/
+coverage/
+dist/*
+```
+
+We can start with a basic **package.json** file and add our dependencies as we build our
+scaffold.
+
+```json
+{
+  "name": "my_app",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "./node_modules/.bin/webpack --mode production --config webpack.config.js",
+    "build:dev": "./node_modules/.bin/webpack --mode development --config webpack.config.js",
+    "start": "./node_modules/.bin/webpack serve --mode development --config webpack.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+}
+```
+
+From the root of the project create a folder called `src/` and within that folder a file called `main.js`.
+
+```js
+function component() {
+  const element = document.createElement('div')
+
+  element.innerHTML = `<h1>Hello Mettle</h1>`
+
+  return element
+}
+
+document.body.appendChild(component())
+```
+
+Within the same `src/` folder create an **index.html** file.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Getting Started</title>
+  </head>
+  <body>
+    <noscript>
+      <!-- No JS alternative -->
+    </noscript>
+  </body>
+</html>
+```
+
+For the last initial file lets create **webpack.config.js**.
+
+> Note this configuration is for **Webpack 5**
+
+```js
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { resolve } = require('path')
+
+module.exports = (env, argv) => {
+  const IS_BUILD = env.WEBPACK_BUILD
+  return {
+    devServer: {
+      historyApiFallback: {
+        rewrites: [
+          { from: /.*\.html?/, to: '/' },
+          { from: /^[\w/]+$/, to: '/' },
+        ],
+        verbose: true
+      },
+      host: '0.0.0.0',
+      open: true,
+      port: 2022,
+    },
+    entry: './src/main.js',
+    module: {
+      rules: [
+        {
+          test: /\.(png|svg|jpg|jpeg|gif)$/i,
+          type: 'asset/resource',
+        },
+        {
+          test: /\.html$/i,
+          exclude: /index\.html$/i,
+          type: 'asset/source',
+        },
+      ],
+    },
+    output: {
+      assetModuleFilename: 'assets/[name][ext]',
+      clean: true,
+      filename: 'main.js',
+      path: resolve(__dirname, 'dist'),
+    },
+    plugins: [
+      new HtmlWebpackPlugin({
+        base: IS_BUILD ? false : '/',
+        inject: 'body',
+        template: './src/index.html',
+        scriptLoading: 'module'
+      }),
+    ],
+  }
+}
+```
+
+Before we can test we will need to install some dependencies.  Make sure all files above
+are created and saved.
+
+Install these from the command line like so:
+
+> Note the indicator for the shell command **$** is removed for easy copy and paste
+
+**devDependencies**
+```sh
+npm install html-webpack-plugin webpack webpack-cli webpack-dev-server --save-dev
+```
+
+**dependencies**
+```sh
+npm install @johnsonandjohnson/mettle-components --save
+```
+
+### Final Results for Initial Files setup
+
+Once this is all configured we will be able to start our application.  Run the following
+command.  This was configured in the `package.json` file scripts section.
+
+> All scripts should be executed where the `package.json` file is located.
+
+```sh
+$ npm start
+```
+
+You should see the application open from your default web browser and display something
+that looks like this.
+<img src={ScaffoldStep1} class="img-border" height="200" />
+
+
+The current file structure should look something like this
+```
+.
+├── node_modules
+├── src
+│   ├── index.html
+│   └── main.js
+├── .editorconfig
+├── .gitignore
+├── package-lock.json
+├── package.json
+├── README.md
+└── webpack.config.js
+```
+
+## Before starting the next step
+
+In the terminal enter `ctrl + c` to end the process. The webpack development server
+will shut down.
+
+
+| [Step 2: CSS Structure &#8594;](?path=/docs/welcome-recipes-scaffold-a-spa-step-2-css-structure--page) |
+|---------:|

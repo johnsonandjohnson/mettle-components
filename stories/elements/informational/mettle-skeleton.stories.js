@@ -2,6 +2,13 @@ import '../../../src/informational/mettle-skeleton.js'
 
 import { Constants } from '../../helper/index.js'
 
+const DocsDescriptionMDX = `
+**Single Import**
+<pre class="coder">import '@johnsonandjohnson/mettle-components/src/informational/mettle-skeleton.js'</pre>
+
+Use to create the structure of the intended layout.
+`.trim()
+
 export default {
   title: 'Custom Elements/Informational/Mettle-Skeleton',
   argTypes: {
@@ -53,7 +60,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: 'Use to create the structure of the intended layout.',
+        component: DocsDescriptionMDX,
       },
     },
   },

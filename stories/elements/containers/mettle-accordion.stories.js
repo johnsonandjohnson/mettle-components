@@ -4,6 +4,15 @@ import './accordion.css'
 import { Constants, generateParagraph } from '../../helper/index.js'
 
 
+const DocsDescriptionMDX = `
+**Single Import**
+<pre class="coder">import '@johnsonandjohnson/mettle-components/src/containers/mettle-accordion.js'</pre>
+
+
+Enhance the native semantic HTML using details/summary. Useful when you want to toggle between hiding and showing content.
+`.trim()
+
+
 export default {
   title: 'Custom Elements/Containers/Mettle-Accordion',
   argTypes: {
@@ -28,7 +37,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: 'Enhance the native semantic HTML using details/summary. Useful when you want to toggle between hiding and showing content.',
+        component: DocsDescriptionMDX,
       },
     },
   },

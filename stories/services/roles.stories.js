@@ -2,6 +2,14 @@
 
 import { Constants } from '../helper/index.js'
 
+
+const DocsDescriptionMDX = `
+**Single Import**
+<pre class="coder">import { Roles } from '@johnsonandjohnson/mettle-components/services'</pre>
+
+Roles are used to control access to components of the application.  You can apply a role to a component to be displayed only to users who meet the role requirements.
+`.trim()
+
 export default {
   title: 'Services/Roles',
   argTypes: {
@@ -46,7 +54,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: 'Roles are used to control access to components of the application.  You can apply a role to a component to be displayed only to users who meet the role requirements.',
+        component: DocsDescriptionMDX,
       },
       source: {
         state: 'open',

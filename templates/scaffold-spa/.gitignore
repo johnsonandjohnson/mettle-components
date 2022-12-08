@@ -1,0 +1,40 @@
+# IDE
+._*
+.cache
+.DS_Store
+.env
+.envrc
+.idea
+.npmrc
+.project
+.settings
+.scannerwork
+.tmproj
+*.esproj
+*.sublime-project
+*.sublime-workspace
+nbproject/
+Thumbs.db
+.vscode/*
+.vs/*
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# extensions
+*.diff
+*.err
+*.log
+*.orig
+*.rej
+*.swo
+*.swp
+*.tgz
+*.vi
+*.zip
+*~
+
+# Folders
+node_modules/
+coverage/
+dist/*
