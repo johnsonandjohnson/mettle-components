@@ -49,19 +49,21 @@ Create a new folder `test/unit`.  We will add the following files.
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/6.3/config/configuration-file.html
 
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const UI_ENV_VARS = require('../../environment.build')
 const { join, resolve } = require('path')
 
-module.exports = function (config) {
-  config.set({
+module.exports = karma => karma.set({
     autoWatch: false,
     basePath: '',
     browsers: ['ChromeHeadless'],
     colors: true,
     concurrency: Infinity,
     coverageIstanbulReporter: {
+      combineBrowserReports: true,
       dir: join(__dirname, 'coverage'),
       fixWebpackSourcePaths: true,
+      skipFilesWithNoCoverage: false,
       reports: ['lcov', 'text-summary']
     },
     customLaunchers: {
@@ -71,10 +73,12 @@ module.exports = function (config) {
       }
     },
     files: [
+      { included: false, pattern: resolve(__dirname, '../..', 'assets/*.{gif,jpeg,jpg,png,svg}'), nocache: false, served: true, watched: false },
+      { included: false, pattern: resolve(__dirname, '../..', 'assets/locales/*.json'), nocache: false, served: true, watched: false },
       { included: true, pattern: 'index.test.js', type: 'module', watched: false },
     ],
     frameworks: ['jasmine', 'webpack'],
-    logLevel: config.LOG_INFO,
+    logLevel: karma.LOG_INFO,
     plugins: [
       require('karma-chrome-launcher'),
       require('karma-coverage-istanbul-reporter'),
@@ -85,29 +89,40 @@ module.exports = function (config) {
     preprocessors: {
       'index.test.js': ['webpack'],
     },
-    reporters: ["dots", "coverage-istanbul"],
+    reporters: ['coverage-istanbul', 'dots'],
     singleRun: true,
     webpack: {
       externals: {
         environment: JSON.stringify(UI_ENV_VARS)
       },
-      mode: 'production',
+      mode: 'development',
       module: {
         rules: [
           {
-            enforce: 'post',
-            exclude: /(node_modules|index\.js|\.test\.js)$/,
-            test: /\.js/,
-            include: resolve(__dirname, '../..', 'src'),
-            use: '@jsdevtools/coverage-istanbul-loader'
+            test: /\.css$/i,
+            use: [MiniCssExtractPlugin.loader, 'css-loader'],
+          },
+          {
+            test: /\.(eot|ttf|woff|woff2|gif|jpeg|jpg|png|svg)$/i,
+            type: 'asset/resource',
           },
           {
             test: /\.html$/i,
             exclude: /index\.html$/i,
             type: 'asset/source',
           },
+          {
+            enforce: 'post',
+            exclude: /(node_modules|index\.js|\.test\.js|main\.js)$/,
+            test: /\.js/,
+            include: resolve(__dirname, '../..', 'src/'),
+            use: '@jsdevtools/coverage-istanbul-loader'
+          },
         ]
       },
+      plugins: [
+        new MiniCssExtractPlugin(),
+      ],
       resolve: {
         alias: {
           helper: resolve(__dirname, 'helper.js'),
@@ -118,13 +133,12 @@ module.exports = function (config) {
         },
         extensions: ['.js']
       },
-      target: "web",
+      target: 'web',
     },
     webpackMiddleware: {
       noInfo: true
     }
   })
-}
 ```
 
 > Note that if you adjust the webpack configuration, you might also need to adjust the webpack configuration in karma

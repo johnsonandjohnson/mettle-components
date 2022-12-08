@@ -5,7 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const UI_ENV_VARS = require('../../environment.build')
 const { join, resolve } = require('path')
 
-module.exports = (karma) => karma.set({
+module.exports = karma => karma.set({
     autoWatch: false,
     basePath: '',
     browsers: ['ChromeHeadless'],
@@ -25,6 +25,8 @@ module.exports = (karma) => karma.set({
       }
     },
     files: [
+      { included: false, pattern: resolve(__dirname, '../..', 'assets/*.{gif,jpeg,jpg,png,svg}'), nocache: false, served: true, watched: false },
+      { included: false, pattern: resolve(__dirname, '../..', 'assets/locales/*.json'), nocache: false, served: true, watched: false },
       { included: true, pattern: 'index.test.js', type: 'module', watched: false },
     ],
     frameworks: ['jasmine', 'webpack'],
@@ -53,7 +55,7 @@ module.exports = (karma) => karma.set({
             use: [MiniCssExtractPlugin.loader, 'css-loader'],
           },
           {
-            test: /\.(png|svg|jpg|jpeg|gif)$/i,
+            test: /\.(eot|ttf|woff|woff2|gif|jpeg|jpg|png|svg)$/i,
             type: 'asset/resource',
           },
           {
