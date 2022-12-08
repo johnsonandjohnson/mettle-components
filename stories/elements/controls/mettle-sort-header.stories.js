@@ -3,6 +3,15 @@ import './sort-header.css'
 
 import { Constants } from '../../helper/index.js'
 
+const DocsDescriptionMDX = `
+**Single Import**
+<pre class="coder">import '@johnsonandjohnson/mettle-components/src/controls/mettle-sort-header.js'</pre>
+
+
+Used as a sort controller where the controls emit event listeners.  Will keep track of which header is to be sorted and in what direction, ascending or descending.
+
+`.trim()
+
 export default {
   title: 'Custom Elements/Controls/Mettle-Sort-Header',
   argTypes: {
@@ -47,7 +56,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: 'Used as a sort controller where the controls emit event listeners.  Will keep track of which header is to be sorted and in what direction, ascending or descending.',
+        component: DocsDescriptionMDX,
       },
     },
   },

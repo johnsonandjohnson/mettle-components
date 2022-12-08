@@ -5,6 +5,9 @@ import { Constants } from '../../helper/index.js'
 
 
 const DocsDescriptionMDX = `
+**Single Import**
+<pre class="coder">import '@johnsonandjohnson/mettle-components/src/informational/mettle-field-validation.js'</pre>
+
 This field validation displays error messages associated to the form field. It references the validationMessage from the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Constraint_validation" target="_blank">Validation API</a>
 `.trim()
 

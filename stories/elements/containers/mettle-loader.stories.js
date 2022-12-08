@@ -4,6 +4,15 @@ import './loader.css'
 import { Constants, generateHTMLParagraphs } from '../../helper/index.js'
 
 
+const DocsDescriptionMDX = `
+**Single Import**
+<pre class="coder">import '@johnsonandjohnson/mettle-components/src/containers/mettle-loader.js'</pre>
+
+
+Useful when you want to toggle between hiding and showing content.
+
+`.trim()
+
 export default {
   title: 'Custom Elements/Containers/Mettle-Loader',
   argTypes: {
@@ -94,7 +103,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: 'Useful when you want to toggle between hiding and showing content.',
+        component: DocsDescriptionMDX,
       },
     },
   },

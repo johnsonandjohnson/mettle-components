@@ -3,6 +3,9 @@
 import { Constants } from '../helper/index.js'
 
 const DocsDescriptionMDX = `
+**Single Import**
+<pre class="coder">import { HtmlMarker } from '@johnsonandjohnson/mettle-components/services'</pre>
+
 HTML Marker allows a user to update an HTML template literal efficiently without having to re-render the DOM(Document Object Model).
 This allows the page to render more effectively. Due to some limitations not all template features that are native are supported.
 
@@ -11,7 +14,8 @@ This allows the page to render more effectively. Due to some limitations not all
 HTML Marker will take a HTML template literal in the form of a string. It will find all literal properties and mark a reference
 in the HTML using HTML comments.  Once the data model is updated, it will only update the template literal values.
 
-`
+`.trim()
+
 export default {
   title: 'Services/HTML Marker',
   argTypes: {

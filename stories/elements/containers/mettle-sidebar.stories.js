@@ -4,15 +4,18 @@ import './sidebar.css'
 import { Constants, uuid } from '../../helper/index.js'
 
 const DocsDescriptionMDX = `
+**Single Import**
+<pre class="coder">import '@johnsonandjohnson/mettle-components/src/containers/mettle-sidebar.js'</pre>
+
 Used to provide a sliding side information panel for an element.
 
 ### How does it work
 
-The sidebar takes a <code>data-for</code> attribute which must be an id of an element on the page. 
-The sidebar is then attached to this specified element and is sized accordingly to fit within the element and move with the element as well. 
-If the specified id is for a body tag, the sidebar acts as a fixed informational panel which is sized to 
-fit the whole page's height and doesn't scroll with the page. 
-`
+The sidebar takes a <code>data-for</code> attribute which must be an id of an element on the page.
+The sidebar is then attached to this specified element and is sized accordingly to fit within the element and move with the element as well.
+If the specified id is for a body tag, the sidebar acts as a fixed informational panel which is sized to
+fit the whole page's height and doesn't scroll with the page.
+`.trim()
 
 export default {
   title: 'Custom Elements/Containers/Mettle-Sidebar',
@@ -151,7 +154,7 @@ const Template = ({Class = 'template',  id = `id-${uuid()}`, position, width, sl
         $component.toggle()
       })
     </script>
-    
+
     <style>
       .slot {
         width: 8rem;
@@ -171,7 +174,7 @@ const NonJSTemplate = ({Class = '',  id = `id-${uuid()}`, position, width, slot 
     >
       <div class="slot">${slot}</div>
     </mettle-sidebar>
-    
+
     <style>
       .slot {
         width: 8rem;
@@ -276,7 +279,7 @@ const attributeTemplate = ({Class = '',  id1 = `id-${uuid()}`, id2 = `id-${uuid(
       } else {
         $switchingComponent.setAttribute('data-for', '${id1}')
       }
-      
+
     })
     globalThis.document.querySelector('button.toggleElem').addEventListener('click', () => {
       $switchingComponent.toggle()
@@ -317,7 +320,7 @@ const styleTemplate = ({Class = '',  id = `id-${uuid()}`, position, width, slot 
       <div class="slot">${slot}</div>
     </mettle-sidebar>
 
-      
+
     <style>
       .slot {
         width: 8rem;

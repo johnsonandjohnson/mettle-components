@@ -3,6 +3,9 @@
 import { Constants } from '../helper/index.js'
 
 const DocsDescriptionMDX = `
+**Single Import**
+<pre class="coder">import { Router } from '@johnsonandjohnson/mettle-components/services'</pre>
+
 This Router service allows you to create a navigation system for SPA(single page application)
 web sites.  It utilizes the browser's session history with the History API.
 This service is responsible for defining the route to match the url path,
@@ -40,8 +43,7 @@ The request is an object with the following properties and methods
 
 Assume the url: <code>products/45?filter=size</code> from Route: <code>products/:id</code>
 
-<code>
-<pre>
+<pre class="coder">
  const RouteCtrlPage1 = async (req, next) => {
 
   req.exit(() => {
@@ -59,21 +61,21 @@ Assume the url: <code>products/45?filter=size</code> from Route: <code>products/
 
   next() // This is required to move to the next function
 }
-</pre></code>
+</pre>
 
 
 **Set the Route with the controller**
 
-<pre><code>
+<pre class="coder">
 Router.setPath('page1/', RouteCtrlPage1)
-</code></pre>
+</pre>
 
 Each controller is piped only if the next function is executed.
 You can add as many controllers needed to a single route.
 Most common case would be authentication.
 
-<pre>
-<code>Router.setPath('page1/', AuthService.checkAuthenticationSession.bind(AuthService), RouteCtrlPage1) </code>
+<pre class="coder">
+Router.setPath('page1/', AuthService.checkAuthenticationSession.bind(AuthService), RouteCtrlPage1)
 </pre>
 
 
@@ -97,11 +99,9 @@ If the param is optional add a question mark(?) after.
 
 To change the path use the <code>Router.goto()</code> function.
 
-<pre>
 <code>
 Router.goto('/home, 'Home page title optional')
 </code>
-</pre>
 
 **Routing Errors**
 
@@ -112,13 +112,13 @@ be used to catch unexpected results and possibly log issues that were unforeseen
 The handler function takes in the exception object and the request object passed down from each
 controller.
 
-<code>
-<pre>
+
+<pre class="coder">
 Router.setErrorHandler((e, req) => {
   $routeDisplay.innerHTML = \`There was an error caught in \${req.currentPath}\`
 })
 </pre>
-</code>
+
 
 <br />
 <br />
@@ -135,7 +135,8 @@ route with a link and a message rather than to be redirected to the home page.
 
 
 ##See more code samples below
-`
+`.trim()
+
 export default {
   title: 'Services/Router',
   argTypes: {

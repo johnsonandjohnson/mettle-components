@@ -2,6 +2,12 @@ import '../../../src/navigational/mettle-drop-down.js'
 import './mettle-drop-down.css'
 import { Constants, uuid } from '../../helper/index.js'
 
+const DocsDescriptionMDX = `
+**Single Import**
+<pre class="coder">import '@johnsonandjohnson/mettle-components/src/navigational/mettle-drop-down.js'</pre>
+
+Tabs are used to display different content in a compact section. Sub-menus are currently not supported
+`.trim()
 
 export default {
   title: 'Custom Elements/Navigational/Mettle-Drop-Down',
@@ -93,7 +99,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: 'Tabs are used to display different content in a compact section. Sub-menus are currently not supported',
+        component: DocsDescriptionMDX,
       },
     },
   },

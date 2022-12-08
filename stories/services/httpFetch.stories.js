@@ -3,6 +3,9 @@
 import { Constants } from '../helper/index.js'
 
 const DocsDescriptionMDX = `
+**Single Import**
+<pre class="coder">import { HttpFetch } from '@johnsonandjohnson/mettle-components/services'</pre>
+
 HttpFetch is a class that uses the built in Fetch API under the hood.
 This class allows you to focus on making fetch calls without the common setup
 often needed for fetch.
@@ -34,8 +37,7 @@ Below are just a few samples of possible headers.
 
 **Options/Header Samples**
 
-<code>
-<pre>
+<pre class="coder">
   new HttpFetch({
     cache: 'no-cache',
     headers: {
@@ -43,7 +45,7 @@ Below are just a few samples of possible headers.
       Authorization: 'Basic ' + btoa(username + ":" + password),
     }
   })
-</pre></code>
+</pre>
 
 <br />
 
@@ -52,8 +54,8 @@ Below are just a few samples of possible headers.
 If you need to update the Fetch options for a single call, use the <code>nextRequestOptions()</code>
 function.
 
-<code>
-<pre>
+
+<pre class="coder">
 fetchInstance
   .nextRequestOptions({headers: {Accept: 'text/html'}, cache: 'no-cache'})
   .get(URL)
@@ -62,7 +64,6 @@ fetchInstance
     //handle results
   })
 </pre>
-</code>
 
 <br />
 
@@ -74,8 +75,7 @@ and fetch request options with all of the calls needed in your application.
 
 **Sample of an export file with a single instance**
 
-<code>
-<pre>
+<pre class="coder">
 import { HttpFetch } from '@johnsonandjohnson/mettle-components/services'
 
 const fetchInstance = new HttpFetch({
@@ -93,7 +93,7 @@ fetchInstance.setInterceptors({
 })
 
 export default fetchInstance
-</pre></code>
+</pre>
 
 <br />
 ###Static Functions
@@ -116,8 +116,7 @@ You can add as many interceptors, but most applications just need one as this wi
 fetch request.  Note that this is not a global request, just for an instance of an
 instantiated HttpFetch class.
 
-<code>
-<pre>
+<pre class="coder">
   const fetchInstance = new HttpFetch()
   const fetchInterceptorInstance = fetchInstance.setInterceptors({
     request: (url, config) => {
@@ -140,7 +139,6 @@ instantiated HttpFetch class.
   // Option to remove all fetch interceptors set on the HttpFetch instance
   fetchInstance.clearAllInterceptors()
 </pre>
-</code>
 
 
 <br />
@@ -153,8 +151,7 @@ instantiated HttpFetch class.
 
 **Interceptor Code Sample**
 
-<code>
-<pre>
+<pre class="coder">
   import ( AuthService ) from 'yourAppServices'
 
   const fetchInstance = new HttpFetch()
@@ -191,7 +188,6 @@ instantiated HttpFetch class.
   })
   export default fetchInstance
 </pre>
-</code>
 
 
 ##Post Body Data
@@ -205,7 +201,7 @@ API object will be handled by the Fetch API.
 
 
 ##See more code samples below
-`
+`.trim()
 export default {
   title: 'Services/HTTP Fetch',
   argTypes: {

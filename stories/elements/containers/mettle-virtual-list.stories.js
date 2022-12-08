@@ -3,6 +3,9 @@ import '../../../src/containers/mettle-virtual-list.js'
 import { Constants } from '../../helper/index.js'
 
 const DocsDescriptionMDX = `
+**Single Import**
+<pre class="coder">import '@johnsonandjohnson/mettle-components/src/containers/mettle-virtual-list.js'</pre>
+
 Mettle virtual list is used to display a large list of items.  Only items in
 the view port will be rendered.
 
@@ -32,8 +35,7 @@ you have the element selected you can render your items like so
 > Note that the rows are rendered as a slot and not in the shadow root
 
 
-<pre>
-<code>
+<pre class="coder">
 const $component = globalThis.document.querySelector('mettle-virtual-list')
 
 $component.render({
@@ -44,7 +46,6 @@ $component.render({
     return true
   }
 })
-</code>
 </pre>
 
 
@@ -58,8 +59,7 @@ $component.render({
 The render and update function can also leverage custom elements, add a class, etc.
 
 
-<pre>
-<code>
+<pre class="coder">
 const $component = globalThis.document.querySelector('mettle-virtual-list')
 
 $component.render({
@@ -71,7 +71,6 @@ $component.render({
   },
   updateRow: (elem, data) => elem.updateModel(data)
 })
-</code>
 </pre>
 
 **About updateRow()**
@@ -80,8 +79,7 @@ If the <code>updateRow()</code> takes a while to render, consider returning a Pr
 or using async.  Calculating the row height is dependent on this function being
 complete.
 
-<pre>
-<code>
+<pre class="coder">
 const $component = globalThis.document.querySelector('mettle-virtual-list')
 
 $component.render({
@@ -94,13 +92,11 @@ $component.render({
     })
   }
 })
-</code>
 </pre>
 
 **OR**
 
-<pre>
-<code>
+<pre class="coder">
 const $component = globalThis.document.querySelector('mettle-virtual-list')
 
 $component.render({
@@ -112,7 +108,6 @@ $component.render({
   },
   updateRow: async(elem, data) => await elem.updateModel(data)
 })
-</code>
 </pre>
 
 
@@ -125,14 +120,12 @@ The render function can take in a single parameter like so as long as the
 It is important to note that when using the dynamic mode it will attempt to
 calculate the height of rows where the data is different.
 
-<pre>
-<code>
+<pre class="coder">
 let productsSearch = updatedResultsArray()
 
 $component.render({
   listItems: productsSearch
 })
-</code>
 </pre>
 
 **appendItems() option**
@@ -140,12 +133,10 @@ While we recommend to just use the <code>render</code> function, in the case you
 only need to append a new item to the current list use the <code>appendItems</code>
 function like so
 
-<pre>
-<code>
+<pre class="coder">
 const newItems = getNewListSet()
 
 $component.appendItems(newItems)
-</code>
 </pre>
 
 ### No observed Attributes on <code>data-dynamic</code>
@@ -165,9 +156,8 @@ When hovering over the rows, a CSS <code>:hover</code> state can be applied.
 When a row is clicked, the CSS attribute will add
 <code>aria-selected</code> to the selected row.
 
-<pre>
-<code>
-/*Using a rendered row with the class .product-row*/
+<pre class="coder">
+/\\* Using a rendered row with the class .product-row \\*/
 .product-row:hover  {
   background-color: hsl(24, 100%, 50%);
   cursor: pointer;
@@ -180,13 +170,11 @@ When a row is clicked, the CSS attribute will add
 .product-row[aria-selected]:hover {
   background-color: hsl(233, 72%, 89%);
 }
-</code>
 </pre>
 
 
-<pre>
-<code>
-/*Using a rendered row custom element with the class .product-row*/
+<pre class="coder">
+/\\* Using a rendered row custom element with the class .product-row \\*/
 .product-row:hover  {
   background-color: hsl(24, 100%, 50%);
   cursor: pointer;
@@ -199,7 +187,6 @@ custom-tag[aria-selected] .product-row {
 custom-tag[aria-selected] .product-row:hover {
   background-color: hsl(233, 72%, 89%);
 }
-</code>
 </pre>
 
 ### Event Dispatches
@@ -214,8 +201,7 @@ The event detail will return the following.
 | evt.detail.**index** | The list item index |
 | evt.detail.**itemData** | The list item data |
 
-<pre>
-<code>
+<pre class="coder">
 const $component = globalThis.document.querySelector('mettle-virtual-list')
 
 $component.addEventListener($component.EVENT_TYPES.SELECTED, evt => {
@@ -225,7 +211,6 @@ $component.addEventListener($component.EVENT_TYPES.SELECTED, evt => {
 $component.addEventListener($component.EVENT_TYPES.UNSELECTED, evt => {
   const { elem, index, itemData } = evt.detail
 })
-</code>
 </pre>
 
 ### Selected Row Event Bubbling
@@ -233,14 +218,12 @@ $component.addEventListener($component.EVENT_TYPES.UNSELECTED, evt => {
 If you have a row with a clickable element, be sure to prevent the event from bubbling
 so the row is not being selected and un-selected.
 
-<pre>
-<code>
+<pre class="coder">
 const $rowBtn = globalThis.document.querySelector('button.row-btn')
 
 $rowBtn.addEventListener('click', evt => {
   evt.stopPropagation()
 })
-</code>
 </pre>
 
 > Use the <code>stopPropagation()</code> to prevent this.
@@ -250,13 +233,11 @@ $rowBtn.addEventListener('click', evt => {
 The default behavior is that the virtual list will extend with <code>height: 100%;</code>
 based on the parent height.  You can use CSS to override the container height.
 
-<pre>
-<code>
-/* Override virtual list height of 100% */
+<pre class="coder">
+/\\* Override virtual list height of 100% \\*/
 mettle-virtual-list::part(container) {
   height: 50vh;
 }
-</code>
 </pre>
 
 > If the parent height is set to zero by default, the virtual list will not appear.
@@ -269,7 +250,7 @@ the rows set. This attribute is observed and will adjust if changed.
 
 
 ##See code samples below
-`
+`.trim()
 
 export default {
   title: 'Custom Elements/Containers/Mettle-Virtual-List',

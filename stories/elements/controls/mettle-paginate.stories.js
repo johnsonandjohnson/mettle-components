@@ -3,6 +3,14 @@ import './paginate.css'
 
 import { Constants } from '../../helper/index.js'
 
+const DocsDescriptionMDX = `
+**Single Import**
+<pre class="coder">import '@johnsonandjohnson/mettle-components/src/controls/mettle-paginate.js'</pre>
+
+
+Used as a pagination controller where the controls emit event listeners.
+`.trim()
+
 export default {
   title: 'Custom Elements/Controls/Mettle-Paginate',
   argTypes: {
@@ -159,7 +167,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: 'Used as a pagination controller where the controls emit event listeners.',
+        component: DocsDescriptionMDX,
       },
     },
   },
