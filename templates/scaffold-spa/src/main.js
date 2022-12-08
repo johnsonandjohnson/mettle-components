@@ -12,9 +12,9 @@ import {
 Router.defaultPath(Constants.ROUTES.HOME)
 
 const $notification = document.querySelector('mettle-notification')
-Router.setErrorHandler((e, req) => {
+Router.setErrorHandler(evt => { //(evt, req)
   $notification.addNotification({
-    message: e.message,
+    message: evt.message,
     time: 30,
     title: 'Route Error',
     type: 'error'

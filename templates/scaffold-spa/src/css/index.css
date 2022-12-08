@@ -1,4 +1,4 @@
-@import "./variables.css";
-@import "./structure.css";
-@import "./custom.css";
-@import "./effects.css";
+@import url("./variables.css");
+@import url("./structure.css");
+@import url("./custom.css");
+@import url("./effects.css");

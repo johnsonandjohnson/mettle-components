@@ -1,8 +1,4 @@
 {
-  "inspections-surveyName": "Survey Name",
-  "inspections-surveyID" : "Survey ID",
-  "inspections-region" : "Region",
-  "inspections-dateCreated" : "Date Created",
-  "inspections-submissions" : "Submissions",
-  "inspections-status" : "Status"
+  "login-userName": "User Name",
+  "login-password" : "Password"
 }

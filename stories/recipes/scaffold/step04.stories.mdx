@@ -51,6 +51,7 @@ import {
 } from '@johnsonandjohnson/mettle-components/services'
 
 import { Constants } from './constants.js'
+import Utility from './utility.js'
 
 export {
   Constants,
@@ -62,6 +63,7 @@ export {
   ReadyState,
   Roles,
   Router,
+  Utility,
 }
 ```
 
@@ -76,6 +78,27 @@ export const Constants = {
 }
 ```
 
+create the following file `src/services/utility.js`
+
+```js
+class Utility {
+
+  LoadHTML(HTML) {
+    return async (req, next) => {
+      const $routeDisplay = document.querySelector('.route-display')
+      if($routeDisplay) {
+        await $routeDisplay.insertContent(HTML)
+        next()
+      } else {
+        throw new Error('No HTML to load')
+      }
+    }
+  }
+
+}
+
+export default new Utility()
+```
 
 Services are imported on an as needed basis.  The file structure should now look like this.
 
@@ -95,7 +118,8 @@ Services are imported on an as needed basis.  The file structure should now look
 │   │    └── variables.css
 │   ├── services
 │   │    ├── constants.js
-│   │    └── index.js
+│   │    ├── index.js
+│   │    └── utility.js
 │   ├── index.html
 │   └── main.js
 ├── .editorconfig

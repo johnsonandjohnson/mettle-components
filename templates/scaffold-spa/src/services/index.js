@@ -10,7 +10,7 @@ import {
 } from '@johnsonandjohnson/mettle-components/services'
 
 import { Constants } from './constants.js'
-import Utility from './utility'
+import Utility from './utility.js'
 
 export {
   Constants,

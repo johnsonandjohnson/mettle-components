@@ -38,27 +38,19 @@ Create a `src/features/dashboard/home.js` file.
 ```js
 import {
   Constants,
-  Router
+  Router,
+  Utility,
 } from 'services'
 
 import HTML from './home.html'
 
-const HomeCtrlLoader = async (req, next) => {
-  const $routeDisplay = document.querySelector('.route-display')
-  await $routeDisplay.insertContent(HTML)
-  next()
-}
-
-const HomeCtrl = async (req, next) => {
-
+export const MainCtrl = async (req, next) => {
   //After content is loaded any other logic
-
   next()
 }
 
 Router
-  .setPath(Constants.ROUTES.HOME, HomeCtrlLoader, HomeCtrl)
-
+  .setPath(Constants.ROUTES.HOME, Utility.LoadHTML(HTML), MainCtrl)
 ```
 
 create a `src/features/dashboard/home.html` file.
@@ -93,6 +85,15 @@ import {
 
 Router.defaultPath(Constants.ROUTES.HOME)
 
+const $notification = document.querySelector('mettle-notification')
+Router.setErrorHandler(evt => { //(evt, req)
+  $notification.addNotification({
+    message: evt.message,
+    time: 30,
+    title: 'Route Error',
+    type: 'error'
+  })
+})
 
 const $links = Array.from(document.querySelectorAll('a[rel*="/"]'))
 $links.map(a => {
