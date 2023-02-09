@@ -8,9 +8,9 @@ describe('HTMLMarkerMixin', () => {
 
   beforeEach(() => {
     BASE = HTMLMarkerMixin(class {})
-    MixinDefs = BASE.MixinDefs
     const newClass = class extends BASE {}
     classInstance = new newClass()
+    MixinDefs = classInstance.MixinDefs
   })
 
   describe('interface', () => {

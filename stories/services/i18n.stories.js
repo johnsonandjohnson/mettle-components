@@ -6,6 +6,9 @@ const DocsDescriptionMDX = `
 **Single Import**
 <pre class="coder">import { I18n } from '@johnsonandjohnson/mettle-components/services'</pre>
 
+**Source Code**
+<pre class="coder"><a href="https://github.com/johnsonandjohnson/mettle-components/blob/main/src/services/i18n.js" target="_blank">https://github.com/johnsonandjohnson/mettle-components/blob/main/src/services/i18n.js</a></pre>
+
 Internationalization or Localization is made easy with the Mettle Service I18n.
 In order to translate text, a local JSON file is stored and loaded with the service.
 Under the hood I18n utilizes Mutation Observers to check when data-i18n attributes are updated.

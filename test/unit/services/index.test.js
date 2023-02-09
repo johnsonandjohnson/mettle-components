@@ -1,4 +1,5 @@
 import './debounce.test.js'
+import './form-autosave.test.js'
 import './html-marker.test.js'
 import './i18n.test.js'
 import './observable.test.js'

@@ -7,6 +7,9 @@ const DocsDescriptionMDX = `
 **Single Import**
 <pre class="coder">import { Roles } from '@johnsonandjohnson/mettle-components/services'</pre>
 
+**Source Code**
+<pre class="coder"><a href="https://github.com/johnsonandjohnson/mettle-components/blob/main/src/services/roles.js" target="_blank">https://github.com/johnsonandjohnson/mettle-components/blob/main/src/services/roles.js</a></pre>
+
 Roles are used to control access to components of the application.  You can apply a role to a component to be displayed only to users who meet the role requirements.
 `.trim()
 

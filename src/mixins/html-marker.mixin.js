@@ -9,7 +9,7 @@ export default Base => class extends Base {
     this[MixinDefs.HTMLMarker] = new HtmlMarker()
   }
 
-  static get MixinDefs() {
+  get MixinDefs() {
     return MixinDefs
   }
 

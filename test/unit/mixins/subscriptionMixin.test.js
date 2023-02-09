@@ -12,9 +12,9 @@ describe('SubscriptionMixin', () => {
 
   beforeEach(() => {
     BASE = SubscriptionMixin(class { disconnectedCallback(){} })
-    MixinDefs = BASE.MixinDefs
     const newClass = class extends BASE {}
     classInstance = new newClass()
+    MixinDefs = classInstance.MixinDefs
   })
 
   describe('interface', () => {
@@ -32,11 +32,11 @@ describe('SubscriptionMixin', () => {
   describe('extends', () => {
 
     it('should have a subscription variable', async () => {
-      expect(classInstance[MixinDefs.Subscription]).toBeNull()
+      expect(Array.isArray(classInstance[MixinDefs.Subscription])).toBeTrue()
     })
 
     it('should unsubscribe on disconnected callback', async () => {
-      classInstance[MixinDefs.Subscription] = new Observable()
+      classInstance[MixinDefs.Subscription].push(new Observable())
       classInstance.disconnectedCallback()
       expect(classInstance[MixinDefs.Subscription]).toBeNull()
     })

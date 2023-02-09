@@ -1,4 +1,4 @@
-import { MixinDefs, OnRemoveMixin } from '../mixins/index.js'
+import { OnRemoveMixin } from '../mixins/index.js'
 const TAG_NAME = 'mettle-tool-tip'
 const HALF = 2
 
@@ -94,7 +94,7 @@ if (!window.customElements.get(TAG_NAME)) {
           this.$tipFor.addEventListener('mouseover', this._onMouseoverBind)
           this.$tipFor.addEventListener('mouseout', this._onMouseoutBind)
         }
-        this[MixinDefs.onRemove](this.$tipFor, this.remove.bind(this))
+        this[this.MixinDefs.onRemove](this.$tipFor, this.remove.bind(this))
       }
     }
 

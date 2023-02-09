@@ -6,6 +6,9 @@ const DocsDescriptionMDX = `
 **Single Import**
 <pre class="coder">import { Router } from '@johnsonandjohnson/mettle-components/services'</pre>
 
+**Source Code**
+<pre class="coder"><a href="https://github.com/johnsonandjohnson/mettle-components/blob/main/src/services/router.js" target="_blank">https://github.com/johnsonandjohnson/mettle-components/blob/main/src/services/router.js</a></pre>
+
 This Router service allows you to create a navigation system for SPA(single page application)
 web sites.  It utilizes the browser's session history with the History API.
 This service is responsible for defining the route to match the url path,

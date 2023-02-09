@@ -6,7 +6,7 @@ export default Base => class extends Base {
     super()
   }
 
-  static get MixinDefs() {
+  get MixinDefs() {
     return MixinDefs
   }
 

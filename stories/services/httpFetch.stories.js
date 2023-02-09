@@ -6,6 +6,9 @@ const DocsDescriptionMDX = `
 **Single Import**
 <pre class="coder">import { HttpFetch } from '@johnsonandjohnson/mettle-components/services'</pre>
 
+**Source Code**
+<pre class="coder"><a href="https://github.com/johnsonandjohnson/mettle-components/blob/main/src/services/http-fetch.js" target="_blank">https://github.com/johnsonandjohnson/mettle-components/blob/main/src/services/http-fetch.js</a></pre>
+
 HttpFetch is a class that uses the built in Fetch API under the hood.
 This class allows you to focus on making fetch calls without the common setup
 often needed for fetch.

@@ -13,7 +13,6 @@ const ACTION_TYPES = {
 
 const TAG_NAME = 'mettle-drop-down'
 const BASE = OnRemoveMixin(HTMLElement)
-const MixinDefs = BASE.MixinDefs
 
 if (!window.customElements.get(TAG_NAME)) {
   window.customElements.define(TAG_NAME, class extends BASE {
@@ -94,7 +93,7 @@ if (!window.customElements.get(TAG_NAME)) {
       if (this._allowedUserActions.has(userAction)) {
         this.$menuFor = this.$menuForNew
         if (this.$menuFor) {
-          this[MixinDefs.onRemove](this.$menuFor, this.remove.bind(this))
+          this[this.MixinDefs.onRemove](this.$menuFor, this.remove.bind(this))
 
           if (userAction === ACTION_TYPES.MOUSE) {
             this.$menuFor.addEventListener('mouseover', this._onShowBind, true)

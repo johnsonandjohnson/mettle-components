@@ -8,6 +8,9 @@ const DocsDescriptionMDX = `
 **Single Import**
 <pre class="coder">import '@johnsonandjohnson/mettle-components/src/containers/mettle-loader.js'</pre>
 
+**Source Code**
+<pre class="coder"><a href="https://github.com/johnsonandjohnson/mettle-components/blob/main/src/containers/mettle-loader.js" target="_blank">https://github.com/johnsonandjohnson/mettle-components/blob/main/src/containers/mettle-loader.js</a></pre>
+
 
 Useful when you want to toggle between hiding and showing content.
 

@@ -8,6 +8,9 @@ const DocsDescriptionMDX = `
 **Single Import**
 <pre class="coder">import '@johnsonandjohnson/mettle-components/src/controls/mettle-password-reveal.js'</pre>
 
+**Source Code**
+<pre class="coder"><a href="https://github.com/johnsonandjohnson/mettle-components/blob/main/src/controls/mettle-password-reveal.js" target="_blank">https://github.com/johnsonandjohnson/mettle-components/blob/main/src/controls/mettle-password-reveal.js</a></pre>
+
 
 Used to toggle the type of a input element from hidden and text.
 

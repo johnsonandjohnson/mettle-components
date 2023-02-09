@@ -6,6 +6,9 @@ const DocsDescriptionMDX = `
 **Single Import**
 <pre class="coder">import '@johnsonandjohnson/mettle-components/src/navigational/mettle-drop-down.js'</pre>
 
+**Source Code**
+<pre class="coder"><a href="https://github.com/johnsonandjohnson/mettle-components/blob/main/src/navigational/mettle-drop-down.js" target="_blank">https://github.com/johnsonandjohnson/mettle-components/blob/main/src/navigational/mettle-drop-down.js</a></pre>
+
 Tabs are used to display different content in a compact section. Sub-menus are currently not supported
 `.trim()
 

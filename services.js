@@ -1,4 +1,5 @@
 import Debounce from './src/services/debounce.js'
+import FormAutoSave from './src/services/form-autosave.js'
 import HtmlMarker from './src/services/html-marker.js'
 import HttpFetch from './src/services/http-fetch.js'
 import I18n from './src/services/i18n.js'
@@ -9,6 +10,7 @@ import Router from './src/services/router.js'
 
 export {
   Debounce,
+  FormAutoSave,
   HtmlMarker,
   HttpFetch,
   I18n,
