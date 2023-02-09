@@ -6,10 +6,6 @@ describe('HTMLMarkerMixin', () => {
   let classInstance
   let MixinDefs
 
-  let Observable = class {
-    unsubscribe() {}
-  }
-
   beforeEach(() => {
     BASE = HTMLMarkerMixin(class {})
     MixinDefs = BASE.MixinDefs
