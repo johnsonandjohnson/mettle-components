@@ -12,7 +12,7 @@ const DocsDescriptionMDX = `
 HTML Marker Mixin allows a user to update an HTML template literal efficiently without having to re-render the DOM(Document Object Model).
 It uses the HTML Marker class and requires some code integration with the custom element.
 
-### How to mix
+<h3>How to mix</h3>
 
 This mixin at minium needs the render function to apply the HTML and markers needed
 for the component.  This should happen when the component is attached to the dom and
@@ -119,7 +119,7 @@ The updated data is best served from a service where it is managed if possible</
 <pre>
 
 
-<p><strong>Not Recommended</strong></p>
+<h3>Not Recommended</h3>
 
 <p>It is not recommended to use the data model as a source of truth.  A service
 is better suited to handle the data.  Keep the data model as a one way update.</p>
@@ -143,7 +143,7 @@ This should be handled in a service where single source of truth is consistent. 
       }
 <pre>
 
-<p><strong>Unit Testing</strong></p>
+<h3>Unit Testing</h3>
 
 <p>
 When the <code>connectedCallback()</code> is async that can skew unit testing.  The
