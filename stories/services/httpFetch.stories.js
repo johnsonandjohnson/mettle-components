@@ -3,6 +3,8 @@
 import { Constants } from '../helper/index.js'
 
 const DocsDescriptionMDX = `
+<span className="tip">1.1.0</span>
+
 **Single Import**
 <pre class="coder">import { HttpFetch } from '@johnsonandjohnson/mettle-components/services'</pre>
 

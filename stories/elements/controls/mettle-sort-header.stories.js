@@ -4,6 +4,8 @@ import './sort-header.css'
 import { Constants } from '../../helper/index.js'
 
 const DocsDescriptionMDX = `
+<span className="tip">1.2.0</span>
+
 **Single Import**
 <pre class="coder">import '@johnsonandjohnson/mettle-components/src/controls/mettle-sort-header.js'</pre>
 

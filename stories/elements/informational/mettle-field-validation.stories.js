@@ -5,6 +5,8 @@ import { Constants } from '../../helper/index.js'
 
 
 const DocsDescriptionMDX = `
+<span className="tip">1.4.0</span>
+
 **Single Import**
 <pre class="coder">import '@johnsonandjohnson/mettle-components/src/informational/mettle-field-validation.js'</pre>
 

@@ -3,6 +3,8 @@ import './mettle-drop-down.css'
 import { Constants, uuid } from '../../helper/index.js'
 
 const DocsDescriptionMDX = `
+<span className="tip">1.0.0</span>
+
 **Single Import**
 <pre class="coder">import '@johnsonandjohnson/mettle-components/src/navigational/mettle-drop-down.js'</pre>
 

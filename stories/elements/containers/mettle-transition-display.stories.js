@@ -3,6 +3,8 @@ import '../../../src/containers/mettle-transition-display.js'
 import { Constants } from '../../helper/index.js'
 
 const DocsDescriptionMDX = `
+<span className="tip">1.10.0</span>
+
 **Single Import**
 <pre class="coder">import '@johnsonandjohnson/mettle-components/src/containers/mettle-transition-display.js'</pre>
 

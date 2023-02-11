@@ -4,6 +4,8 @@ import './mettle-tabs.css'
 import { Constants, generateParagraph } from '../../helper/index.js'
 
 const DocsDescriptionMDX = `
+<span className="tip">1.0.0</span>
+
 **Single Import**
 <pre class="coder">import '@johnsonandjohnson/mettle-components/src/navigational/mettle-tabs.js'</pre>
 

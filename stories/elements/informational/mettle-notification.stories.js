@@ -28,6 +28,8 @@ const generateTemplate = ({type = null, time = 10}) => {
 }
 
 const DocsDescriptionMDX = `
+<span className="tip">1.0.0</span>
+
 **Single Import**
 <pre class="coder">import '@johnsonandjohnson/mettle-components/src/informational/mettle-notification.js'</pre>
 

@@ -4,6 +4,8 @@ import './paginate.css'
 import { Constants } from '../../helper/index.js'
 
 const DocsDescriptionMDX = `
+<span className="tip">1.0.0</span>
+
 **Single Import**
 <pre class="coder">import '@johnsonandjohnson/mettle-components/src/controls/mettle-paginate.js'</pre>
 

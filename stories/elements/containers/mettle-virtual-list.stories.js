@@ -3,6 +3,8 @@ import '../../../src/containers/mettle-virtual-list.js'
 import { Constants } from '../../helper/index.js'
 
 const DocsDescriptionMDX = `
+<span className="tip">1.8.0</span>
+
 **Single Import**
 <pre class="coder">import '@johnsonandjohnson/mettle-components/src/containers/mettle-virtual-list.js'</pre>
 

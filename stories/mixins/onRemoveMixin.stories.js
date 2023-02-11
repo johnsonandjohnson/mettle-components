@@ -3,6 +3,8 @@
 import { Constants } from '../helper/index.js'
 
 const DocsDescriptionMDX = `
+<span className="tip">1.13.0</span>
+
 **Single Import**
 <pre class="coder">import { OnRemoveMixin } from '@johnsonandjohnson/mettle-components/mixins'</pre>
 

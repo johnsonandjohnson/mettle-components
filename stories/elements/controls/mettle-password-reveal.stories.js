@@ -5,6 +5,8 @@ import { Constants, uuid } from '../../helper/index.js'
 
 
 const DocsDescriptionMDX = `
+<span className="tip">1.0.0</span>
+
 **Single Import**
 <pre class="coder">import '@johnsonandjohnson/mettle-components/src/controls/mettle-password-reveal.js'</pre>
 
