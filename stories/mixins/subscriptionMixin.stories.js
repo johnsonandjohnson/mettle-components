@@ -191,7 +191,7 @@ Default.parameters = {
   docs: {
     inlineStories: false,
     description: {
-      story: 'Sample of HTML Marker.',
+      story: 'Default Sample Code.',
     },
     source: {
       code: Template(Default.args)
