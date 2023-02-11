@@ -125,7 +125,7 @@ const Template = () => {
   <button class="observe">Start Subscription</button>
 
   <script type="module">
-        import Observable from './observable.js'
+        import Observable from './services/observable.js'
 
         const observed = new Observable()
         const $render = document.querySelector('#render')
@@ -212,7 +212,7 @@ const TemplateOnly = () => {
   <button class="observe">Start Subscription</button>
 
   <script type="module">
-        import Observable from './observable.js'
+        import Observable from './services/observable.js'
 
         const observed = new Observable()
         const $render = document.querySelector('#render')
@@ -302,7 +302,7 @@ const TemplateObservableService = () => {
   <button class="subToggle">Toggle Component One subscription</button>
 
   <script type="module">
-        import Observable from './observable.js'
+        import Observable from './services/observable.js'
 
         class TemplateService extends Observable {
 

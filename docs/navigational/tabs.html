@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>JSON json-syntax</title>
+
+  <style>
+    mettle-tabs::part(panel-container) {
+      width: 50rem;
+      height: 200px;
+      background: rgba(0, 0, 0, 1);
+      color: var(--on-surface, white);
+      border-top-right-radius: 5px;
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+
+    mettle-tabs::part(navigation-slot) {
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+    }
+
+    mettle-tabs > div:not([slot]) {
+      height: 100%;
+      padding: 1rem;
+      background: var(--surface, rgba(0, 0, 0, 0.5));
+      color: var(--on-surface, white);
+      margin: 0;
+    }
+
+    mettle-tabs [aria-selected] {
+      padding: 1rem;
+      border: none;
+      outline: none;
+      background: var(--surface, rgba(0, 0, 0, 0.5));
+      color: var(--on-surface, white);
+      font-weight: bold;
+    }
+
+    mettle-tabs div[aria-selected="true"] {
+      background: rgba(0, 0, 0, 1);
+    }
+
+    mettle-tabs.side {
+      display: grid;
+      grid-template-columns: auto 1fr;
+    }
+
+
+/*
+    mettle-tabs::part(navigation) {
+      display: flex;
+      justify-content: space-between;
+    }*/
+    mettle-tabs.side::part(navigation-slot) {
+      flex-direction: column;
+    }
+
+    mettle-tabs.side::part(panel-container) {
+      border-radius: 0;
+      height: 100%;
+    }
+
+    mettle-tabs.side::part(navigation-slot) {
+      border-radius: 0;
+    }
+
+
+   /**Ignore**/
+
+    mettle-tabs.ignore [data-ignore] {
+      flex-grow: 1;
+    }
+
+    mettle-tabs.ignore::part(navigation) {
+      width: 50rem;
+    }
+    mettle-tabs.ignore::part(navigation-tab-group) {
+      display: flex;
+      flex-grow: 1;
+    }
+    mettle-tabs.ignore::part(navigation-slot) {
+      flex-grow: 1;
+    }
+
+    mettle-tabs.ignore::part(panel-container) {
+      border-top-right-radius: 0;
+    }
+
+
+    /**Nav**/
+
+    .title {
+      align-items: center;
+      display: flex;
+      font-family: sans-serif;
+      font-size: 1rem;
+      justify-content: center;
+      padding-left: 1rem;
+      text-transform: capitalize;
+    }
+
+    .end-nav {
+      align-items: center;
+      display: flex;
+      justify-content: space-around;
+      margin-right: 1rem;
+    }
+
+    .end-nav div {
+      cursor: pointer;
+      padding-right: 1rem;
+    }
+
+    .end-nav div:hover {
+      text-decoration: underline;
+    }
+
+    mettle-tabs.nav::part(navigation) {
+      justify-content: space-between;
+    }
+
+    mettle-tabs.nav::part(panel-container) {
+      width: initial;
+    }
+
+  </style>
+</head>
+
+<body>
+  <h1>hi</h1>
+
+
+  <mettle-tabs>
+
+    <div slot="navigation">one</div>
+    <div slot="navigation">two</div>
+    <div slot="navigation">three</div>
+    <div slot="navigation">four</div>
+    <div slot="navigation">five</div>
+    <div slot="navigation" aria-selected="true">six</div>
+
+
+    <div>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+      standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
+      type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
+      remaining essentially unchanged. It was popularized in the 1960s with the release of Letraset sheets containing
+      Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions
+      of Lorem Ipsum.</div>
+    <div>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+      standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
+      type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
+      remaining essentially unchanged. It was popularized in the 1960s with the release of Letraset sheets containing
+      Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions
+      of Lorem Ipsum.</div>
+    <div>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+      standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
+      type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
+      remaining essentially unchanged. It was popularized in the 1960s with the release of Letraset sheets containing
+      Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions
+      of Lorem Ipsum.</div>
+    <div>four thing</div>
+    <div>five thing</div>
+    <div>six thing</div>
+  </mettle-tabs>
+
+  <br />
+  <br />
+
+  <mettle-tabs class="side">
+    <div slot="navigation">one</div>
+    <div slot="navigation" aria-selected="true">two</div>
+    <div slot="navigation">three</div>
+    <div slot="navigation">three</div>
+    <div slot="navigation">three</div>
+    <div slot="navigation">three</div>
+
+    <div>one thing</div>
+    <div>two thing</div>
+    <div>three thing</div>
+    <div>three thing</div>
+    <div>three thing</div>
+    <div>three thing</div>
+  </mettle-tabs>
+
+
+  <br />
+  <br /><br />
+  <br />
+
+  <mettle-tabs class="nav">
+    <div slot="beforeNavigation" class="title">My site title</div>
+
+    <div slot="navigation">one</div>
+    <div slot="navigation">two</div>
+    <div slot="navigation" data-ignore></div>
+    <div slot="navigation">three</div>
+    <div slot="navigation">four</div>
+    <div slot="navigation">five</div>
+    <div slot="navigation" aria-selected="true">six</div>
+
+    <div slot="afterNavigation" class="end-nav">
+      <div>About US</div>
+      <div>Blog</div>
+      <div>Pricing</div>
+    </div>
+
+    <div>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+      standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
+      type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
+      remaining essentially unchanged. It was popularized in the 1960s with the release of Letraset sheets containing
+      Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions
+      of Lorem Ipsum.</div>
+    <div>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+      standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
+      type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
+      remaining essentially unchanged. It was popularized in the 1960s with the release of Letraset sheets containing
+      Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions
+      of Lorem Ipsum.</div>
+    <div>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+      standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
+      type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
+      remaining essentially unchanged. It was popularized in the 1960s with the release of Letraset sheets containing
+      Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions
+      of Lorem Ipsum.</div>
+    <div>four thing</div>
+    <div>five thing</div>
+    <div>six thing</div>
+  </mettle-tabs>
+
+  <br />
+  <br />
+
+
+  <mettle-tabs class="ignore">
+
+    <div slot="navigation">one</div>
+    <div slot="navigation">two</div>
+    <div slot="navigation">three</div>
+    <div slot="navigation" data-ignore></div>
+    <div slot="navigation">four</div>
+    <div slot="navigation">five</div>
+    <div slot="navigation" aria-selected="true">six</div>
+
+    <div>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+      standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
+      type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
+      remaining essentially unchanged. It was popularized in the 1960s with the release of Letraset sheets containing
+      Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions
+      of Lorem Ipsum.</div>
+    <div>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+      standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
+      type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
+      remaining essentially unchanged. It was popularized in the 1960s with the release of Letraset sheets containing
+      Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions
+      of Lorem Ipsum.</div>
+    <div>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+      standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
+      type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
+      remaining essentially unchanged. It was popularized in the 1960s with the release of Letraset sheets containing
+      Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions
+      of Lorem Ipsum.</div>
+    <div>four thing</div>
+    <div>five thing</div>
+    <div>six thing</div>
+  </mettle-tabs>
+
+  <script type="module">
+    import './mettle-tabs.js'
+    const $component = globalThis.document.querySelector('mettle-tabs')
+
+    /*$component.addEventListener($component.EVENT_TYPES.TAB, evt => {
+      const details = evt.detail
+      console.log(details)
+      if(evt.detail.selectedIndex === 5)
+      $component.selected = evt.detail.previousSelectedIndex
+    })*/
+
+  </script>
+
+</body>
+
+</html>

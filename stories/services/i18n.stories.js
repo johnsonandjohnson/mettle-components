@@ -257,7 +257,7 @@ const Template = () => {
   </table>
 
   <script type="module">
-    import I18n from './i18n.js'
+    import I18n from './services/i18n.js'
 
     const isHTMLRegex = /\.html$/
     const pathName = window.location.pathname
@@ -319,7 +319,7 @@ const singleTranslateTemplate = () => {
     <h2 class="demo">global:header</h2>
 
   <script type="module">
-    import I18n from './i18n.js'
+    import I18n from './services/i18n.js'
 
     const isHTMLRegex = /\.html$/
     const pathName = window.location.pathname
@@ -372,7 +372,7 @@ const decoratorsTemplate = () => {
     <h1 class="demo" data-i18n-currency="3242342344"></h1>
 
   <script type="module">
-    import I18n from './i18n.js'
+    import I18n from './services/i18n.js'
 
     const isHTMLRegex = /\.html$/
     const pathName = window.location.pathname
@@ -462,7 +462,7 @@ const attributeMapTemplate = () => {
   <h1 class="demo" data-i18n-title="global:title">Hover and pause to see the title attribute</h1>
 
   <script type="module">
-    import I18n from './i18n.js'
+    import I18n from './services/i18n.js'
 
     const isHTMLRegex = /\.html$/
     const pathName = window.location.pathname

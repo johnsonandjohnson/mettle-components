@@ -79,7 +79,7 @@ const Template = () => {
     <button id="mod">Mod</button>
     <button id="both">Both</button>
   <script type="module">
-   import Roles from './roles.js'
+   import Roles from './services/roles.js'
 
     Roles.setDefaultRights({
       default: true,
@@ -151,7 +151,7 @@ const TemplateInvertedRoles = () => {
     <button id="notadmin">Not Admin</button>
 
   <script type="module">
-   import Roles from './roles.js'
+   import Roles from './services/roles.js'
 
     Roles.setDefaultRights({
       admin: false,
@@ -207,7 +207,7 @@ const TemplateDeleteElements = () => {
     <button id="notadmin">Not Admin</button>
 
   <script type="module">
-    import Roles from './roles.js'
+    import Roles from './services/roles.js'
 
     Roles.shouldDeleteElement = true
 

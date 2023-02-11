@@ -106,7 +106,7 @@ const Template = () => {
   return `<div id="render"></div>
 
   <script type="module">
-    import HtmlMarker from './html-marker.js'
+    import HtmlMarker from './services/html-marker.js'
 
     (async () => {
       const htmlMarker = new HtmlMarker()
@@ -164,7 +164,7 @@ const TemplateCustomDecorator = () => {
   return `<div id="render"></div>
 
   <script type="module">
-    import HtmlMarker from './html-marker.js'
+    import HtmlMarker from './services/html-marker.js'
 
     (async () => {
       const htmlMarker = new HtmlMarker()
@@ -215,7 +215,7 @@ const TemplateBoolean = () => {
   return `<div id="render"></div>
 
   <script type="module">
-    import HtmlMarker from './html-marker.js'
+    import HtmlMarker from './services/html-marker.js'
 
     (async () => {
       const htmlMarker = new HtmlMarker()
@@ -259,7 +259,7 @@ const TemplateAttribute = () => {
   return `<div id="render2"></div>
 
   <script type="module">
-    import HtmlMarker from './html-marker.js'
+    import HtmlMarker from './services/html-marker.js'
 
     (async () => {
       const htmlMarker = new HtmlMarker()

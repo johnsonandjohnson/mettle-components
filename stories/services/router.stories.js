@@ -314,7 +314,7 @@ const Template = () => {
   </main>
 
   <script type="module">
-    import Router from './router.js'
+    import Router from './services/router.js'
 
     const HtmlCache = new Map()
     HtmlCache.set('page1.html', '<strong>Page 1</strong><section class="page1"><div>Header</div><div>Main</div><div>Footer</div></section>')
@@ -408,7 +408,7 @@ const TemplateErrorHandler = () => {
   </main>
 
   <script type="module">
-    import Router from './router.js'
+    import Router from './services/router.js'
 
     const HtmlCache = new Map()
     HtmlCache.set('page1.html', '<strong>Page 1</strong><section class="page1"><div>Header</div><div>Main</div><div>Footer</div></section>')

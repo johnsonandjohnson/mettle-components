@@ -360,7 +360,7 @@ const Template = () => {
 
 
   <script type="module">
-    import HttpFetch from './http-fetch.js'
+    import HttpFetch from './services/http-fetch.js'
 
     function fetchCall() {
       return new HttpFetch()
@@ -414,7 +414,7 @@ const TemplateAbort = () => {
 
 
   <script type="module">
-    import HttpFetch from './http-fetch.js'
+    import HttpFetch from './services/http-fetch.js'
 
     function fetchCall() {
       const abortController = new window.AbortController()
@@ -476,7 +476,7 @@ const addParamsToURLTemplate = () => {
   <h2 class="results"></h2>
 
   <script type="module">
-    import HttpFetch from './http-fetch.js'
+    import HttpFetch from './services/http-fetch.js'
 
     const $results = globalThis.document.querySelector('.results')
     const URL = 'http://example.com?test=tester'
@@ -525,7 +525,7 @@ const generateUrlParamsTemplate = () => {
   <h2 class="results"></h2>
 
   <script type="module">
-    import HttpFetch from './http-fetch.js'
+    import HttpFetch from './services/http-fetch.js'
 
     const $results = globalThis.document.querySelector('.results')
     const PARAMS = { one:1, two:2 }
@@ -575,7 +575,7 @@ const parseResponseTemplate = () => {
   <textarea class="results"></textarea>
 
   <script type="module">
-    import HttpFetch from './http-fetch.js'
+    import HttpFetch from './services/http-fetch.js'
 
     (async () => {
       const $results = globalThis.document.querySelector('.results')
@@ -624,7 +624,7 @@ const parseBlobResponseTemplate = () => {
   <img class="results" />
 
   <script type="module">
-    import HttpFetch from './http-fetch.js'
+    import HttpFetch from './services/http-fetch.js'
 
     (async () => {
       const $results = globalThis.document.querySelector('.results')
