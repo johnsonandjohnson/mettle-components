@@ -1,11 +1,11 @@
 /**
- * MixinDefinitions
+ * MixinNS(NameSpace)
  * Symbols used to make sure there are no name collisions
- * Definitions used to let developers know a mixin is used
- * within a component and where the function originates from
+ * Namespace used to let developers know a mixin is used
+ * within a component and where the function/property originates from
  */
 
-export const MixinDefs = {
+export const MixinNS = {
   DataModel: Symbol('DataModel'),
   DefaultDataModel: Symbol('DefaultDataModel'),
   HTMLMarker: Symbol('HTMLMarker'),
@@ -17,4 +17,4 @@ export const MixinDefs = {
   updateDataModel: Symbol('updateDataModel'),
 }
 
-export default MixinDefs
+export default MixinNS

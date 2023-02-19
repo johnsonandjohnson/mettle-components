@@ -1,29 +1,29 @@
 
-import { MixinDefs } from './mixin.def.js'
+import { MixinNS } from './mixin.namespace.js'
 
 export default Base => class extends Base {
 
   constructor() {
     super()
-    this[MixinDefs.Subscription] = []
+    this[MixinNS.Subscription] = []
   }
 
-  static get MixinDefs() {
-    return MixinDefs
+  static get MixinNS() {
+    return MixinNS
   }
 
-  get MixinDefs() {
-    return MixinDefs
+  get MixinNS() {
+    return MixinNS
   }
 
   disconnectedCallback() {
     if (super.disconnectedCallback) {
       super.disconnectedCallback()
     }
-    if (Array.isArray(this[MixinDefs.Subscription])) {
-      this[MixinDefs.Subscription].forEach(subscription => subscription?.unsubscribe())
+    if (Array.isArray(this[MixinNS.Subscription])) {
+      this[MixinNS.Subscription].forEach(subscription => subscription?.unsubscribe())
     }
-    this[MixinDefs.Subscription] = null
+    this[MixinNS.Subscription] = null
   }
 
 }

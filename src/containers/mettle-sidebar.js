@@ -1,4 +1,4 @@
-import { MixinDefs, OnRemoveMixin } from '../mixins/index.js'
+import { MixinNS, OnRemoveMixin } from '../mixins/index.js'
 
 const EVENT_TYPES = {
   CLOSED: 'closed',
@@ -122,7 +122,7 @@ if (!window.customElements.get(TAG_NAME)) {
       this.disconnectedCallback()
       this.$targetElem = this.$targetElemNew
       if (this.$targetElem) {
-        this[MixinDefs.onRemove](this.$targetElem, this.remove.bind(this))
+        this[MixinNS.onRemove](this.$targetElem, this.remove.bind(this))
       }
     }
 

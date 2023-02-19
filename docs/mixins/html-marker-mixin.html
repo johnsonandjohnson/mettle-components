@@ -28,7 +28,7 @@
         console.dir(HTMLMarkerMixin(globalThis.HTMLElement))
         const BASE = HTMLMarkerMixin(globalThis.HTMLElement)
         const TAG_NAME = 'user-table'
-        const MixinDefs = BASE.MixinDefs
+        const MixinNS = BASE.MixinNS
     if (!window.customElements.get(TAG_NAME)) {
       window.customElements.define(TAG_NAME, class extends BASE {
         constructor() {
@@ -38,15 +38,15 @@
         async connectedCallback() {
           //this.innerHTML = HTML
 
-          console.log(MixinDefs.DefaultDataModel)
-          await this[MixinDefs.HTMLMarker].render(this, HTML, this[MixinDefs.DefaultDataModel])
+          console.log(MixinNS.DefaultDataModel)
+          await this[MixinNS.HTMLMarker].render(this, HTML, this[MixinNS.DefaultDataModel])
         }
 
         updateModel(dataModel) {
-          this[this.MixinDefs.updateDataModel](dataModel)
+          this[this.MixinNS.updateDataModel](dataModel)
         }
 
-        get [MixinDefs.DefaultDataModel]() {
+        get [MixinNS.DefaultDataModel]() {
           return Object.assign(Object.create(null), {
             name: 'Ben',
             location: 'Boston',

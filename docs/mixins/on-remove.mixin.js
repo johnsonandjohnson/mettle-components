@@ -1,4 +1,4 @@
-import { MixinDefs } from './mixin.def.js'
+import { MixinNS } from './mixin.namespace.js'
 
 export default Base => class extends Base {
 
@@ -6,15 +6,15 @@ export default Base => class extends Base {
     super()
   }
 
-  static get MixinDefs() {
-    return MixinDefs
+  static get MixinNS() {
+    return MixinNS
   }
 
-  get MixinDefs() {
-    return MixinDefs
+  get MixinNS() {
+    return MixinNS
   }
 
-  [MixinDefs.onRemove](element, onDetachCallback) {
+  [MixinNS.onRemove](element, onDetachCallback) {
     const isDetached = el => {
       if (document === el.parentNode) {
         return false
@@ -24,13 +24,13 @@ export default Base => class extends Base {
         return isDetached(el.parentNode)
       }
     }
-    this[MixinDefs.onRemoveObserver] = new MutationObserver(() => {
+    this[MixinNS.onRemoveObserver] = new MutationObserver(() => {
       if (isDetached(element)) {
-        this[MixinDefs.onRemoveObserver].disconnect()
+        this[MixinNS.onRemoveObserver].disconnect()
         onDetachCallback()
       }
     })
-    this[MixinDefs.onRemoveObserver].observe(document, {
+    this[MixinNS.onRemoveObserver].observe(document, {
       childList: true,
       subtree: true
     })
@@ -40,8 +40,8 @@ export default Base => class extends Base {
     if (super.disconnectedCallback) {
       super.disconnectedCallback()
     }
-    if (this[MixinDefs.onRemoveObserver] instanceof MutationObserver) {
-      this[MixinDefs.onRemoveObserver].disconnect()
+    if (this[MixinNS.onRemoveObserver] instanceof MutationObserver) {
+      this[MixinNS.onRemoveObserver].disconnect()
     }
   }
 }

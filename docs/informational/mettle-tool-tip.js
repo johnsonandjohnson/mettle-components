@@ -94,7 +94,7 @@ if (!window.customElements.get(TAG_NAME)) {
           this.$tipFor.addEventListener('mouseover', this._onMouseoverBind)
           this.$tipFor.addEventListener('mouseout', this._onMouseoutBind)
         }
-        this[this.MixinDefs.onRemove](this.$tipFor, this.remove.bind(this))
+        this[this.MixinNS.onRemove](this.$tipFor, this.remove.bind(this))
       }
     }
 

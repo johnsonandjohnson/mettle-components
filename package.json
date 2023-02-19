@@ -48,7 +48,7 @@
     "@storybook/theming": "^6.5.16",
     "@whitespace/storybook-addon-html": "^5.1.1",
     "babel-loader": "^9.1.2",
-    "core-js": "^3.27.2",
+    "core-js": "^3.28.0",
     "eslint": "^8.34.0",
     "jasmine-core": "^4.5.0",
     "karma": "^6.4.1",

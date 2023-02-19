@@ -16,12 +16,12 @@ element is removed from the dom.</p>
 
 <h3>How to mix</h3>
 
-<p>This mixin just needs the <code>MixinDefs.onRemove</code> function called.
+<p>This mixin just needs the <code>MixinNS.onRemove</code> function called.
 </p>
 
 <pre class="coder">
       connectedCallback() {
-        this[this.MixinDefs.onRemove](element, onDetachCallback)
+        this[this.MixinNS.onRemove](element, onDetachCallback)
       }
 </pre>
 
@@ -45,22 +45,22 @@ will execute.</p>
 export default {
   title: 'Mixins/On Remove Mixin',
   argTypes: {
-    MixinDefs: {
+    MixinNS: {
       control: {
         type: null
       },
       description: 'Getter that will return an object of Symbols used as namespaces.',
-      name: 'MixinDefs',
+      name: 'MixinNS',
       table: {
         category: Constants.CATEGORIES.GET_SET,
       }
     },
-    'MixinDefs.onRemove': {
+    'MixinNS.onRemove': {
       control: {
         type: null
       },
       description: 'The function to observe an element and execute a callback when removed from the dom.',
-      name: 'MixinDefs.onRemove(element, onDetachCallback)',
+      name: 'MixinNS.onRemove(element, onDetachCallback)',
       table: {
         category: Constants.CATEGORIES.METHODS,
       }
@@ -103,7 +103,7 @@ const Template = () => {
           this.$span = this.querySelector('span')
           const ID = this.getAttribute('data-for')
           const $elem = document.getElementById(ID)
-          this[this.MixinDefs.onRemove]($elem, this.handleUpdate.bind(this))
+          this[this.MixinNS.onRemove]($elem, this.handleUpdate.bind(this))
         }
 
         handleUpdate() {
@@ -164,7 +164,7 @@ const TemplateRemoveSelf = () => {
           this.innerHTML = '<p>I will be removed when the button is clicked</p>'
           const ID = this.getAttribute('data-for')
           const $elem = document.getElementById(ID)
-          this[this.MixinDefs.onRemove]($elem, this.remove.bind(this))
+          this[this.MixinNS.onRemove]($elem, this.remove.bind(this))
         }
 
       })

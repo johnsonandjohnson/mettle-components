@@ -1,3 +1,4 @@
+import Debounce from './debounce.js'
 export default class FormAutoSave {
   SESSION_KEY = 'formAutoSave'
   constructor(form, sessionKey = '') {
@@ -7,9 +8,10 @@ export default class FormAutoSave {
     this.$form = form
     this.initialSessionValues = JSON.parse(globalThis.localStorage.getItem(this.SESSION_KEY) ?? null)
     this.setInitialSessionValues()
-    this.$form.addEventListener('input', () => {
-      globalThis.localStorage.setItem(this.SESSION_KEY, JSON.stringify(Object.fromEntries(new FormData(this.$form))))
-    })
+    const saveDebounce = Debounce(this.save.bind(this))
+    this.$form.addEventListener('input', saveDebounce.bind(this))
+    this.$form.addEventListener('change', saveDebounce.bind(this))
+    this.$form.addEventListener('blur', saveDebounce.bind(this))
   }
 
   setInitialSessionValues() {
@@ -27,4 +29,7 @@ export default class FormAutoSave {
     globalThis.localStorage.removeItem(this.SESSION_KEY)
   }
 
+  save() {
+    globalThis.localStorage.setItem(this.SESSION_KEY, JSON.stringify(Object.fromEntries(new FormData(this.$form))))
+  }
 }

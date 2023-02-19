@@ -96,7 +96,7 @@ import { UserService } from 'services' //Your application services
 const HTML = '<p>${variable}</p>'
 const BASE = SubscriptionMixin(HTMLMarkerMixin(globalThis.HTMLElement))
 const TAG_NAME = 'some-element'
-const MixinDefs = BASE.MixinDefs
+const MixinNS = BASE.MixinNS
 
 if (!window.customElements.get(TAG_NAME)) {
   window.customElements.define(TAG_NAME, class extends BASE {
@@ -105,16 +105,16 @@ if (!window.customElements.get(TAG_NAME)) {
     }
 
     async connectedCallback() {
-      await this[MixinDefs.HTMLMarker].render(this, HTML, this[MixinDefs.DefaultDataModel])
+      await this[MixinNS.HTMLMarker].render(this, HTML, this[MixinNS.DefaultDataModel])
 
-      this[this.MixinDefs.Subscription].push(
+      this[this.MixinNS.Subscription].push(
         UserService.subscribe({
-          next: this[MixinDefs.onModelUpdate].bind(this)
+          next: this[MixinNS.onModelUpdate].bind(this)
         })
       )
     }
 
-    get [MixinDefs.DefaultDataModel]() {
+    get [MixinNS.DefaultDataModel]() {
       return Object.assign(Object.create(null), {
         name: 'Ben',
         location: 'Boston',

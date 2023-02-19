@@ -93,7 +93,7 @@ if (!window.customElements.get(TAG_NAME)) {
       if (this._allowedUserActions.has(userAction)) {
         this.$menuFor = this.$menuForNew
         if (this.$menuFor) {
-          this[this.MixinDefs.onRemove](this.$menuFor, this.remove.bind(this))
+          this[this.MixinNS.onRemove](this.$menuFor, this.remove.bind(this))
 
           if (userAction === ACTION_TYPES.MOUSE) {
             this.$menuFor.addEventListener('mouseover', this._onShowBind, true)

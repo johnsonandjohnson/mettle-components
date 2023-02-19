@@ -28,7 +28,7 @@ wait for he HTMLMarker class to finishing rendering.</p>
 
 <pre class="coder">
       async connectedCallback() {
-        await this[MixinDefs.HTMLMarker].render(this, HTML)
+        await this[MixinNS.HTMLMarker].render(this, HTML)
         $form = this.querySelector('form')
         $form.addEventListener()
       }
@@ -43,7 +43,7 @@ available to have the rendered HTML start with data or a reset. You can override
 the function like so.</p>
 
 <pre class="coder">
-      get MixinDefs.DefaultDataModel]() {
+      get MixinNS.DefaultDataModel]() {
         return Object.assign(Object.create(null), {
           name: 'Ben',
           location: 'Boston',
@@ -56,16 +56,16 @@ the function like so.</p>
 <p><strong>This wont work</strong></p>
 
 <p>Remember that while the functions and properties are inherited,
-using <code>this.MixinDefs</code> will not work on function definitions
+using <code>this.MixinNS</code> will not work on function definitions
 but will work if used within a function.</p>
 
 <pre class="coder">
-      get [this.MixinDefs.DefaultDataModel]() {
+      get [this.MixinNS.DefaultDataModel]() {
         return {...}
       }
 
       updateModel(dataModel) {
-        this[this.MixinDefs.updateDataModel](dataModel)
+        this[this.MixinNS.updateDataModel](dataModel)
       }
 <pre>
 
@@ -75,14 +75,14 @@ definition can use.  Also include the default model with the render function</p>
 
 <pre class="coder">
       const BASE = HTMLMarkerMixin(globalThis.HTMLElement)
-      const MixinDefs = BASE.MixinDefs
+      const MixinNS = BASE.MixinNS
 
-      get [MixinDefs.DefaultDataModel]() {
+      get [MixinNS.DefaultDataModel]() {
         return {...}
       }
 
       async connectedCallback() {
-        await this[MixinDefs.HTMLMarker].render(this, HTML, this[MixinDefs.DefaultDataModel])
+        await this[MixinNS.HTMLMarker].render(this, HTML, this[MixinNS.DefaultDataModel])
       }
 <pre>
 
@@ -90,16 +90,16 @@ definition can use.  Also include the default model with the render function</p>
 
 <p>The data model is updated using the <code>Object.assign</code> function then
 passed to the <code>updateModel()</code> function on the HTMLMarker class.
-use the <code>MixinDefs.updateDataModel()</code> function to make the update.
+use the <code>MixinNS.updateDataModel()</code> function to make the update.
 The updated data is best served from a service where it is managed if possible</p>
 
 <pre class="coder">
       async connectedCallback() {
-        await this[MixinDefs.HTMLMarker].render(this, HTML, this[MixinDefs.DefaultDataModel])
+        await this[MixinNS.HTMLMarker].render(this, HTML, this[MixinNS.DefaultDataModel])
 
           UserService.subscribe({
             next: (userData) => {
-              this[MixinDefs.onModelUpdate]({
+              this[MixinNS.onModelUpdate]({
                 name: userData.fullName,
                 location: userData.city,
               })
@@ -112,10 +112,10 @@ The updated data is best served from a service where it is managed if possible</
 
 <pre class="coder">
       async connectedCallback() {
-        await this[MixinDefs.HTMLMarker].render(this, HTML, this[MixinDefs.DefaultDataModel])
+        await this[MixinNS.HTMLMarker].render(this, HTML, this[MixinNS.DefaultDataModel])
 
           UserService.subscribe({
-            next:this[MixinDefs.onModelUpdate].bind(this)
+            next:this[MixinNS.onModelUpdate].bind(this)
           })
       }
 <pre>
@@ -129,7 +129,7 @@ is better suited to handle the data.  Keep the data model as a one way update.</
 <pre class="coder">
       notRecommendSave() {
         // safeCopy makes sure data is not referenced
-        const dataCopy = safeCopy(this[MixinDefs.DataModel])
+        const dataCopy = safeCopy(this[MixinNS.DataModel])
         UserService.save(dataCopy)
       }
 <pre>
@@ -138,10 +138,10 @@ is better suited to handle the data.  Keep the data model as a one way update.</
 This should be handled in a service where single source of truth is consistent. </p>
 
 <pre class="coder">
-      [MixinDefs.onModelUpdate]() {
+      [MixinNS.onModelUpdate]() {
         /* better to do this in a service */
-        this[MixinDefs.DataModel].isEasternTime = UserService.Data.some((user) => user.timezone.isEST === true)
-        super[MixinDefs.onModelUpdate]()
+        this[MixinNS.DataModel].isEasternTime = UserService.Data.some((user) => user.timezone.isEST === true)
+        super[MixinNS.onModelUpdate]()
       }
 <pre>
 
@@ -211,22 +211,22 @@ on an actual browser.</p>
 export default {
   title: 'Mixins/HTML Marker Mixin',
   argTypes: {
-    MixinDefs: {
+    MixinNS: {
       control: {
         type: null
       },
       description: 'Getter that will return an object of Symbols used as namespaces.',
-      name: 'MixinDefs',
+      name: 'MixinNS',
       table: {
         category: Constants.CATEGORIES.GET_SET,
       }
     },
-    'MixinDefs.DefaultDataModel': {
+    'MixinNS.DefaultDataModel': {
       control: {
         type: null
       },
       description: 'The Default JSON data model.',
-      name: 'MixinDefs.DefaultDataModel',
+      name: 'MixinNS.DefaultDataModel',
       table: {
         category: Constants.CATEGORIES.GET_SET,
         defaultValue: {
@@ -234,39 +234,39 @@ export default {
         }
       }
     },
-    'MixinDefs.DataModel': {
+    'MixinNS.DataModel': {
       control: {
         type: null
       },
       description: 'The JSON data model that will be used to update the HTMLMarker template literal(s).',
-      name: 'MixinDefs.DataModel',
+      name: 'MixinNS.DataModel',
       table: {
         category: Constants.CATEGORIES.GET_SET,
         defaultValue: {
-          summary: 'MixinDefs.DefaultDataModel',
+          summary: 'MixinNS.DefaultDataModel',
         }
       }
     },
-    'MixinDefs.resetDataModel': {
+    'MixinNS.resetDataModel': {
       control: {
         type: null
       },
       description: 'Function that set all the template literal(s) to the DefaultDataModel.',
-      name: 'MixinDefs.resetDataModel()',
+      name: 'MixinNS.resetDataModel()',
       table: {
         category: Constants.CATEGORIES.METHODS,
       }
     },
-    'MixinDefs.onModelUpdate': {
+    'MixinNS.onModelUpdate': {
       description: 'Function to add template literal functions that can be used to update a model data before rendering.',
-      name: 'MixinDefs.onModelUpdate()',
+      name: 'MixinNS.onModelUpdate()',
       table: {
         category: Constants.CATEGORIES.METHODS,
       }
     },
-    'MixinDefs.updateDataModel': {
+    'MixinNS.updateDataModel': {
       description: 'Function to update the data model and the template literals.',
-      name: 'MixinDefs.updateDataModel(DataModelUpdate)',
+      name: 'MixinNS.updateDataModel(DataModelUpdate)',
       table: {
         category: Constants.CATEGORIES.METHODS,
       }
@@ -310,7 +310,7 @@ const Template = () => {
     \`
     const BASE = HTMLMarkerMixin(globalThis.HTMLElement)
     const TAG_NAME = 'user-table'
-    const MixinDefs = BASE.MixinDefs
+    const MixinNS = BASE.MixinNS
 
     if (!window.customElements.get(TAG_NAME)) {
       window.customElements.define(TAG_NAME, class extends BASE {
@@ -318,14 +318,14 @@ const Template = () => {
           super('')
         }
         async connectedCallback() {
-          await this[MixinDefs.HTMLMarker].render(this, HTML, this[MixinDefs.DefaultDataModel])
+          await this[MixinNS.HTMLMarker].render(this, HTML, this[MixinNS.DefaultDataModel])
         }
 
         updateModel(dataModel) {
-          this[MixinDefs.updateDataModel](dataModel)
+          this[MixinNS.updateDataModel](dataModel)
         }
 
-        get [MixinDefs.DefaultDataModel]() {
+        get [MixinNS.DefaultDataModel]() {
           return Object.assign(Object.create(null), {
             name: 'Ben',
             location: 'Boston',

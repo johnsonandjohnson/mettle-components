@@ -19,19 +19,19 @@ const DocsDescriptionMDX = `
 
 ### How to mix
 
-<p>This mixin just needs the <code>MixinDefs.Subscription</code> property appended with
+<p>This mixin just needs the <code>MixinNS.Subscription</code> property appended with
 all the Observables that the component is registered too.
 </p>
 
 <pre class="coder">
       connectedCallback() {
-        this[this.MixinDefs.Subscription].push(
+        this[this.MixinNS.Subscription].push(
           UpdateService.subscribe({
             next: this.handleUpdate.bind(this)
           })
         )
 
-        this[this.MixinDefs.Subscription].push(
+        this[this.MixinNS.Subscription].push(
           UserService.subscribe({
             next: this.handleUserUpdate.bind(this)
           })
@@ -43,7 +43,7 @@ all the Observables that the component is registered too.
 
 <pre class="coder">
       connectedCallback() {
-        this[this.MixinDefs.Subscription] = [
+        this[this.MixinNS.Subscription] = [
           UpdateService.subscribe({
             next: this.handleUpdate.bind(this)
           }),
@@ -75,22 +75,22 @@ will execute.</p>
 export default {
   title: 'Mixins/Subscription Mixin',
   argTypes: {
-    MixinDefs: {
+    MixinNS: {
       control: {
         type: null
       },
       description: 'Getter that will return an object of Symbols used as namespaces.',
-      name: 'MixinDefs',
+      name: 'MixinNS',
       table: {
         category: Constants.CATEGORIES.GET_SET,
       }
     },
-    'MixinDefs.Subscription': {
+    'MixinNS.Subscription': {
       control: {
         type: null
       },
       description: 'The array of all added observables.',
-      name: 'MixinDefs.Subscription',
+      name: 'MixinNS.Subscription',
       table: {
         category: Constants.CATEGORIES.GET_SET,
         defaultValue: {
@@ -121,10 +121,6 @@ const Template = () => {
     import SubscriptionMixin from './mixins/subscription.mixin.js'
     import Observable from './services/observable.js'
 
-    const HTML = '<p>Last Update: <span></span></p>'
-    const BASE = SubscriptionMixin(globalThis.HTMLElement)
-    const TAG_NAME = 'update-table'
-
     class UpdateService extends Observable {
       constructor() {
         super()
@@ -150,6 +146,11 @@ const Template = () => {
         $spanCount.innerHTML = updateService.observers.size
       }
     })
+
+    const HTML = '<p>Last Update: <span></span></p>'
+    const BASE = SubscriptionMixin(globalThis.HTMLElement)
+    const TAG_NAME = 'update-table'
+
     if (!window.customElements.get(TAG_NAME)) {
       window.customElements.define(TAG_NAME, class extends BASE {
         constructor() {
@@ -160,7 +161,7 @@ const Template = () => {
           this.innerHTML = HTML
           this.$span = this.querySelector('span')
 
-          this[this.MixinDefs.Subscription].push(
+          this[this.MixinNS.Subscription].push(
             updateService.subscribe({
               next: this.handleUpdate.bind(this)
             })

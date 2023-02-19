@@ -1,43 +1,43 @@
 import HtmlMarker from '../services/html-marker.js'
-import { MixinDefs } from './mixin.def.js'
+import { MixinNS } from './mixin.namespace.js'
 
 export default Base => class extends Base {
 
   constructor() {
     super()
-    this[MixinDefs.DataModel] = this[MixinDefs.DefaultDataModel]
-    this[MixinDefs.HTMLMarker] = new HtmlMarker()
+    this[MixinNS.DataModel] = this[MixinNS.DefaultDataModel]
+    this[MixinNS.HTMLMarker] = new HtmlMarker()
   }
 
-  static get MixinDefs() {
-    return MixinDefs
+  static get MixinNS() {
+    return MixinNS
   }
 
-  get MixinDefs() {
-    return MixinDefs
+  get MixinNS() {
+    return MixinNS
   }
 
-  get [MixinDefs.DefaultDataModel]() {
+  get [MixinNS.DefaultDataModel]() {
     return Object.create(null)
   }
 
-  [MixinDefs.updateDataModel](obj = Object.create(null)) {
+  [MixinNS.updateDataModel](obj = Object.create(null)) {
     const lastModelUpdates = Object.create(null)
     Object.entries(obj).forEach(([prop, newValue]) => {
-      if (this[MixinDefs.DataModel][prop] !== newValue) {
+      if (this[MixinNS.DataModel][prop] !== newValue) {
         lastModelUpdates[prop] = newValue
       }
     })
-    Object.assign(this[MixinDefs.DataModel], obj)
-    this[MixinDefs.onModelUpdate](lastModelUpdates)
+    Object.assign(this[MixinNS.DataModel], obj)
+    this[MixinNS.onModelUpdate](lastModelUpdates)
   }
 
-  [MixinDefs.onModelUpdate]() {
-    this[MixinDefs.HTMLMarker].updateModel(this[MixinDefs.DataModel])
+  [MixinNS.onModelUpdate]() {
+    this[MixinNS.HTMLMarker].updateModel(this[MixinNS.DataModel])
   }
 
-  [MixinDefs.resetDataModel]() {
-    this[MixinDefs.updateDataModel](this[MixinDefs.DefaultDataModel])
+  [MixinNS.resetDataModel]() {
+    this[MixinNS.updateDataModel](this[MixinNS.DefaultDataModel])
   }
 
 }
