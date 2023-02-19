@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.13.0](https://github.com/johnsonandjohnson/mettle-components/compare/v1.10.3...v1.13.0) (2023-02-19)
+
+
+### Features
+
+* mixins added for custom elements ([#92](https://github.com/johnsonandjohnson/mettle-components/issues/92)) ([95d20eb](https://github.com/johnsonandjohnson/mettle-components/commit/95d20eba4d1e0b554e14f8248f48198d8b002035))
+
+
 ## [1.12.0](https://github.com/johnsonandjohnson/mettle-components/compare/v1.10.3...v1.12.0) (2022-10-20)
 
 
