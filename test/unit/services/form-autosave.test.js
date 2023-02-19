@@ -22,7 +22,7 @@ describe('FormAutoSave', () => {
   describe('functions', () => {
 
     it('should save any form data into session storage', () => {
-      FormAutoSaveClass = new FormAutoSave($form)
+      FormAutoSaveClass = new FormAutoSave({form: $form, debounce: false})
       $form.elements['seat'].value = 'test'
       $form.elements['seat'].dispatchEvent(new Event('input', {bubbles: true}))
 
@@ -33,13 +33,13 @@ describe('FormAutoSave', () => {
 
     it('should populate the form elements from session storage', () => {
       globalThis.localStorage.setItem(CUSTOM_KEY, JSON.stringify({seat: 'test'}))
-      FormAutoSaveClass = new FormAutoSave($form, CUSTOM_KEY)
+      FormAutoSaveClass = new FormAutoSave({form: $form, sessionKey: CUSTOM_KEY})
       expect($form.elements['seat'].value).toEqual('test')
     })
 
     it('should clear the session storage', () => {
       globalThis.localStorage.setItem(CUSTOM_KEY, JSON.stringify({seat: 'test'}))
-      FormAutoSaveClass = new FormAutoSave($form, CUSTOM_KEY)
+      FormAutoSaveClass = new FormAutoSave({form: $form, sessionKey: CUSTOM_KEY})
       FormAutoSaveClass.clearStorage()
       const values = JSON.parse(globalThis.localStorage.getItem(CUSTOM_KEY) ?? null)
       expect(values).toBeNull()
