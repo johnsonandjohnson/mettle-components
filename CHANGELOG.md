@@ -7,17 +7,8 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Features
 
-* handle code exceptions in routing ([#86](https://github.com/johnsonandjohnson/mettle-components/issues/86)) ([474b5f5](https://github.com/johnsonandjohnson/mettle-components/commit/474b5f596278437bd7cefb66e186ff55fe36128c))
-* mettle sidebar component ([#77](https://github.com/johnsonandjohnson/mettle-components/issues/77)) ([3be56aa](https://github.com/johnsonandjohnson/mettle-components/commit/3be56aa5162be320c8f49540cdc7bbea2fdd85dd))
 * mixins added for custom elements ([#92](https://github.com/johnsonandjohnson/mettle-components/issues/92)) ([95d20eb](https://github.com/johnsonandjohnson/mettle-components/commit/95d20eba4d1e0b554e14f8248f48198d8b002035))
 
-
-### Bug Fixes
-
-* update readme ([#82](https://github.com/johnsonandjohnson/mettle-components/issues/82)) ([ecb4b5c](https://github.com/johnsonandjohnson/mettle-components/commit/ecb4b5cb7acaaffde7b3c80d01c5121021cd692b))
-
-
-* update on how to update release version ([#83](https://github.com/johnsonandjohnson/mettle-components/issues/83)) ([3577451](https://github.com/johnsonandjohnson/mettle-components/commit/3577451961d0ca208a1df0b597450fe248c892a5))
 
 ## [1.12.0](https://github.com/johnsonandjohnson/mettle-components/compare/v1.10.3...v1.12.0) (2022-10-20)
 
