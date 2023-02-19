@@ -28,8 +28,13 @@ const generateTemplate = ({type = null, time = 10}) => {
 }
 
 const DocsDescriptionMDX = `
+<span className="tip">1.0.0</span>
+
 **Single Import**
 <pre class="coder">import '@johnsonandjohnson/mettle-components/src/informational/mettle-notification.js'</pre>
+
+**Source Code**
+<pre class="coder"><a href="https://github.com/johnsonandjohnson/mettle-components/blob/main/src/informational/mettle-notification.js" target="_blank">https://github.com/johnsonandjohnson/mettle-components/blob/main/src/informational/mettle-notification.js</a></pre>
 
 Used to provide a message over the page content.
 `.trim()

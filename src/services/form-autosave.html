@@ -1,0 +1,86 @@
+<html>
+
+<head>
+  <title>Mettle AutoSave Example</title>
+</head>
+
+<body>
+  <form novalidate>
+    <p>
+      <label for="FName">First Name</label>
+      <input name="fname" id="FName" type="text" />
+    </p>
+    <p>
+      <label for="LName">Last Name</label>
+      <input name="lname" id="LName" type="text" />
+    </p>
+    <p>
+      <label for="Location">Location</label>
+      <select name="location" id="Location">
+        <option value="East">East</option>
+        <option value="West">West</option>
+        <option value="South">South</option>
+        <option value="North">North</option>
+      </select>
+    </p>
+    <p>
+      <label for="More">Tell us More</label>
+      <textarea name="more" id="More"></textarea>
+    <p>
+      <button>Clear</button>
+      <input type="reset" value="Reset" />
+    </p>
+  </form>
+
+  <script type="module">
+    import AutoSave from './form-autosave.js'
+
+    const $form = document.querySelector('form')
+    const $clearBtn = document.querySelector('button')
+    //$form.addEventListener('submit', evt => evt.preventDefault())
+    const autoSave = new AutoSave({form: $form})
+    $clearBtn.addEventListener('click', () => {
+      $form.reset()
+      autoSave.clearStorage()
+    })
+
+    const MixinNS = {
+      $formElement: Symbol('$formElement'),
+      getFormData: Symbol('getFormData'),
+      setupFormValidation: Symbol('setupFormValidation'),
+    }
+
+  const FormMixin = class {
+
+    [MixinNS.$FormElement] = null
+    constructor() {
+      //super()
+    }
+    static get MixinNS() {
+      return MixinNS
+    }
+
+    get MixinNS() {
+      return MixinNS
+    }
+
+    [MixinNS.getFormData]() {
+      return Object.fromEntries(new FormData(this[MixinNS.$FormElement]))
+    }
+
+    [MixinNS.setupFormValidation]($form) {
+      this[MixinNS.$FormElement] = $form
+      this[MixinNS.$FormElement].addEventListener('submit', event => event.preventDefault())
+    }
+  }
+
+  const BASE = new FormMixin()
+  BASE[MixinNS.setupFormValidation]($form)
+  console.dir(BASE[MixinNS.$FormElement])
+  console.dir(BASE[MixinNS.getFormData]())
+  console.dir(BASE.MixinNS)
+
+  </script>
+</body>
+
+</html>

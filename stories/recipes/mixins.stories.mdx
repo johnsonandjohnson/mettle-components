@@ -1,0 +1,174 @@
+import { Meta } from '@storybook/addon-docs';
+import Code from '../assets/code.svg';
+import IntermediateLevel from '../assets/thermometer_half.svg';
+import ProgressBar from '../assets/main-progress-bar.gif';
+import ProgressBarStyled from '../assets/styled-progress-bar.gif';
+
+import '../styles.css'
+
+
+<Meta title="Welcome/Recipes/Mixins" />
+
+<div className="recipe">
+  <img src={Code} alt="Code" height="160" />
+  <div className="flex-col">
+    <h1 className="heading">Utilizing Mixins</h1>
+    <small className="flex"> <img src={IntermediateLevel} alt="Intermediate Level" height="20" /> Intermediate level</small>
+    <p>In this Recipe, we will go over mixins.  These helper properties and methods are a good way to reuse code use down to a single source.
+    </p>
+  </div>
+</div>
+
+
+
+#### Prerequisite
+
+Be sure to have an understanding of JavaScript classes and inheritance.
+
+### Expected Results
+
+What we hope to accomplish is to have a class with reusable properties and methods
+for any custom elements we create.  The goal is to take methods and properties
+that are consistently copied over and over and place them into a class for
+reusability.  This pattern allows for a single source of truth and maintainability.
+
+
+### The Base Mixin
+
+The base code for a mixin is a function that returns a class that extends
+the functionality from another class.  This allows for multiple mixins
+to be applied to one class.
+
+
+```js
+export default Base => class extends Base {
+
+  constructor() {
+    super()
+  }
+
+}
+```
+
+#### Sample use
+
+```js
+export default Base => class extends Base {
+
+  $formElement = null
+  constructor() {
+    super()
+  }
+
+  getFormData() {
+    return Object.fromEntries(new FormData(this.$formElement))
+  }
+
+  setupFormValidation($form) {
+    this.$FormElement = $form
+    this.$formElement.addEventListener('submit', event => event.preventDefault())
+    ...
+  }
+
+}
+```
+The downside to this is there can be a clash of method or properties which will
+end up overriding each other. There is also the ambiguous
+methods or properties that will be used without knowing the reference or origin.
+
+
+We solve this by utilizing JavaScript Symbols to create namespaces for the
+methods and properties.  This solution solves the ambiguity and namespace clashing
+only at the expense of some developer readability.
+
+
+Lets use an example of wanting to create a form validation mixin.
+The namespace definitions will look something like this.
+
+```js
+export const MixinNS = {
+  $formElement: Symbol('$formElement'),
+  getFormData: Symbol('getFormData'),
+  setupFormValidation: Symbol('setupFormValidation'),
+}
+
+export default MixinNS
+```
+
+We can then create the mixin like so
+
+```js
+import MixinNS from './mixins.namespace.js'
+export default Base => class extends Base {
+  [MixinNS.$FormElement] = null
+  constructor() {
+    super()
+  }
+
+  [MixinNS.getFormData]() {
+    return Object.fromEntries(new FormData(this[MixinNS.$FormElement]))
+  }
+
+  [MixinNS.setupFormValidation]($form) {
+    this[MixinNS.$FormElement] = $form
+    this[MixinNS.$FormElement].addEventListener('submit', event => event.preventDefault())
+    ...
+  }
+}
+```
+
+### Custom Elements
+
+Using mixins with custom elements will make development faster and maintainability better.
+
+All custom elements must extend from the `HTMLElement` interface. We can apply our mixins
+to this interface before finally extending it to our custom element.
+
+```js
+import { HTMLMarkerMixin, SubscriptionMixin } from 'Mixins'
+import { updateService } from 'services'
+
+const HTML = '<p>Last Update: ${update}></p>'
+const BASE = SubscriptionMixin(HTMLMarkerMixin(globalThis.HTMLElement))
+const TAG_NAME = 'update-table'
+
+if (!window.customElements.get(TAG_NAME)) {
+  window.customElements.define(TAG_NAME, class extends BASE {
+    constructor() {
+      super('')
+    }
+
+    async connectedCallback() {
+      await this[MixinNS.HTMLMarker].render(this, HTML, this[MixinNS.DefaultDataModel])
+
+      this[this.MixinNS.Subscription].push(
+        updateService.subscribe({
+          next:this[MixinNS.onModelUpdate].bind(this)
+        })
+      )
+      updateService.getUpdates()
+    }
+
+    get [MixinNS.DefaultDataModel]() {
+      return Object.assign(Object.create(null), {
+        update: '',
+      })
+    }
+
+  })
+}
+```
+
+### Final notes
+
+There might not be a lot of use cases for mixins.  Many of the custom elements used for
+development should be project base.  Like above the custom elements might include services
+to display or collect information from/to the user. We use the `HTMLMarkerMixin` to easily
+implement the ability to render values that change efficiently.  We use the `SubscriptionMixin`
+to remove observables and avoid memory leaks.  In the case of `OnRemoveMixin` it is not
+tied to a service and is used without dependencies.
+
+> Mixins should be used to implement a pattern for custom elements to follow.
+
+<br />
+<br />

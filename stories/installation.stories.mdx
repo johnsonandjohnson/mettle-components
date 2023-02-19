@@ -70,3 +70,57 @@ Roles.setDefaultRights({
 }).enforceElementRoles()
 ```
 
+<br />
+
+### Using Mixins
+
+<p>Import the mixins into your project like so</p>
+
+
+**Single**
+```js
+import { HTMLMarkerMixin } from '@johnsonandjohnson/mettle-components/mixins'
+
+const BASE = HTMLMarkerMixin(globalThis.HTMLElement)
+```
+
+**Multiple**
+```js
+import {
+  HTMLMarkerMixin,
+  SubscriptionMixin,
+} from '@johnsonandjohnson/mettle-components/mixins'
+
+import { UserService } from 'services' //Your application services
+
+const HTML = '<p>${variable}</p>'
+const BASE = SubscriptionMixin(HTMLMarkerMixin(globalThis.HTMLElement))
+const TAG_NAME = 'some-element'
+const MixinNS = BASE.MixinNS
+
+if (!window.customElements.get(TAG_NAME)) {
+  window.customElements.define(TAG_NAME, class extends BASE {
+    constructor() {
+      super('')
+    }
+
+    async connectedCallback() {
+      await this[MixinNS.HTMLMarker].render(this, HTML, this[MixinNS.DefaultDataModel])
+
+      this[this.MixinNS.Subscription].push(
+        UserService.subscribe({
+          next: this[MixinNS.onModelUpdate].bind(this)
+        })
+      )
+    }
+
+    get [MixinNS.DefaultDataModel]() {
+      return Object.assign(Object.create(null), {
+        name: 'Ben',
+        location: 'Boston',
+      })
+    }
+
+  })
+}
+```

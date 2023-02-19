@@ -3,8 +3,13 @@
 import { Constants } from '../helper/index.js'
 
 const DocsDescriptionMDX = `
+<span className="tip">1.1.0</span>
+
 **Single Import**
 <pre class="coder">import { Observable } from '@johnsonandjohnson/mettle-components/services'</pre>
+
+**Source Code**
+<pre class="coder"><a href="https://github.com/johnsonandjohnson/mettle-components/blob/main/src/services/observable.js" target="_blank">https://github.com/johnsonandjohnson/mettle-components/blob/main/src/services/observable.js</a></pre>
 
 The observer pattern is a software design pattern in which an object, called the subject, maintains a list of its dependents, called observers, and notifies them automatically of any state changes, usually by calling one of their methods.
 
@@ -122,7 +127,7 @@ const Template = () => {
   <button class="observe">Start Subscription</button>
 
   <script type="module">
-        import Observable from './observable.js'
+        import Observable from './services/observable.js'
 
         const observed = new Observable()
         const $render = document.querySelector('#render')
@@ -209,7 +214,7 @@ const TemplateOnly = () => {
   <button class="observe">Start Subscription</button>
 
   <script type="module">
-        import Observable from './observable.js'
+        import Observable from './services/observable.js'
 
         const observed = new Observable()
         const $render = document.querySelector('#render')
@@ -299,7 +304,7 @@ const TemplateObservableService = () => {
   <button class="subToggle">Toggle Component One subscription</button>
 
   <script type="module">
-        import Observable from './observable.js'
+        import Observable from './services/observable.js'
 
         class TemplateService extends Observable {
 

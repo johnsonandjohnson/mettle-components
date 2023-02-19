@@ -5,8 +5,13 @@ import { Constants, uuid } from '../../helper/index.js'
 import './tool-tip.css'
 
 const DocsDescriptionMDX = `
+<span className="tip">1.0.0</span>
+
 **Single Import**
 <pre class="coder">import '@johnsonandjohnson/mettle-components/src/informational/mettle-tool-tip.js'</pre>
+
+**Source Code**
+<pre class="coder"><a href="https://github.com/johnsonandjohnson/mettle-components/blob/main/src/informational/mettle-tool-tip.js" target="_blank">https://github.com/johnsonandjohnson/mettle-components/blob/main/src/informational/mettle-tool-tip.js</a></pre>
 
 Used to provide context when hovering over an element.
 `.trim()

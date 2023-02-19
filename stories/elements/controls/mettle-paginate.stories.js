@@ -4,8 +4,13 @@ import './paginate.css'
 import { Constants } from '../../helper/index.js'
 
 const DocsDescriptionMDX = `
+<span className="tip">1.0.0</span>
+
 **Single Import**
 <pre class="coder">import '@johnsonandjohnson/mettle-components/src/controls/mettle-paginate.js'</pre>
+
+**Source Code**
+<pre class="coder"><a href="https://github.com/johnsonandjohnson/mettle-components/blob/main/src/controls/mettle-paginate.js" target="_blank">https://github.com/johnsonandjohnson/mettle-components/blob/main/src/controls/mettle-paginate.js</a></pre>
 
 
 Used as a pagination controller where the controls emit event listeners.

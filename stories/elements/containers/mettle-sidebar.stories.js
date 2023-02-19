@@ -4,8 +4,14 @@ import './sidebar.css'
 import { Constants, uuid } from '../../helper/index.js'
 
 const DocsDescriptionMDX = `
+<span className="tip">1.11.0</span>
+
 **Single Import**
 <pre class="coder">import '@johnsonandjohnson/mettle-components/src/containers/mettle-sidebar.js'</pre>
+
+**Source Code**
+<pre class="coder"><a href="https://github.com/johnsonandjohnson/mettle-components/blob/main/src/containers/mettle-sidebar.js" target="_blank">https://github.com/johnsonandjohnson/mettle-components/blob/main/src/containers/mettle-sidebar.js</a></pre>
+
 
 Used to provide a sliding side information panel for an element.
 

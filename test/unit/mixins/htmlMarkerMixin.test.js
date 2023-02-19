@@ -4,17 +4,13 @@ describe('HTMLMarkerMixin', () => {
 
   let BASE
   let classInstance
-  let MixinDefs
-
-  let Observable = class {
-    unsubscribe() {}
-  }
+  let MixinNS
 
   beforeEach(() => {
     BASE = HTMLMarkerMixin(class {})
-    MixinDefs = BASE.MixinDefs
     const newClass = class extends BASE {}
     classInstance = new newClass()
+    MixinNS = classInstance.MixinNS
   })
 
   describe('interface', () => {
@@ -24,7 +20,7 @@ describe('HTMLMarkerMixin', () => {
     })
 
     it('should have the mixin definitions when extended', async () => {
-      expect(MixinDefs).toEqual(jasmine.any(Object))
+      expect(MixinNS).toEqual(jasmine.any(Object))
     })
 
   })
@@ -32,25 +28,25 @@ describe('HTMLMarkerMixin', () => {
   describe('extends', () => {
 
     it('should have a data model variable', async () => {
-      expect(classInstance[MixinDefs.DataModel]).toEqual(jasmine.any(Object))
+      expect(classInstance[MixinNS.DataModel]).toEqual(jasmine.any(Object))
     })
 
     it('should have a data model variable', async () => {
-      expect(classInstance[MixinDefs.HTMLMarker]).toBeDefined()
+      expect(classInstance[MixinNS.HTMLMarker]).toBeDefined()
     })
 
     it('should have a default data model variable', async () => {
-      expect(classInstance[MixinDefs.DefaultDataModel]).toEqual(jasmine.any(Object))
+      expect(classInstance[MixinNS.DefaultDataModel]).toEqual(jasmine.any(Object))
     })
 
     it('should update the data model', async () => {
-      classInstance[MixinDefs.updateDataModel]({testing: 'testing'})
-      expect(classInstance[MixinDefs.DataModel]).toEqual({testing: 'testing'})
+      classInstance[MixinNS.updateDataModel]({testing: 'testing'})
+      expect(classInstance[MixinNS.DataModel]).toEqual({testing: 'testing'})
     })
 
     it('should reset the data model', async () => {
-      classInstance[MixinDefs.resetDataModel]()
-      expect(classInstance[MixinDefs.DataModel]).toEqual({})
+      classInstance[MixinNS.resetDataModel]()
+      expect(classInstance[MixinNS.DataModel]).toEqual({})
     })
 
   })

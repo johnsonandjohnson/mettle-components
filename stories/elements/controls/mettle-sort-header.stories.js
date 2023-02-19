@@ -4,8 +4,13 @@ import './sort-header.css'
 import { Constants } from '../../helper/index.js'
 
 const DocsDescriptionMDX = `
+<span className="tip">1.2.0</span>
+
 **Single Import**
 <pre class="coder">import '@johnsonandjohnson/mettle-components/src/controls/mettle-sort-header.js'</pre>
+
+**Source Code**
+<pre class="coder"><a href="https://github.com/johnsonandjohnson/mettle-components/blob/main/src/controls/mettle-sort-header.js" target="_blank">https://github.com/johnsonandjohnson/mettle-components/blob/main/src/controls/mettle-sort-header.js</a></pre>
 
 
 Used as a sort controller where the controls emit event listeners.  Will keep track of which header is to be sorted and in what direction, ascending or descending.

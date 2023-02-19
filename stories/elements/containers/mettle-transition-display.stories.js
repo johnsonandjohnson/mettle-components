@@ -3,8 +3,13 @@ import '../../../src/containers/mettle-transition-display.js'
 import { Constants } from '../../helper/index.js'
 
 const DocsDescriptionMDX = `
+<span className="tip">1.10.0</span>
+
 **Single Import**
 <pre class="coder">import '@johnsonandjohnson/mettle-components/src/containers/mettle-transition-display.js'</pre>
+
+**Source Code**
+<pre class="coder"><a href="https://github.com/johnsonandjohnson/mettle-components/blob/main/src/containers/mettle-transition-display.js" target="_blank">https://github.com/johnsonandjohnson/mettle-components/blob/main/src/containers/mettle-transition-display.js</a></pre>
 
 Mettle transition display is used to display a HTML with scoped CSS.  This pairs well
 as a route display for single page applications.

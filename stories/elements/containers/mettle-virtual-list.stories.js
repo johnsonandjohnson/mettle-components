@@ -3,8 +3,13 @@ import '../../../src/containers/mettle-virtual-list.js'
 import { Constants } from '../../helper/index.js'
 
 const DocsDescriptionMDX = `
+<span className="tip">1.8.0</span>
+
 **Single Import**
 <pre class="coder">import '@johnsonandjohnson/mettle-components/src/containers/mettle-virtual-list.js'</pre>
+
+**Source Code**
+<pre class="coder"><a href="https://github.com/johnsonandjohnson/mettle-components/blob/main/src/containers/mettle-virtual-list.js" target="_blank">https://github.com/johnsonandjohnson/mettle-components/blob/main/src/containers/mettle-virtual-list.js</a></pre>
 
 Mettle virtual list is used to display a large list of items.  Only items in
 the view port will be rendered.

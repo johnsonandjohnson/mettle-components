@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/addon-docs';
 import Code from '../assets/code.svg';
-import BeginerLevel from '../assets/thermometer_quarter.svg';
+import BeginnerLevel from '../assets/thermometer_quarter.svg';
 import ProgressBar from '../assets/main-progress-bar.gif';
 import ProgressBarStyled from '../assets/styled-progress-bar.gif';
 
@@ -13,8 +13,8 @@ import '../styles.css'
   <img src={Code} alt="Code" height="160" />
   <div className="flex-col">
     <h1 className="heading">Building a Custom Element</h1>
-    <small className="flex"> <img src={BeginerLevel} alt="Beginer Level" height="20" /> Beginner level</small>
-    <p>In this Recipe, we will create a vanillaJS custom elememt.
+    <small className="flex"> <img src={BeginnerLevel} alt="Beginner Level" height="20" /> Beginner level</small>
+    <p>In this Recipe, we will create a vanillaJS custom element.
       By the end you should be able to take HTML, CSS and JavaScript into a reusable HTML Element.
     </p>
   </div>
@@ -22,7 +22,7 @@ import '../styles.css'
 
 
 
-#### Prequisite
+#### Prerequisite
 Reading this reference might help before going through the tutorial.
 
 - <a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components" target="_blank">https://developer.mozilla.org/en-US/docs/Web/Web_Components</a>
@@ -178,8 +178,8 @@ The main functions that are supported by the spec are
 
 | Life cycle | Description |
 |:---------:|:---------:|
-| connectedCallback() | Called when the custom elememt is first connected to the DOM |
-| disconnectedCallback() | Called when the custom elememt is removed from the DOM |
+| connectedCallback() | Called when the custom element is first connected to the DOM |
+| disconnectedCallback() | Called when the custom element is removed from the DOM |
 | attributeChangedCallback() | Called each time a custom attribute from the `observedAttributes` list is added, removed, or changed |
 | observedAttributes() | A static get method that returns an array of attributes to observe  |
 
@@ -427,7 +427,7 @@ Web components are a great addition to the web stack.  It should help developers
 
 ## Styled Custom Elements
 As a Bonus, we can use CSS Parts to customize the CSS for the custom element.
-This will allow the developer to override the CSS that generally the shadowDom would have encapsluated.
+This will allow the developer to override the CSS that generally the shadowDom would have encapsulated.
 It is up to the developer to decide what should be styled and what should not be allowed.
 Do note that there are limitations with using CSS Parts.
 

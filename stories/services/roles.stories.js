@@ -4,8 +4,13 @@ import { Constants } from '../helper/index.js'
 
 
 const DocsDescriptionMDX = `
+<span className="tip">1.1.0</span>
+
 **Single Import**
 <pre class="coder">import { Roles } from '@johnsonandjohnson/mettle-components/services'</pre>
+
+**Source Code**
+<pre class="coder"><a href="https://github.com/johnsonandjohnson/mettle-components/blob/main/src/services/roles.js" target="_blank">https://github.com/johnsonandjohnson/mettle-components/blob/main/src/services/roles.js</a></pre>
 
 Roles are used to control access to components of the application.  You can apply a role to a component to be displayed only to users who meet the role requirements.
 `.trim()
@@ -76,7 +81,7 @@ const Template = () => {
     <button id="mod">Mod</button>
     <button id="both">Both</button>
   <script type="module">
-   import Roles from './roles.js'
+   import Roles from './services/roles.js'
 
     Roles.setDefaultRights({
       default: true,
@@ -148,7 +153,7 @@ const TemplateInvertedRoles = () => {
     <button id="notadmin">Not Admin</button>
 
   <script type="module">
-   import Roles from './roles.js'
+   import Roles from './services/roles.js'
 
     Roles.setDefaultRights({
       admin: false,
@@ -204,7 +209,7 @@ const TemplateDeleteElements = () => {
     <button id="notadmin">Not Admin</button>
 
   <script type="module">
-    import Roles from './roles.js'
+    import Roles from './services/roles.js'
 
     Roles.shouldDeleteElement = true
 

@@ -3,8 +3,13 @@
 import { Constants } from '../helper/index.js'
 
 const DocsDescriptionMDX = `
+<span className="tip">1.1.0</span>
+
 **Single Import**
 <pre class="coder">import { HtmlMarker } from '@johnsonandjohnson/mettle-components/services'</pre>
+
+**Source Code**
+<pre class="coder"><a href="https://github.com/johnsonandjohnson/mettle-components/blob/main/src/services/html-marker.js" target="_blank">https://github.com/johnsonandjohnson/mettle-components/blob/main/src/services/html-marker.js</a></pre>
 
 HTML Marker allows a user to update an HTML template literal efficiently without having to re-render the DOM(Document Object Model).
 This allows the page to render more effectively. Due to some limitations not all template features that are native are supported.
@@ -103,7 +108,7 @@ const Template = () => {
   return `<div id="render"></div>
 
   <script type="module">
-    import HtmlMarker from './html-marker.js'
+    import HtmlMarker from './services/html-marker.js'
 
     (async () => {
       const htmlMarker = new HtmlMarker()
@@ -161,7 +166,7 @@ const TemplateCustomDecorator = () => {
   return `<div id="render"></div>
 
   <script type="module">
-    import HtmlMarker from './html-marker.js'
+    import HtmlMarker from './services/html-marker.js'
 
     (async () => {
       const htmlMarker = new HtmlMarker()
@@ -212,7 +217,7 @@ const TemplateBoolean = () => {
   return `<div id="render"></div>
 
   <script type="module">
-    import HtmlMarker from './html-marker.js'
+    import HtmlMarker from './services/html-marker.js'
 
     (async () => {
       const htmlMarker = new HtmlMarker()
@@ -256,7 +261,7 @@ const TemplateAttribute = () => {
   return `<div id="render2"></div>
 
   <script type="module">
-    import HtmlMarker from './html-marker.js'
+    import HtmlMarker from './services/html-marker.js'
 
     (async () => {
       const htmlMarker = new HtmlMarker()

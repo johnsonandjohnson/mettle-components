@@ -4,7 +4,7 @@ describe('SubscriptionMixin', () => {
 
   let BASE
   let classInstance
-  let MixinDefs
+  let MixinNS
 
   let Observable = class {
     unsubscribe() {}
@@ -12,9 +12,9 @@ describe('SubscriptionMixin', () => {
 
   beforeEach(() => {
     BASE = SubscriptionMixin(class { disconnectedCallback(){} })
-    MixinDefs = BASE.MixinDefs
     const newClass = class extends BASE {}
     classInstance = new newClass()
+    MixinNS = classInstance.MixinNS
   })
 
   describe('interface', () => {
@@ -24,7 +24,7 @@ describe('SubscriptionMixin', () => {
     })
 
     it('should have the mixin definitions when extended', async () => {
-      expect(MixinDefs).toEqual(jasmine.any(Object))
+      expect(MixinNS).toEqual(jasmine.any(Object))
     })
 
   })
@@ -32,22 +32,22 @@ describe('SubscriptionMixin', () => {
   describe('extends', () => {
 
     it('should have a subscription variable', async () => {
-      expect(classInstance[MixinDefs.Subscription]).toBeNull()
+      expect(Array.isArray(classInstance[MixinNS.Subscription])).toBeTrue()
     })
 
     it('should unsubscribe on disconnected callback', async () => {
-      classInstance[MixinDefs.Subscription] = new Observable()
+      classInstance[MixinNS.Subscription].push(new Observable())
       classInstance.disconnectedCallback()
-      expect(classInstance[MixinDefs.Subscription]).toBeNull()
+      expect(classInstance[MixinNS.Subscription]).toBeNull()
     })
 
     it('should unsubscribe an array on disconnected callback', async () => {
-      classInstance[MixinDefs.Subscription] = [
+      classInstance[MixinNS.Subscription] = [
         new Observable(),
         new Observable(),
       ]
       classInstance.disconnectedCallback()
-      expect(classInstance[MixinDefs.Subscription]).toBeNull()
+      expect(classInstance[MixinNS.Subscription]).toBeNull()
     })
 
   })

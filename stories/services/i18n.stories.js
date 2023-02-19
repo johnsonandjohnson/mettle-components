@@ -3,8 +3,13 @@
 import { Constants } from '../helper/index.js'
 
 const DocsDescriptionMDX = `
+<span className="tip">1.1.0</span>
+
 **Single Import**
 <pre class="coder">import { I18n } from '@johnsonandjohnson/mettle-components/services'</pre>
+
+**Source Code**
+<pre class="coder"><a href="https://github.com/johnsonandjohnson/mettle-components/blob/main/src/services/i18n.js" target="_blank">https://github.com/johnsonandjohnson/mettle-components/blob/main/src/services/i18n.js</a></pre>
 
 Internationalization or Localization is made easy with the Mettle Service I18n.
 In order to translate text, a local JSON file is stored and loaded with the service.
@@ -254,7 +259,7 @@ const Template = () => {
   </table>
 
   <script type="module">
-    import I18n from './i18n.js'
+    import I18n from './services/i18n.js'
 
     const isHTMLRegex = /\.html$/
     const pathName = window.location.pathname
@@ -316,7 +321,7 @@ const singleTranslateTemplate = () => {
     <h2 class="demo">global:header</h2>
 
   <script type="module">
-    import I18n from './i18n.js'
+    import I18n from './services/i18n.js'
 
     const isHTMLRegex = /\.html$/
     const pathName = window.location.pathname
@@ -369,7 +374,7 @@ const decoratorsTemplate = () => {
     <h1 class="demo" data-i18n-currency="3242342344"></h1>
 
   <script type="module">
-    import I18n from './i18n.js'
+    import I18n from './services/i18n.js'
 
     const isHTMLRegex = /\.html$/
     const pathName = window.location.pathname
@@ -459,7 +464,7 @@ const attributeMapTemplate = () => {
   <h1 class="demo" data-i18n-title="global:title">Hover and pause to see the title attribute</h1>
 
   <script type="module">
-    import I18n from './i18n.js'
+    import I18n from './services/i18n.js'
 
     const isHTMLRegex = /\.html$/
     const pathName = window.location.pathname

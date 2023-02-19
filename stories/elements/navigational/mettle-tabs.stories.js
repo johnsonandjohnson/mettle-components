@@ -4,8 +4,13 @@ import './mettle-tabs.css'
 import { Constants, generateParagraph } from '../../helper/index.js'
 
 const DocsDescriptionMDX = `
+<span className="tip">1.0.0</span>
+
 **Single Import**
 <pre class="coder">import '@johnsonandjohnson/mettle-components/src/navigational/mettle-tabs.js'</pre>
+
+**Source Code**
+<pre class="coder"><a href="https://github.com/johnsonandjohnson/mettle-components/blob/main/src/navigational/mettle-tabs.js" target="_blank">https://github.com/johnsonandjohnson/mettle-components/blob/main/src/navigational/mettle-tabs.js</a></pre>
 
 Tabs are used to display different content in a compact section.
 `.trim()

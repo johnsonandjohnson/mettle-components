@@ -1,0 +1,73 @@
+<html>
+  <head>
+    <title>Mettle Mixin Example</title>
+  </head>
+  <body>
+    <p>
+      <label for="name">Name</label> <input id="name" />
+      <button id="model">Update</button>
+    </p>
+    <user-table></user-table>
+
+    <script type="module">
+      import  HTMLMarkerMixin  from './html-marker.mixin.js'
+
+      (async () => {
+        const HTML = `
+       <table>
+         <tr>
+           <th>Name</th>
+           <th>Location</th>
+         </tr>
+         <tr>
+           <td>\${name}</td>
+           <td>\${location}</td>
+        </tr>
+      </table>
+    `
+        console.dir(HTMLMarkerMixin(globalThis.HTMLElement))
+        const BASE = HTMLMarkerMixin(globalThis.HTMLElement)
+        const TAG_NAME = 'user-table'
+        const MixinNS = BASE.MixinNS
+    if (!window.customElements.get(TAG_NAME)) {
+      window.customElements.define(TAG_NAME, class extends BASE {
+        constructor() {
+          super('')
+          console.dir(this)
+        }
+        async connectedCallback() {
+          //this.innerHTML = HTML
+
+          console.log(MixinNS.DefaultDataModel)
+          await this[MixinNS.HTMLMarker].render(this, HTML, this[MixinNS.DefaultDataModel])
+        }
+
+        updateModel(dataModel) {
+          this[this.MixinNS.updateDataModel](dataModel)
+        }
+
+        get [MixinNS.DefaultDataModel]() {
+          return Object.assign(Object.create(null), {
+            name: 'Ben',
+            location: 'Boston',
+          })
+        }
+      })
+    }
+
+    const $btn = document.querySelector('#model')
+    const $nameInput = document.querySelector('#name')
+    const $userTable = document.querySelector('user-table')
+
+    $btn.addEventListener('click', () => {
+      if($nameInput.value.length) {
+        $userTable.updateModel({
+          name: $nameInput.value
+        })
+      }
+    })
+
+      })()
+    </script>
+  </body>
+</html>

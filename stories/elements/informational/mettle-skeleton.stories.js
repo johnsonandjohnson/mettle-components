@@ -3,8 +3,13 @@ import '../../../src/informational/mettle-skeleton.js'
 import { Constants } from '../../helper/index.js'
 
 const DocsDescriptionMDX = `
+<span className="tip">1.0.0</span>
+
 **Single Import**
 <pre class="coder">import '@johnsonandjohnson/mettle-components/src/informational/mettle-skeleton.js'</pre>
+
+**Source Code**
+<pre class="coder"><a href="https://github.com/johnsonandjohnson/mettle-components/blob/main/src/informational/mettle-skeleton.js" target="_blank">https://github.com/johnsonandjohnson/mettle-components/blob/main/src/informational/mettle-skeleton.js</a></pre>
 
 Use to create the structure of the intended layout.
 `.trim()

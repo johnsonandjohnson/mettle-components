@@ -3,8 +3,13 @@
 import { Constants } from '../helper/index.js'
 
 const DocsDescriptionMDX = `
+<span className="tip">1.1.0</span>
+
 **Single Import**
 <pre class="coder">import { HttpFetch } from '@johnsonandjohnson/mettle-components/services'</pre>
+
+**Source Code**
+<pre class="coder"><a href="https://github.com/johnsonandjohnson/mettle-components/blob/main/src/services/http-fetch.js" target="_blank">https://github.com/johnsonandjohnson/mettle-components/blob/main/src/services/http-fetch.js</a></pre>
 
 HttpFetch is a class that uses the built in Fetch API under the hood.
 This class allows you to focus on making fetch calls without the common setup
@@ -357,7 +362,7 @@ const Template = () => {
 
 
   <script type="module">
-    import HttpFetch from './http-fetch.js'
+    import HttpFetch from './services/http-fetch.js'
 
     function fetchCall() {
       return new HttpFetch()
@@ -411,7 +416,7 @@ const TemplateAbort = () => {
 
 
   <script type="module">
-    import HttpFetch from './http-fetch.js'
+    import HttpFetch from './services/http-fetch.js'
 
     function fetchCall() {
       const abortController = new window.AbortController()
@@ -473,7 +478,7 @@ const addParamsToURLTemplate = () => {
   <h2 class="results"></h2>
 
   <script type="module">
-    import HttpFetch from './http-fetch.js'
+    import HttpFetch from './services/http-fetch.js'
 
     const $results = globalThis.document.querySelector('.results')
     const URL = 'http://example.com?test=tester'
@@ -522,7 +527,7 @@ const generateUrlParamsTemplate = () => {
   <h2 class="results"></h2>
 
   <script type="module">
-    import HttpFetch from './http-fetch.js'
+    import HttpFetch from './services/http-fetch.js'
 
     const $results = globalThis.document.querySelector('.results')
     const PARAMS = { one:1, two:2 }
@@ -572,7 +577,7 @@ const parseResponseTemplate = () => {
   <textarea class="results"></textarea>
 
   <script type="module">
-    import HttpFetch from './http-fetch.js'
+    import HttpFetch from './services/http-fetch.js'
 
     (async () => {
       const $results = globalThis.document.querySelector('.results')
@@ -621,7 +626,7 @@ const parseBlobResponseTemplate = () => {
   <img class="results" />
 
   <script type="module">
-    import HttpFetch from './http-fetch.js'
+    import HttpFetch from './services/http-fetch.js'
 
     (async () => {
       const $results = globalThis.document.querySelector('.results')

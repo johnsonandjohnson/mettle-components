@@ -1,7 +1,7 @@
-const wait = ms => new Promise(r => setTimeout(r, ms))
+const wait = ms => new Promise(r => setTimeout(r, ms))
 
 function uuid() {
-  return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, b =>
+  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, b =>
     (b ^ crypto.getRandomValues(new Uint16Array(1))[0] & 15 >> b / 4).toString(16))
 }
 
@@ -27,7 +27,7 @@ function generateParagraph() {
 
 function generateHTMLParagraphs(amount = 1) {
   let paragraphs = []
-  while(--amount) {
+  while (--amount) {
     paragraphs.push(`<p>${generateParagraph()}</p>`)
   }
   return paragraphs.join('')

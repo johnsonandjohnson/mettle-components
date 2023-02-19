@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title></title>
+  <style>
+
+
+[data-css-icon] {
+	--animdur: .3s;
+  --loading-animdur: 0.8s;
+	--animtf: ease-in;
+	--bdw: 2px;
+  --bdrs: 50%;
+  --bgc: transparent;
+	--c: currentcolor;
+  --dots-bgc: silver;
+  --dots-size: 0.5rem;
+  --icon-size: 1rem;
+	--size: 2.5rem;
+
+	align-items: center;
+  cursor: pointer;
+	display: flex;
+	justify-content: space-between;
+}
+[data-css-icon] i {
+  align-items: center;
+  background-color: var(--bgc);
+  border-radius: var(--bdrs);
+  box-sizing: border-box;
+  display: inline-flex;
+  height: var(--size);
+  justify-content: center;
+  position: relative;
+  transition: background-color var(--animdur) var(--animtf);
+  width: var(--size);
+}
+[data-css-icon] i::after,
+[data-css-icon] i::before {
+  transform-origin: 50% 50%;
+	transition: all var(--animdur) var(--animtf);
+}
+
+[data-css-icon*="down"] i::after,
+[data-css-icon*="right"] i::after {
+  background: transparent;
+	border-color: var(--c);
+	border-style: solid;
+  box-sizing: border-box;
+	content: '';
+	display: inline-block;
+	height: var(--icon-size) ;
+	margin: 0;
+  position: relative;
+	width: var(--icon-size);
+}
+[data-css-icon*="down"] i::after {
+	border-width: 0 var(--bdw) var(--bdw) 0;
+  top: calc(0px - (var(--icon-size) / 4));
+  transform: rotate(45deg);
+}
+[data-css-icon*="right"] i::after {
+	border-width: var(--bdw) var(--bdw) 0 0;
+  right: calc((var(--icon-size) / 4));
+  top: 0;
+	transform: rotate(45deg);
+}
+
+[open] > summary > [data-css-icon*="down"] i::after {
+  top: var(--bdw);
+	transform: rotate(45deg) scale(-1) ;
+}
+
+button,
+summary {
+  background-color: var(--bgc);
+  border: 0;
+  border-radius: 5px;
+  color: var(--c, inherit);
+  list-style-type: none;
+  margin: 0.5rem 0;
+  outline: none;
+  padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
+  padding-inline-end: 0.5rem;
+  padding-inline-start: 1rem;
+  user-select: none;
+}
+summary::marker { display: none; }
+
+/* 4 States of summary */
+button,
+summary {
+  --bgc: hsl(195, 10%, 90%);
+}
+[open] > summary {
+  --bgc: hsl(195, 10%, 20%);
+  --c: hsl(195, 10%, 92%);
+}
+
+summary + * {
+  color: #777;
+  line-height: 1.6;
+  padding: 0.5rem;
+}
+
+summary::marker,
+summary::-webkit-details-marker {
+  display:none;
+  content: "";
+}
+
+
+details > summary {
+  list-style: none;
+}
+
+@keyframes dots {
+  0% {
+    background-color: var(--c);
+  }
+  50%,
+  100% {
+    background-color: var(--dots-bgc);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(1turn);
+  }
+}
+  </style>
+</head>
+
+<body>
+  <mettle-accordion>
+    <details>
+      <summary>
+        <span data-css-icon="down">Down To Up<i></i></span>
+      </summary>
+      <div id="one">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eos minus quo ipsam culpa! Dicta, reiciendis.
+      </div>
+    </details>
+
+    <details>
+      <summary>
+        <span data-css-icon="plus">Plus To Minus<i></i></span>
+      </summary>
+      <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam commodi amet fuga dicta facilis! Sed ipsum unde cumque debitis omnis placeat non, ut magni dolores!
+      </div>
+    </details>
+  </mettle-accordion>
+
+  <button class="open">Open</button>
+  <button class="close">Close</button>
+
+  <script type="module" src="mettle-accordion.js"></script>
+
+  <script>
+
+    const accordion = document.querySelector('mettle-accordion')
+
+
+    document.querySelector('button.open').addEventListener('click', ()=> {
+      accordion.openAll()
+    })
+    document.querySelector('button.close').addEventListener('click', ()=> {
+      accordion.collapseAll()
+    })
+
+
+  </script>
+
+</body>
+
+</html>
+

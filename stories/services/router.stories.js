@@ -3,8 +3,13 @@
 import { Constants } from '../helper/index.js'
 
 const DocsDescriptionMDX = `
+<span className="tip">1.1.0</span>
+
 **Single Import**
 <pre class="coder">import { Router } from '@johnsonandjohnson/mettle-components/services'</pre>
+
+**Source Code**
+<pre class="coder"><a href="https://github.com/johnsonandjohnson/mettle-components/blob/main/src/services/router.js" target="_blank">https://github.com/johnsonandjohnson/mettle-components/blob/main/src/services/router.js</a></pre>
 
 This Router service allows you to create a navigation system for SPA(single page application)
 web sites.  It utilizes the browser's session history with the History API.
@@ -311,7 +316,7 @@ const Template = () => {
   </main>
 
   <script type="module">
-    import Router from './router.js'
+    import Router from './services/router.js'
 
     const HtmlCache = new Map()
     HtmlCache.set('page1.html', '<strong>Page 1</strong><section class="page1"><div>Header</div><div>Main</div><div>Footer</div></section>')
@@ -405,7 +410,7 @@ const TemplateErrorHandler = () => {
   </main>
 
   <script type="module">
-    import Router from './router.js'
+    import Router from './services/router.js'
 
     const HtmlCache = new Map()
     HtmlCache.set('page1.html', '<strong>Page 1</strong><section class="page1"><div>Header</div><div>Main</div><div>Footer</div></section>')

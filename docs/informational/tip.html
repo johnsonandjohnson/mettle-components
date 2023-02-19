@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>JSON json-syntax</title>
+
+  <style>
+
+
+  </style>
+</head>
+
+<body>
+  <h1>hi</h1>
+
+
+  <p><span id="id-0aa23dd1-0ca7-4745-935e-f7cadad0d28f">Hover or tap me for tip</span></p>
+  <p><span id="id-0aa23dd1-0ca7-4745-935e-f7cadad0d28f2">Hover or tap me for tip</span></p>
+
+  <button class="switch">Switch</button>
+  <button class="remove">remove</button>
+  <mettle-tool-tip
+    data-hover="true"
+    data-position="right"
+    data-for="id-0aa23dd1-0ca7-4745-935e-f7cadad0d28f"><p>Slot HTML/Text</p></mettle-tool-tip>
+
+  <script type="module" src="mettle-tool-tip.js"></script>
+
+  <script>
+    const $tip = document.querySelector('mettle-tool-tip')
+    const ID1 = 'id-0aa23dd1-0ca7-4745-935e-f7cadad0d28f'
+    const ID2 = 'id-0aa23dd1-0ca7-4745-935e-f7cadad0d28f2'
+    document.querySelector('button.switch').addEventListener('click', () => {
+      const id = $tip.getAttribute('data-for')
+      $tip.setAttribute('data-for', id === ID1 ? ID2 : ID1 )
+    })
+
+    document.querySelector('button.remove').addEventListener('click', () => {
+      [...document.querySelectorAll('span')].forEach( elem => elem.remove())
+    })
+  </script>
+
+
+</body>
+
+</html>

@@ -1,13 +1,13 @@
 import {
   HTMLMarkerMixin,
-  MixinDefs,
+  MixinNS,
   OnRemoveMixin,
   SubscriptionMixin
 }  from './src/mixins'
 
 export {
   HTMLMarkerMixin,
-  MixinDefs,
+  MixinNS,
   OnRemoveMixin,
   SubscriptionMixin
 }
