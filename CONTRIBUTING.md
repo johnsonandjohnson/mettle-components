@@ -116,6 +116,13 @@ $ npm run release
 
 > Be sure to also push the follow tags but do not run `npm publish`
 
+If the version that is desired is not being generated, you can set it like so:
+
+```sh
+$ npm run release -- --release-as major|minor|patch
+# Or
+$ npm run release -- --release-as 1.13.3
+```
 
 ## Addressing feedback
 

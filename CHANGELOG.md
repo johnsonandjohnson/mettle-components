@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.13.1](https://github.com/johnsonandjohnson/mettle-components/compare/v1.10.3...v1.13.1) (2023-02-20)
+
+
+### Bug Fixes
+
+* corrected private variables in services ([#97](https://github.com/johnsonandjohnson/mettle-components/issues/97)) ([b724366](https://github.com/johnsonandjohnson/mettle-components/commit/b7243661c4b3250d6b7caba9c9ae350299204849))
+
+
 ## [1.13.0](https://github.com/johnsonandjohnson/mettle-components/compare/v1.10.3...v1.13.0) (2023-02-19)
 
 
