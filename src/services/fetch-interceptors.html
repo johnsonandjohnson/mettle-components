@@ -1,0 +1,70 @@
+<html>
+
+<head>
+  <title>Mettle Services Example</title>
+</head>
+
+<body>
+  <button class="fetch1">Fetch Call 1</button>
+  <button class="fetch2">Fetch Call 2</button>
+  <strong>Results:</strong>
+  <br />
+  <textarea></textarea>
+
+
+  <script type="module">
+    import HttpFetch from './http-fetch.js'
+
+    const FetchInstance1 = new HttpFetch()
+    const FetchInstance2 = new HttpFetch()
+
+    FetchInstance1.setInterceptors({
+      request: (url, config) => {
+        console.log('FetchInstance 1 Call')
+        return [url, config]
+      }
+    })
+
+    FetchInstance2.setInterceptors({
+      request: (url, config) => {
+        console.log('FetchInstance 2 Call')
+        return [url, config]
+      }
+    })
+
+    function fetchCall1() {
+      return FetchInstance1
+        .get('./http-fetch.json')
+        .then(HttpFetch.parseResponse)
+        .catch(error => {
+          //handle error
+        })
+    }
+
+    function fetchCall2() {
+      return FetchInstance2
+        .get('./http-fetch.json')
+        .then(HttpFetch.parseResponse)
+        .catch(error => {
+          //handle error
+        })
+    }
+
+    const $fetchBtn1 = globalThis.document.querySelector('.fetch1')
+    const $fetchBtn2 = globalThis.document.querySelector('.fetch2')
+    const $textarea = globalThis.document.querySelector('textarea')
+
+    $fetchBtn1.addEventListener('click', async () => {
+      const results = await fetchCall1()
+      $textarea.value = JSON.stringify(results, null, 2)
+    })
+
+    $fetchBtn2.addEventListener('click', async () => {
+      const results = await fetchCall2()
+      $textarea.value = JSON.stringify(results, null, 2)
+    })
+
+  </script>
+</body>
+
+</html>

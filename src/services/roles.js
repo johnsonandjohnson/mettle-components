@@ -1,37 +1,37 @@
 import Debounce from './debounce.js'
 
-let _attrRoleKey = 'data-roles'
-let _rights = null
-let _defaultRights = null
-let _userRoles = []
-const _rightsConfig = new Map()
-let _shouldDeleteElement = false
-
 class Roles {
+
+  #attrRoleKey = 'data-roles'
+  #rights = null
+  #defaultRights = null
+  #userRoles = []
+  #rightsConfig = new Map()
+  #shouldDeleteElement = false
 
   constructor() {
   }
 
   get DefaultRights() {
-    return _defaultRights
+    return this.#defaultRights
   }
 
   setDefaultRights(rights = Object.create(null)) {
-    _defaultRights = Object.assign(Object.create(null), rights)
+    this.#defaultRights = Object.assign(Object.create(null), rights)
     return this
   }
 
   setRightsConfig(roleName, rights) {
-    _rightsConfig.set(roleName, Object.assign(Object.create(null), rights))
+    this.#rightsConfig.set(roleName, Object.assign(Object.create(null), rights))
     return this
   }
 
   get RightsConfig() {
-    return _rightsConfig
+    return this.#rightsConfig
   }
 
   set UserRoles(roles = []) {
-    _userRoles = roles
+    this.#userRoles = roles
     this.refreshRights()
     if (this.isObserverEnabled()) {
       this._checkElementRoles()
@@ -39,7 +39,7 @@ class Roles {
   }
 
   get UserRoles() {
-    return _userRoles
+    return this.#userRoles
   }
 
   get AllRoles() {
@@ -47,25 +47,25 @@ class Roles {
   }
 
   get AccessRights() {
-    if (null === _rights) {
-      _rights = this._getRightsForRoles()
+    if (null === this.#rights) {
+      this.#rights = this._getRightsForRoles()
     }
-    return _rights
+    return this.#rights
   }
 
   refreshRights() {
-    _rights = null
+    this.#rights = null
     return this.AccessRights
   }
 
 
   get AttrRoleKey() {
-    return _attrRoleKey
+    return this.#attrRoleKey
   }
 
   set AttrRoleKey(roleKey) {
     if (roleKey.length) {
-      _attrRoleKey = roleKey
+      this.#attrRoleKey = roleKey
       if (this.isObserverEnabled()) {
         this.disconnectObserver().enforceElementRoles()
       }
@@ -73,11 +73,11 @@ class Roles {
   }
 
   get shouldDeleteElement() {
-    return _shouldDeleteElement
+    return this.#shouldDeleteElement
   }
 
   set shouldDeleteElement(bool) {
-    _shouldDeleteElement = !!bool
+    this.#shouldDeleteElement = !!bool
   }
 
   isValidRole(roleName) {

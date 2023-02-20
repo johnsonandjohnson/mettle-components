@@ -38,7 +38,7 @@
     const $form = document.querySelector('form')
     const $clearBtn = document.querySelector('button')
     //$form.addEventListener('submit', evt => evt.preventDefault())
-    const autoSave = new AutoSave($form)
+    const autoSave = new AutoSave({form: $form})
     $clearBtn.addEventListener('click', () => {
       $form.reset()
       autoSave.clearStorage()
