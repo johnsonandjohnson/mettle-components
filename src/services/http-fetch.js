@@ -7,14 +7,14 @@ const METHODS = {
   PUT: 'PUT',
 }
 
-let _requestOptions = Object.create(null)
-let _nextRequestOptions = Object.create(null)
-let _interceptorMap = new Map()
-
 export default class HttpFetch {
 
+  #requestOptions = Object.create(null)
+  #nextRequestOptions = Object.create(null)
+  #interceptorMap = new Map()
+
   constructor(options = Object.create(null)) {
-    this.requestOptions = options
+    this.#requestOptions = options
   }
 
   get STATIC() {
@@ -32,28 +32,28 @@ export default class HttpFetch {
   }
 
   get interceptors() {
-    return _interceptorMap
+    return this.#interceptorMap
   }
 
   get requestOptions() {
-    return _requestOptions
+    return this.#requestOptions
   }
 
   set requestOptions(options) {
     if(typeof options === 'object') {
-      _requestOptions = options
+      this.#requestOptions = options
     }
   }
 
   nextRequestOptions(options) {
     if(typeof options === 'object') {
-      _nextRequestOptions = options
+      this.#nextRequestOptions = options
     }
     return this
   }
 
   resetNextRequestOptions() {
-    _nextRequestOptions = Object.create(null)
+    this.#nextRequestOptions = Object.create(null)
     return this
   }
 
@@ -64,7 +64,7 @@ export default class HttpFetch {
     if (params) {
       url = this.constructor.addParamsToURL(url, params)
     }
-    let options = { cache: 'default', method, mode: 'cors', ...this.requestOptions, ..._nextRequestOptions }
+    let options = { cache: 'default', method, mode: 'cors', ...this.#requestOptions, ...this.#nextRequestOptions }
     options.body = body
     if (body && !(body instanceof FormData || body instanceof URLSearchParams)) {
       options.body = JSON.stringify(body)
@@ -72,11 +72,11 @@ export default class HttpFetch {
     }
     // Replace with Object.hasOwn() when Safari has support
     let headerOptions = Object.create(null)
-    if (typeof this.requestOptions === 'object' && Object.prototype.hasOwnProperty.call(this.requestOptions, 'headers')) {
-      headerOptions = { ...headerOptions, ...this.requestOptions.headers }
+    if (typeof this.#requestOptions === 'object' && Object.prototype.hasOwnProperty.call(this.#requestOptions, 'headers')) {
+      headerOptions = { ...headerOptions, ...this.#requestOptions.headers }
     }
-    if (typeof _nextRequestOptions === 'object' && Object.prototype.hasOwnProperty.call(_nextRequestOptions, 'headers')) {
-      headerOptions = { ...headerOptions, ..._nextRequestOptions.headers }
+    if (typeof this.#nextRequestOptions === 'object' && Object.prototype.hasOwnProperty.call(this.#nextRequestOptions, 'headers')) {
+      headerOptions = { ...headerOptions, ...this.#nextRequestOptions.headers }
     }
     Object.entries(headerOptions).forEach(([key, value]) => {
       myHeaders.set(key, value)

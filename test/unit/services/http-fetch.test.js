@@ -63,6 +63,12 @@ describe('HttpFetch', () => {
       expect(http.requestOptions).toEqual({})
     })
 
+    it('should allow to set requestOptions', () => {
+      const http = new HttpFetch()
+      http.requestOptions = {cache: 'fake-cache'}
+      expect(http.requestOptions.cache).toEqual('fake-cache')
+    })
+
     it('should have the ability to create a new instance', () => {
       const http1 = new HttpFetch({cache: 'no-cache'})
       const cache1 = http1.requestOptions.cache
