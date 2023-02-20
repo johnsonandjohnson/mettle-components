@@ -94,6 +94,13 @@ describe('RolesService', () => {
       expect(newRights.adminUser).toBeFalse()
     })
 
+    it('should set shouldDeleteElement as a boolean', () => {
+      RolesService.shouldDeleteElement = true
+      expect(RolesService.shouldDeleteElement).toBeTrue()
+      RolesService.shouldDeleteElement = false
+      expect(RolesService.shouldDeleteElement).toBeFalse()
+    })
+
   })
 
 })
