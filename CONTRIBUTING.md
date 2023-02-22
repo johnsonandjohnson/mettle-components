@@ -20,7 +20,9 @@ A feature story should be written in the behavior-driven development (BDD) proce
 
 For bugs, the issue should clearly specify the Steps to reproduce with the Actual behavior. Please be clear about the expected behavior and provide details like device, browser, screenshots or video of the issue.
 
-## Code style guide
+## Script Commands
+
+### Code style guide
 
 This project uses `eslint:recommended` to review your code style.  No errors should be displayed in the terminal.
 
@@ -30,7 +32,7 @@ $ npm run lint
 ```
 
 
-## Code Unit testing guidelines
+### Code Unit testing guidelines
 
 Mocha is used for writing unit test.  Please ensure all code has proper unit test before submission.  
 
@@ -39,7 +41,7 @@ To check run:
 $ npm run test
 ```
 
-## Code Documentation
+### Code Documentation
 
 We use [Storybook](https://storybook.js.org/) for documentation.
 
@@ -57,16 +59,33 @@ To generate the docs for a Pull Request (PR):
 $ npm run build-storybook
 ```
 
+## Contributing Code
 
-## Semantic Versioning
+### Git Feature Branch Workflow
 
-We use https://semver.org/ for versioning mettle.
+The Feature Branch Workflow is a Gitflow branching strategy that assumes a central repository and main represents the official project history. Instead of committing directly on the main branch, developers should create a new branch every time they start work on a new feature or bug fix. 
 
-## Commit message format
+Branches should have a consistent naming convention. Feature branches can start with `feature/*` and bug fix branches should start with `bugfix/*`. Before a branch is merged to main, it needs to be approved.
+
+```
+    Main  -----O-----O-------------O-------------O----------------
+                     |             |             |
+                     |             |             |
+                     |             |             |
+                     |             |             |
+Feature 1 ...........+--O-----O----+.............|.................
+                                   |             |
+                                   |             |
+                                   |             |
+                                   |             |
+Feature 2  ........................+---O-----O---+.................
+```
+
+### Commit message format
 
 We use https://www.conventionalcommits.org/en/v1.0.0/ for commit messages.  
 
-## Pull Request (PR)
+### Pull Request (PR)
 
 Once a pull request receives the required approvals, it will be merged to the main branch.
 
@@ -86,6 +105,11 @@ test: Add tests for a feature  (#42)
 chore: Add new action Github job (#69)
 feat: Updated Mettle-tool-tip component with auto placement (#696) 
 ```
+
+### Semantic Versioning
+
+We use https://semver.org/ for versioning mettle.
+
 
 #### Release version number
 
@@ -124,17 +148,28 @@ $ npm run release -- --release-as major|minor|patch
 $ npm run release -- --release-as 1.13.3
 ```
 
-## Addressing feedback
+### Addressing feedback
 
 Please review all feedback on a PR.  This is required for a merge.
 
 ## Developer Installation
+
+### Prerequisites:
+
+* Nodejs (LTS)
+* npm (LTS)
+
+Node installation can be found at the following location: https://nodejs.org/en/download/ . When you install `Nodejs`, `npm` is also installed.
+
+### Installation
 
 Now that you have reviewed the contribution guide you are ready to contribute.
 
 - Be sure to fork the repository.
 - Clone your forked repository.
 - run `$ npm install` from the root directory.
+
+> This will install all dependencies needed to run and maintain the project.
 
 Now that the setup is done
 - Create your branch from main.
