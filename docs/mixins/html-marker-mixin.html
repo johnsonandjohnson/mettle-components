@@ -46,6 +46,10 @@
           this[this.MixinNS.updateDataModel](dataModel)
         }
 
+        [MixinNS.onModelUpdate]() {
+          super[MixinNS.onModelUpdate]()
+        }
+
         get [MixinNS.DefaultDataModel]() {
           return Object.assign(Object.create(null), {
             name: 'Ben',

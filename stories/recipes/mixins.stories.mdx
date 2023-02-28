@@ -159,6 +159,63 @@ if (!window.customElements.get(TAG_NAME)) {
 }
 ```
 
+### Custom Elements Overrides
+
+Custom elements have lifecycle callbacks that if used in a mixin, will need to be overwritten.
+The examples given can technically be used for any function override.
+
+
+#### Override connectedCallback()
+
+If the mixin uses the `connectedCallback()` function.  Be sure to
+call the `super.connectedCallback()` function to ensure any stacked mixins
+will execute.
+
+```js
+connectedCallback() {
+  if (super.connectedCallback) {
+    super.connectedCallback()
+  }
+  ...your logic here
+}
+```
+
+
+#### Override disconnectedCallback()
+
+If the mixin uses the `disconnectedCallback()` function.  Be sure to
+call the `super.disconnectedCallback()` function to ensure any stacked mixins
+will execute.
+
+```js
+disconnectedCallback() {
+  if (super.disconnectedCallback) {
+    super.disconnectedCallback()
+  }
+  ...your logic here
+}
+```
+
+#### Override Namespace Functions
+
+If the mixin uses a namespace function, be sure to
+call the `super[MixinNS.SymbolName]()` function to ensure any stacked mixins
+will execute.
+
+> Namespace overrides should be avoid unless recommended
+
+```js
+[MixinNS.onModelUpdate]() {
+  super[MixinNS.onModelUpdate]()
+  ...your logic here
+}
+// OR
+[MixinNS.onModelUpdate]() {
+  ...your logic here
+  super[MixinNS.onModelUpdate]()
+}
+```
+
 ### Final notes
 
 There might not be a lot of use cases for mixins.  Many of the custom elements used for
