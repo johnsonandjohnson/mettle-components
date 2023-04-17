@@ -73,6 +73,12 @@ describe(ELEM_TAG_NAME, () => {
       expect(hasTimer).toBeTrue()
     })
 
+    it('should try to close the notification with no thrown exceptions', async () => {
+      expect(() => {
+        $el.closeNotification({notificationID: 'fakeID'})
+      }).not.toThrow()
+    })
+
   })
 
 })

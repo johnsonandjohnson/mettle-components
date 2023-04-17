@@ -55,10 +55,10 @@ if (!window.customElements.get(TAG_NAME)) {
       return notificationID
     }
 
-    closeNotification(notificationID) {
+    closeNotification({notificationID, instant = false}) {
       const $notification = this.$list.querySelector(`#${notificationID}`)
-      const $exitIcon = $notification.querySelector('.exit-icon')
-      $exitIcon.click()
+      const $exitIcon = $notification?.querySelector('.exit-icon')
+      instant ? $notification?.remove() : $exitIcon?.click()
     }
 
     _generateTemplate() {

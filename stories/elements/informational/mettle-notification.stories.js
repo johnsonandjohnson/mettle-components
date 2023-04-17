@@ -30,6 +30,8 @@ const generateTemplate = ({type = null, time = 10}) => {
 const DocsDescriptionMDX = `
 <span className="tip">1.0.0</span>
 
+<span className="tip tip-updated">Updated 1.14.0</span>
+
 **Single Import**
 <pre class="coder">import '@johnsonandjohnson/mettle-components/src/informational/mettle-notification.js'</pre>
 
@@ -68,6 +70,13 @@ export default {
       type: {
         required: true
       }
+    },
+    closeNotification: {
+      description: 'Close a notification based on the ID',
+      name: 'closeNotification({notificationID, instant = false})',
+      table: {
+        category: Constants.CATEGORIES.METHODS,
+      },
     },
 
     list: {
@@ -110,10 +119,10 @@ Default.parameters = {
     source: {
       code: `${[...Template(Default.args).childNodes].map( n=> n.outerHTML ).join('\n')}
 <script>
-  const $component = globalThis.document.createElement('mettle-notification')
-  const $btn = document.createElement('button')
+  const $component = globalThis.document.querySelector('mettle-notification')
+  const $btn = globalThis.document.querySelector('button')
   $btn.addEventListener('click', () => {
-    component.addNotification({
+    $component.addNotification({
       message: 'message here',
       time: 10,
       title: 'title here',
@@ -125,4 +134,80 @@ Default.parameters = {
   },
 }
 
+const TemplateClose = () => {
+  return `
+  <mettle-notification id="close"></mettle-notification>
+  <button id="closeBtn">New Notification</button>
+  <script>
+  const $component = globalThis.document.querySelector('#close')
+  const $btn = globalThis.document.querySelector('#closeBtn')
+  let notificationID
+  $btn.addEventListener('click', () => {
+    $component.closeNotification({notificationID})
+    notificationID = $component.addNotification({
+      message: \`\${new Date()}\`,
+      time: 10,
+      title: 'New Message',
+      type: 'info'
+    })
+  })
+</script>
+  `.trim()
+}
 
+export const NotificationCloseFade = TemplateClose.bind({})
+
+NotificationCloseFade.parameters = {
+  docs: {
+    inlineStories: false,
+    description: {
+      story: 'Sample of how to use the `closeNotification` function default. Click the button to remove the previous message and create a new one.',
+    },
+    source: {
+      code: TemplateClose()
+    }
+  },
+  layout: 'padded',
+}
+
+
+
+const TemplateCloseInstant = ({instant}) => {
+  return `
+  <mettle-notification id="close"></mettle-notification>
+  <button id="closeBtn">New Notification</button>
+  <script>
+  const $component = globalThis.document.querySelector('#close')
+  const $btn = globalThis.document.querySelector('#closeBtn')
+  let notificationID
+  let instant = ${instant}
+  $btn.addEventListener('click', () => {
+    $component.closeNotification({notificationID, instant})
+    notificationID = $component.addNotification({
+      message: \`\${new Date()}\`,
+      time: 10,
+      title: 'New Message',
+      type: 'info'
+    })
+  })
+</script>
+  `.trim()
+}
+
+export const NotificationCloseInstant = TemplateCloseInstant.bind({})
+NotificationCloseInstant.args = {
+  ...args,
+  instant: true,
+}
+NotificationCloseInstant.parameters = {
+  docs: {
+    inlineStories: false,
+    description: {
+      story: 'Sample of how to use the `closeNotification` function with instant removal. Click the button to remove the previous message and create a new one.',
+    },
+    source: {
+      code: TemplateCloseInstant(NotificationCloseInstant.args)
+    }
+  },
+  layout: 'padded',
+}

@@ -125,6 +125,11 @@
   display: inline-block;
 }
 
+.tip-updated {
+  background: #f7e6df;
+  color: #f55f08;
+}
+
 .svg-color {
   fill: #227efb;
 }
