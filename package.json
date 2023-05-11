@@ -1,7 +1,7 @@
 {
   "name": "@johnsonandjohnson/mettle-components",
   "description": "Reusable UI Web Component elements.",
-  "version": "1.13.2",
+  "version": "1.14.2",
   "license": "Apache-2.0",
   "main": "index.js",
   "private": false,
