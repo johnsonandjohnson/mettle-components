@@ -2,26 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-### [1.14.2](https://github.com/johnsonandjohnson/mettle-components/compare/v1.10.3...v1.14.2) (2023-05-11)
-
-
-### Features
-
-* handle code exceptions in routing ([#86](https://github.com/johnsonandjohnson/mettle-components/issues/86)) ([474b5f5](https://github.com/johnsonandjohnson/mettle-components/commit/474b5f596278437bd7cefb66e186ff55fe36128c))
-* mettle sidebar component ([#77](https://github.com/johnsonandjohnson/mettle-components/issues/77)) ([3be56aa](https://github.com/johnsonandjohnson/mettle-components/commit/3be56aa5162be320c8f49540cdc7bbea2fdd85dd))
-* mettle-notification close function ([4df022c](https://github.com/johnsonandjohnson/mettle-components/commit/4df022cfa9ab9b26a7069fd7a7ac17de66bba977))
-* mettle-notification close function ([#101](https://github.com/johnsonandjohnson/mettle-components/issues/101)) ([cfb5574](https://github.com/johnsonandjohnson/mettle-components/commit/cfb557432d001e94808f3c3f7f8d50e1abb6c14e))
-* mixins added for custom elements ([#92](https://github.com/johnsonandjohnson/mettle-components/issues/92)) ([95d20eb](https://github.com/johnsonandjohnson/mettle-components/commit/95d20eba4d1e0b554e14f8248f48198d8b002035))
+### [1.14.2](https://github.com/johnsonandjohnson/mettle-components/compare/v1.14.1...v1.14.2) (2023-05-11)
 
 
 ### Bug Fixes
 
-* corrected private variables in services ([#97](https://github.com/johnsonandjohnson/mettle-components/issues/97)) ([b724366](https://github.com/johnsonandjohnson/mettle-components/commit/b7243661c4b3250d6b7caba9c9ae350299204849))
 * node condition before being removed ([#104](https://github.com/johnsonandjohnson/mettle-components/issues/104)) ([3da296e](https://github.com/johnsonandjohnson/mettle-components/commit/3da296e6a1eb2cefa1c8b3671c8c645a54c3f4e7))
-* update readme ([#82](https://github.com/johnsonandjohnson/mettle-components/issues/82)) ([ecb4b5c](https://github.com/johnsonandjohnson/mettle-components/commit/ecb4b5cb7acaaffde7b3c80d01c5121021cd692b))
 
-
-* update on how to update release version ([#83](https://github.com/johnsonandjohnson/mettle-components/issues/83)) ([3577451](https://github.com/johnsonandjohnson/mettle-components/commit/3577451961d0ca208a1df0b597450fe248c892a5))
 
 ## [1.14.1](https://github.com/johnsonandjohnson/mettle-components/compare/v1.14.0...v1.14.1) (2023-04-18)
 
