@@ -107,5 +107,13 @@ describe('HtmlMarker', () => {
       expect($p.innerHTML.toString().includes('<strong>')).toBeFalse()
     })
 
+    it('should be able to remove node references', async () => {
+      const htmlString = '<p>${$_removeHTML(test)}</p>'
+      await htmlMarker.render($renderedDiv, htmlString, dataModel)
+      expect(htmlMarker.referenceNodes.size).toBeTruthy()
+      htmlMarker.deleteReferences()
+      expect(htmlMarker.referenceNodes.size).toEqual(0)
+    })
+
   })
 })

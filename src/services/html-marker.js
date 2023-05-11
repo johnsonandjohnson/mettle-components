@@ -308,7 +308,7 @@ export default class HtmlMarker {
 
   deleteReferences() {
     this.referenceNodes.forEach(({ node }, reference) => {
-      node.remove()
+      node?.remove()
       this.referenceNodes.delete(reference)
     })
     this.model = Object.create(null)
