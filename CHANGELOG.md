@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.14.1](https://github.com/johnsonandjohnson/mettle-components/compare/v1.14.0...v1.14.1) (2023-04-18)
+
+* Changelog sync chore
+
+## [1.14.0](https://github.com/johnsonandjohnson/mettle-components/compare/v1.13.1...v1.14.0) (2023-04-18)
+
+
+### Features
+
+* mettle-notification close function ([#101](https://github.com/johnsonandjohnson/mettle-components/issues/101)) ([cfb5574](https://github.com/johnsonandjohnson/mettle-components/commit/cfb557432d001e94808f3c3f7f8d50e1abb6c14e))
+
+
 ### [1.13.1](https://github.com/johnsonandjohnson/mettle-components/compare/v1.13.0...v1.13.1) (2023-02-20)
 
 
