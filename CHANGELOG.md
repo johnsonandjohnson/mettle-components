@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.16.1](https://github.com/johnsonandjohnson/mettle-components/compare/v1.14.2...v1.16.1) (2023-05-25)
+
+### Bug Fixes
+
+* mettle-drop-down element on remove fix  ([#107](https://github.com/johnsonandjohnson/mettle-components/issues/107)) ([f299acb](https://github.com/johnsonandjohnson/mettle-components/commit/f299acb970b27e328e3f3fae4997faca7b62ee68))
+
+
 ### [1.14.2](https://github.com/johnsonandjohnson/mettle-components/compare/v1.14.1...v1.14.2) (2023-05-11)
 
 
