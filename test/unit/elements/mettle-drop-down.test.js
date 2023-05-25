@@ -6,17 +6,15 @@ describe(ELEM_TAG_NAME, () => {
   let $el
   let $parent
   const parentId = `parent-${uuid()}`
-  const ElemClass = globalThis.customElements.get(ELEM_TAG_NAME)
 
   beforeEach(async () => {
-    $parent = globalThis.document.createElement('span')
+    $parent = globalThis.document.createElement('div')
     $parent.id = parentId
     $parent.insertAdjacentHTML('afterbegin', generateTitle())
     globalThis.document.body.appendChild($parent)
-    $el = new ElemClass()
-    globalThis.document.body.appendChild($el)
-    $el.dataset.for = parentId
-    $el.insertAdjacentHTML('afterbegin', `<p>${generateParagraph()}</p>`)
+
+    globalThis.document.body.insertAdjacentHTML('afterbegin', `<${ELEM_TAG_NAME} data-for="${parentId}"><p>${generateParagraph()}</p></${ELEM_TAG_NAME}>`)
+    $el = globalThis.document.querySelector(`${ELEM_TAG_NAME}[data-for="${parentId}"]`)
   })
 
   afterEach(() => {
@@ -55,6 +53,8 @@ describe(ELEM_TAG_NAME, () => {
       $parent.remove()
       await wait(500)
       expect($el.isConnected).toBeFalse()
+      expect(document.body.contains($parent)).toBeFalse()
+      expect(document.body.contains($el)).toBeFalse()
     })
 
     it('should allow for mouse actions', async () => {
