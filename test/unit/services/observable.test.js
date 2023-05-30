@@ -1,5 +1,7 @@
 import { Observable } from 'services'
 
+import { wait } from "../helper"
+
 describe('Observable', () => {
 
   describe('functions', () => {
@@ -56,6 +58,21 @@ describe('Observable', () => {
       expect(observable.observers.size).toBeGreaterThan(0)
       observable.notify('test')
       expect(observable.observers).toHaveSize(0)
+    })
+
+    it('should notify when subject is cached', async () => {
+      const notifyCall = jasmine.createSpy()
+      const observable = new Observable()
+      observable.notify(notifyCall)
+      observable.notifyError(notifyCall)
+      const subscription = observable.subscribe({
+        complete: () => { },
+        error: (subject) => { subject() },
+        next: (subject) => { subject()  }
+      })
+      await wait(200)
+      expect(notifyCall).toHaveBeenCalledTimes(2)
+
     })
 
   })
