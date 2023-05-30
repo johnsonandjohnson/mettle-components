@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.17.0](https://github.com/johnsonandjohnson/mettle-components/compare/v1.16.1...v1.17.0) (2023-05-30)
+
+
+### Features
+
+* allow for error observables to be cached and notify upon subscription ([#110](https://github.com/johnsonandjohnson/mettle-components/issues/110)) ([4df9513](https://github.com/johnsonandjohnson/mettle-components/commit/4df9513a1bccb4d6b9a03ce37495a98d0b255605))
+
+
 ### [1.16.1](https://github.com/johnsonandjohnson/mettle-components/compare/v1.14.2...v1.16.1) (2023-05-25)
 
 ### Bug Fixes
