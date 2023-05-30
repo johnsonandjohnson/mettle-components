@@ -75,15 +75,19 @@ if (!window.customElements.get(TAG_NAME)) {
         this.$menuFor.removeEventListener('auxclick', this._onClickBind)
         this.$menuFor.removeEventListener('contextmenu', this._preventDefaultBind)
         this.$menuFor.removeEventListener('mouseover', this._onShowBind)
-        this.removeEventListener('mouseout', this._onHideBind)
-        window.removeEventListener('click', this._onWindowHideBind)
-        window.removeEventListener('auxclick', this._onWindowHideBind)
       }
+      this.removeEventListener('mouseout', this._onHideBind)
+      window.removeEventListener('click', this._onWindowHideBind)
+      window.removeEventListener('auxclick', this._onWindowHideBind)
     }
 
     updateMenuFor() {
-      if (this.isNewMenuFor()) {
-        this._updateEvent()
+      if (this.shadowRoot instanceof ShadowRoot) {
+        if (this.isNewMenuFor()) {
+          this._updateEvent()
+        } else if (!this.$menuFor) {
+          this.remove()
+        }
       }
     }
 

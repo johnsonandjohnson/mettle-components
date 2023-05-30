@@ -40,6 +40,7 @@ mettle-drop-down[data-open] {
 
 <body>
   <h1>hi</h1>
+  <button class="remove">remove</button>
 
 <div class="flex">
   <div id="d"> *** </div>
@@ -76,7 +77,11 @@ mettle-drop-down[data-open] {
 
   <script type="module" src="mettle-drop-down.js"></script>
 
-
+<script>
+   document.querySelector('button.remove').addEventListener('click', () => {
+      document.querySelector('#d')?.remove()
+    })
+</script>
 
 </body>
 
