@@ -32,6 +32,7 @@ These keys require a function callback.
 | next | Invoked when notify is called |
 | error | Invoked when notifyError is called |
 | complete | Invoked after unsubscribe is called |
+| useCurrentSubject | Invoked if an error or next subject(value) is cached. (Defaulted to true) |
 
 **When Subscribing**
 
@@ -41,7 +42,7 @@ When you subscribe to an observable the subscription will return some methods
 |:---------:|:---------:|
 | uid | Unique subscription identifier |
 | unsubscribe() | Removes the subscription from the observable and Invokes complete callback if defined. **Important** Do this to avoid memory leaks if no more notifications are needed. |
-| only(times) | Subscribe to the observable for only a limited amount of notifications |
+| only(times, [includeErrors = false]) | Subscribe to the observable for only a limited amount of notifications. Error notifications by default are not counted but can be. |
 
 
 **Use case for only getting data one time.**
@@ -61,6 +62,25 @@ When you subscribe to an observable the subscription will return some methods
     })
 
     subscription.unsubscribe()
+</pre>
+
+
+### Cached Subjects
+
+By default the <code>useCurrentSubject</code> is set to true.
+When a notification is sent, the subject is cached.  If a new subscription is made it will
+notify the subscription based on the subject values cached.
+
+<pre class="coder">
+const observable = new Observable()
+observable.notify('nextSubject')
+observable.notifyError('errorSubject')
+// Subscribed after Notification
+const subscription = observable.subscribe({
+  error: (subject) => { console.log(subject) },
+  next: (subject) => { console.log(subject) }
+})
+
 </pre>
 
 > More code samples below
@@ -152,7 +172,8 @@ const Template = () => {
             },
             next: subject => {
               $render.textContent = subject
-            }
+            },
+            useCurrentSubject: true
           })
 
           await update(()=>{

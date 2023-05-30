@@ -15,6 +15,7 @@ export default class Observable {
     this.maxLife = new Map()
     this.uidSet = new Set()
     this._currentSubject = undefined
+    this._currentErrorSubject = undefined
   }
 
   subscribe(f) {
@@ -34,11 +35,17 @@ export default class Observable {
     }
     if (Util.isFunction(error)) {
       this.errors.set(uid, error)
+      if(undefined !== this._currentErrorSubject && useCurrentSubject) {
+        error.apply(null, this._currentErrorSubject)
+      }
     }
     if (Util.isFunction(complete)) {
       this.completes.set(uid, complete)
     }
     if(undefined !== this._currentSubject && useCurrentSubject) {
+      this.updateCount(uid)
+    }
+    if(undefined !== this._currentErrorSubject && useCurrentSubject && this.includeErrorCount) {
       this.updateCount(uid)
     }
     const methods = {
@@ -89,6 +96,7 @@ export default class Observable {
 
   notifyError() {
     const subject = Array.from(arguments)
+    this._currentErrorSubject = subject
     this.errors.forEach(observer => observer.apply(null, subject))
     if(this.includeErrorCount) {
       this.updateCount()
