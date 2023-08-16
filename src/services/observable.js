@@ -86,7 +86,7 @@ export default class Observable {
     this.completes.forEach(observer => observer())
     this.reset()
   }
-
+  // Nice to have: A way to not call an observer where notify has been called in the stack trace
   notify() {
     const subject = Array.from(arguments)
     this._currentSubject = subject

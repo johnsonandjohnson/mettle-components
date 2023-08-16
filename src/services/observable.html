@@ -1,0 +1,79 @@
+<html>
+
+<head>
+  <title>Mettle Services Example</title>
+</head>
+
+<body>
+  <table>
+  <thead>
+    <th>Component One</th>
+    <th>Component Two</th>
+  </thead>
+  <tbody>
+    <td id="component1"></td>
+    <td id="component2"></td>
+  </tbody>
+</table>
+
+<button class="observe">Send Notifications</button>
+<button class="subToggle">Toggle Component One subscription</button>
+
+<script type="module">
+      import Observable from './observable.js'
+
+      class TemplateService extends Observable {
+
+        constructor() {
+          super()
+          this.payload
+        }
+
+        announcePayload() {
+          this.notify(this.payload)
+        }
+
+        // This could be a Fetch call for payload data
+        sendSeconds() {
+          const seconds = new Date().getSeconds()
+          this.payload = 'current seconds: ' + seconds
+          this.announcePayload()
+        }
+
+      }
+
+      const templateClass = new TemplateService()
+      const $render1 = document.querySelector('#component1')
+      const $render2 = document.querySelector('#component2')
+      const $startBtn = document.querySelector('.observe')
+      const $subToggleBtn = document.querySelector('.subToggle')
+
+      // If just a function is passed it will be registered as the next for notify
+      let subscription1 = templateClass.subscribe(subject => {
+          $render1.textContent = subject
+      })
+
+      const subscription2 = templateClass.subscribe(subject => {
+        $render2.textContent = subject
+      })
+
+      $subToggleBtn.addEventListener('click', () => {
+        if(null === subscription1) {
+          subscription1 = templateClass.subscribe(subject => {
+              $render1.textContent = subject
+          })
+        } else {
+          subscription1.unsubscribe()
+          subscription1 = null
+        }
+      })
+
+      $startBtn.addEventListener('click', () => {
+        templateClass.sendSeconds()
+      })
+
+  </script>
+
+</body>
+
+</html>

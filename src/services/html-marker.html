@@ -1,0 +1,37 @@
+<html>
+  <head>
+    <title>Mettle Services Example</title>
+  </head>
+  <body>
+    <div id="render"></div>
+
+    <script type="module">
+      import HtmlMarker from './html-marker2.js'
+
+      (async () => {
+        const htmlMarker = new HtmlMarker()
+        const htmlString = `
+          <button disabled="\${disabled}">Random Disabled \${cash} cool \${test}MM \${5+5} juj</button>
+          <p id="\${id}">This is the value for test: \${test}</p>
+          <p>This is the removed HTML Value: \${$_removeHTML(test)}</p>
+          <p>This is the allow HTML value: \${$_allowHTML(test)}</p>
+        `
+        const div = document.querySelector('#render')
+
+        let model = {
+          disabled: 'disabled',
+          cash: 8,
+          test: '<strong>this is a test</strong>',
+          also: 7.343,
+          id: new Date().getTime(),
+        }
+        await htmlMarker.render(div, htmlString, model)
+
+        window.setInterval(() => {
+          model.disabled = (Math.random() >= 0.5) ? 'disabled' : ''
+          htmlMarker.updateModel(model)
+        }, 100000)
+      })()
+    </script>
+  </body>
+</html>

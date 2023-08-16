@@ -205,13 +205,12 @@ export default class HtmlMarker {
         const end = str.indexOf(endStr, pos)
         return str.substring(pos,  end === pos ? -1: end)
       }
-      const temp = \`${template.trim().replace('${', '\\\${')}\`
-      //const temp2 = '${template}'.split(/(\\\${.+?})/gi)
+      const temp = \`${template.trim()}\`
       //console.log(temp2)
       const uuid = '${this.uuid}'
         return strings.reduce((accumulator, part, i) => {
             const startStr = strings.at(i-1)
-            const expressionVar = \`\${uuid}\${stringBetween(startStr, part, temp)}\`
+            const expressionVar = \`\${stringBetween(startStr, part, temp)}\`
             //console.log(startStr, part, temp, 'expressionVar', expressionVar)
           return \`\${accumulator}<!--\${expressionVar}-->\${part}\`
         })
